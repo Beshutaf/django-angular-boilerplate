@@ -1,0 +1,13 @@
+{
+  "node": true,
+  "multistr": true,
+  "globals": {
+    "angular": false,
+    "it": false,
+    "describe": false,
+    "beforeEach": false,
+    "afterEach": false,
+    "expect": false,
+    "inject": false
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "django_angular",
+  "version": "0.0.0",
+  "authors": [
+    "Howie Weiner <hello@builtbyhowie.co.uk>"
+  ],
+  "dependencies": {
+    "angular": "~1.2.0",
+    "angular-animate": "~1.2.25",
+    "angular-ui-router": "~0.2.11",
+    "bootstrap": "~3.2.0"
+  },
+  "devDependencies": {
+    "angular": "*"
+  }
+}
