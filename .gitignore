@@ -16,3 +16,4 @@ lib64
 build
 dist
 **/settings_local.py
+webapp/.tmp
