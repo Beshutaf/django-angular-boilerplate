@@ -15,4 +15,4 @@ lib
 lib64
 build
 dist
-django_angular/settings_local.py
+**/settings_local.py

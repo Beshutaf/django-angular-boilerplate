@@ -1,30 +1,28 @@
 {
-  "author": "Howie Weiner hello@builtbyhowie.co.uk",
-  "name": "django_boilerplate",
-  "description": "Boilerplate for cleanly integrating Django with Angular",
-  "version": "0.0.0",
-  "dependencies": {},
+  "author": "Howie Weiner hello@howieweiner.co.uk",
+  "name": "django-angular-boilerplate",
+  "description": "Django Angular Boilerplate",
+  "version": "1.0.0",
+  "license": "MIT",
   "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bower-install-simple": "^1.0.3",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-concat": "^0.5.0",
-    "grunt-contrib-connect": "^0.8.0",
     "grunt-contrib-copy": "^0.6.0",
     "grunt-contrib-cssmin": "^0.10.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-less": "^0.11.4",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-angular-templates": "^0.5.7",
+    "grunt-file-blocks": "^0.3.3",
     "grunt-filerev": "^2.1.0",
-    "grunt-open": "^0.2.3",
+    "grunt-rewrite": "^1.0.1",
     "grunt-usemin": "^2.4.0",
     "load-grunt-tasks": "^0.6.0"
   },
   "engines": {
     "node": ">= 0.8.0"
   },
-  "main": "Gruntfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
+  "main": "Gruntfile.js"
 }

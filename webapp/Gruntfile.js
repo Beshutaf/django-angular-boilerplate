@@ -5,87 +5,71 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-
-    less: {
-      app: {
-        options: {
-          paths: ["src/less"]
-        },
-        files: {
-          "build/css/app.css": "src/less/app.less"
-        }
+    concat: {
+      options: {
+        sourceMap: true
       }
     },
-
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc'
-      },
-      all: [
-        'Gruntfile.js',
-        'src/app/**/*.js'
-      ]
-    },
-
-    clean: {
-      dist: ['dist']
-    },
-
     copy: {
-      html: {
-        files: [
-          {cwd: 'src', src: ['*.html'], dest: 'dist/', expand: true}
-        ]
+      index: {
+        src: 'src/index.html',
+        dest: 'dist/index.html'
       },
-      assets: {
-        files: [
-          {cwd: 'src', src: ['img/**'], dest: 'dist/', expand: true},
-          {cwd: 'src', src: ['data/**'], dest: 'dist/', expand: true}
-        ]
-      }
-    },
-
-    useminPrepare: {
-      html: {
-        src: ['src/index.html']
+      env: {
+        cwd: 'src/assets/css',
+        expand: true,
+        src: 'env/*',
+        dest: 'dist/css'
       },
-      options: {
+      img: {
+        cwd: 'src/assets/img',
+        expand: true,
+        src: ['*', '*/**'],
+        dest: 'dist/img'
+      },
+      fonts: {
+        cwd: 'src/assets/fonts',
+        expand: true,
+        src: '*',
+        dest: 'dist/fonts'
+      },
+      other: {
+        cwd: 'src',
+        src: ['robots.txt', 'favicon.ico'],
+        expand: true,
         dest: 'dist'
       }
     },
-
-    ngtemplates: {
-      app: {
-        cwd: 'src',
-        src: 'app/**/*.html',
-        dest: 'dist/js/tpl.js',
-        options: {
-          usemin: 'js/app.js' // <~~ This came from the <!-- build:js --> block
-        },
-        htmlmin: {
-          collapseBooleanAttributes: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
-          removeComments: true, // Only if you don't use comment directives!
-          removeEmptyAttributes: true,
-          removeRedundantAttributes: true,
-          removeScriptTypeAttributes: true,
-          removeStyleLinkTypeAttributes: true
-        }
-      }
-    },
-
-    concat: {},
-
-    cssmin: {},
-
     uglify: {
       options: {
         mangle: false
       }
     },
-
+    useminPrepare: {
+      html: 'src/index.html',
+      options: {
+        dest: 'dist'
+      }
+    },
+    usemin: {
+      html: ['dist/index.html']
+    },
+    less: {
+      app: {
+        options: {
+          paths: ["src/assets/less"]
+        },
+        files: {
+          "src/assets/css/app.css": "src/assets/less/theme.less"
+        }
+      }
+    },
+    cssmin: {
+      app: {
+        src: 'src/assets/css/app.css',
+        dest: 'dist/css/app.css'
+      }
+    },
     filerev: {
       options: {
         algorithm: 'md5',
@@ -94,73 +78,62 @@ module.exports = function (grunt) {
       files: {
         src: [
           'dist/js/**/*.js',
-          'dist/css**/*.css'
+          'dist/css/*.css'
         ]
       }
     },
-
-    usemin: {
-      html: {
-        src: ['dist/index.html']
-      }
+    clean: {
+      dist: ['dist']
     },
-
     watch: {
       options: {
         atBegin: true,
         livereload: true
       },
       dev: {
-        files: ['Gruntfile.js', 'src/**/*.html', 'src/app/**/*.js', 'src/**/*.less'],
+        files: ['Gruntfile.js', 'src/*.html', 'src/app/**/*.html', 'src/app/**/*.js',
+          'src/assets/less/**/*.less'],
         tasks: ['less']
       }
     },
-
-    connect: {
-      server: {
-        options: {
-          port: 8080,
-          host: 'localhost'
+    rewrite: {
+      index: {
+        src: 'dist/index.html',
+        editor: function(contents, filePath) {
+          return contents.replace(/(assets)/g, 'static').replace(/("js)/g, '"static/js').replace(/("css)/g, '"static/css');
         }
-      }
-    },
-
-    open: {
-      dev: {
-        path: 'http://localhost:8080/src/'
       }
     }
   });
 
   /**
-   * Run jsHint
    * Clean the dist folder.
+   * Compile the Less files
    * Copy index.html to dist folder
    * Run usemin to replace inline js and css src paths to single files
    *  - compile angular templates into cache as part of usemin
    *  - concat files
    *  - minify css
    *  - uglify js code, but don't mangle as Angular seems to have issues with this.
-   *  - add file revisions to new files
+   *  - and file revisions to new files
    *
    */
-  grunt.registerTask('build', [
-    'jshint',
+  grunt.registerTask('build_dist', [
     'clean',
-    'copy',
+    'less',
+    'copy_assets',
     'useminPrepare',
-    'ngtemplates',
     'concat',
     'cssmin',
     'uglify',
     'filerev',
-    'usemin'
+    'usemin',
+    'rewrite'
   ]);
 
-  grunt.registerTask('dev', ['connect:server', 'open:dev', 'watch:dev']);
-  grunt.registerTask('django-dev', ['watch:dev']);
+  grunt.registerTask('copy_assets', ['copy:index', 'copy:img', 'copy:fonts', 'copy:other']);
 
-  grunt.registerTask('dist', ['build']);
-
+  grunt.registerTask('dev', ['watch:dev']);
+  grunt.registerTask('dist', ['build_dist']);
   grunt.registerTask('default', ['dev']);
 };

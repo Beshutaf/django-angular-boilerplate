@@ -4,11 +4,6 @@ django-angular-boilerplate
 The purpose of this boilerplate project is to show how to set up a Django project with a Single Page Angular app. 
 The idea is try not to mix the front-end HTML with server-side Django templates.
 
-
-The angular project layout is based on [John Papa's style guide](https://github.com/johnpapa/angularjs-styleguide)
-
-**This project is a work in progress**
-
 #Aims
 * Front end build should be separate from Django. The front-end app uses Grunt to build the app and dependent assets.
 There should be no need to use libraries such as django compressor to concat, minimise and version assets, 
@@ -27,12 +22,6 @@ i.e. all URL slugs still serve the main Single Page App HTML file.
 
 * To link Grunt with runserver during development
 
-* To link Grunt's distribution task with Django collecstatic, perhaps as part of a fabric command to prepare for
-deployment
-
-#Current Status
-* Not able to serve static files through Django URL routing in dev mode
-
 
 #Setting up Django
 Set up a virtualenv
@@ -45,8 +34,8 @@ bower components used by the app.
     npm install -g grunt-cli
     
     cd webapp
-    sudo npm install --save
-    bower install  --save
+    sudo npm install
+    bower install
 
 #Running the app
 
@@ -55,17 +44,15 @@ The front-end app uses Grunt to build the app and dependent assets. In developme
     grunt dev
     
 This will start a local server and load assets without minification. Good for development and debugging. This task also
-watches for changes to JS, HTML and LESS files. LESS files are converted to cSS on change and placed in a 'build' folder
-which is referenced in development. 
+watches for changes to JS, HTML and LESS files. LESS files are converted to CSS on change and placed in a 'build' folder
+which is referenced in development.
 
-Grunt's local server is set to run on port 8080 to prevent a class with Django
-
-To create package the front-end app for distribution run:
+To package the front-end app for distribution run:
 
     grunt dist
     
 This will, amongst other things, concat, minify and version the assets. It will also re-write the HTML replacing the
-exhaustive lst of JS files minified version
+exhaustive list of JS files in index.html with a minified version.
  
 
 A management command has been added that allows runserver to integrate with Grunt build/watch. Rather than using the 
@@ -78,6 +65,7 @@ The management command determines where to find the Gruntfile from settings.WEBA
 another process is spawned to run a Grunt task (django-dev) to watch for changes to front-end files. In this boilerplate,
 this will result in LESS files being re-compiled and livereload reloading the page.
 
-
+#Misc
+The angular project layout is based on [John Papa's style guide](https://github.com/johnpapa/angularjs-styleguide)
 
 
