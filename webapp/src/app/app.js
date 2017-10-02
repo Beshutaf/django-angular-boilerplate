@@ -1,13 +1,14 @@
 (function () {
-  'use strict';
+    'use strict';
 
-  angular
-    .module('app', [
-      // app modules
-      'app.demo',
-      'app.shiftReport',
-      'ngRoute',
-      'ui.select',
-      'ngSanitize'
-    ]);
+    angular
+        .module('app', [
+            // app modules
+            'app.demo',
+            'app.shiftReport',
+            'ngRoute',
+            'ui.select',
+            'ngSanitize'
+            // '$http'
+        ]);
 })();

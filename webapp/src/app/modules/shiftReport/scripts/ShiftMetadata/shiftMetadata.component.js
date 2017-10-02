@@ -10,8 +10,10 @@
             controller: shiftMetadataCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/ShiftMetadata/shiftMetadata.template.html'
         });
-        
-        function shiftMetadataCtrl (){
+
+        // shiftMetadataCtrl.$inject=['shiftMetadataCtrl'];
+
+        function shiftMetadataCtrl ($http){
             var ctrl = this;
             
             //////////////////////////////////
@@ -28,7 +30,10 @@
                     shiftLeaders:[],
                     shiftWorkers:[]
             }
-            
+
+            $http.get('shifts/'+moment(ctrl.reportMetadata.todayDate).format("YYYY/MM/DD")).then(function(res){
+                console.log(res);
+            })
             /////////////////////////////////
             
             //todo make component for name picking, diffrent source for workers and shift leaders
