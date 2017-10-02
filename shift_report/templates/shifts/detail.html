@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{{ shift.date|date:"d.m.Y" }}
+
+<div>
+<table>
+{% for member in shift.members.all %}
+    <tr>
+        <td>{{ member.shift_number }}</td>
+        <td>{{ member.member.user }}</td>
+        <td>{{ member.role }}</td>
+    </tr>
+{% empty %}
+    <tr>אין חברים במשמרת זו.</tr>
+{% endfor %}
+</table>
+</div>
+
+{% endblock %}

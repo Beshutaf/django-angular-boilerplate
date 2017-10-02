@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+<table>
+{% for member in members %}
+    {% if forloop.first %}
+    <tr><th>מספר חבר</th><th>שם פרטי</th><th>שם משפחה</th></tr>
+    {% endif %}
+    <tr>
+        <td>{{ member.user.username }}</td>
+        <td>{{ member.user.first_name }}</td>
+        <td>{{ member.user.last_name }}</td>
+        <td>
+            <form action="delete/" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="pk" value="{{ member.pk }}">
+                <input type="submit" value="מחיקה" />
+            </form>
+        </td>
+    </tr>
+{% empty %}
+    <tr>אין חברים.</tr>
+{% endfor %}
+</table>
+</div>
+
+<h2>הוספת חבר</h2>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="הוספה" />
+</form>
+
+<h2>הוספת חברים מקובץ</h2>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="csv_file" />
+    <input type="submit" value="הוספה" />
+</form>
+
+{% endblock %}

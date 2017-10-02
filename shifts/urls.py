@@ -20,7 +20,8 @@ urlpatterns = [
     ),
     
     url(r'^admin/', admin.site.urls),
-    url('^', include('django.contrib.auth.urls')),
+    url(r'^', include('shift_report.urls')),
+    # url('^', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

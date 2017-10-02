@@ -34,7 +34,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Application definition
 
 INSTALLED_APPS = [
-    'shifts',
+    "shift_report",
     'webapp',
     'django.contrib.admin',
     'django.contrib.auth',
