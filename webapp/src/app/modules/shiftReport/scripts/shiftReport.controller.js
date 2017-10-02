@@ -5,9 +5,9 @@
     .module('app.shiftReport')
     .controller('ShiftReportCtrl', ShiftReportCtrl);
     
-    ShiftReportCtrl.$inject=['$scope', 'constants']
+    ShiftReportCtrl.$inject=['$scope', 'constants', '$http']
 
-  function ShiftReportCtrl($scope, constants) {
+  function ShiftReportCtrl($scope, constants, $http) {
     
     $scope.addMissingProduct = addMissingProduct;
     $scope.removeMissingProduct = removeMissingProduct;
