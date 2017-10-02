@@ -4,6 +4,10 @@
   angular
     .module('app', [
       // app modules
-      'app.demo'
+      'app.demo',
+      'app.shiftReport',
+      'ngRoute',
+      'ui.select',
+      'ngSanitize'
     ]);
 })();

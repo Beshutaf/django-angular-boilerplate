@@ -1,0 +1,26 @@
+<div class="panel panel-warning">
+            <div class="panel-heading">{{::$ctrl.title}}</div>
+              <div class="panel-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="text-align:right;">סוג השטר/מטבע</th>
+                      <th style="text-align:right;">כמות</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="bill in $ctrl.billsTypes">
+                      <td>{{bill}}</td>
+                      <td><input class="form-control" type="number" min="0" steps="1" name="" ng-model="$ctrl.billAmount[$index]" ng-init="$ctrl.billAmount[$index] = 0"/></td>
+                    </tr>
+                    <tr>
+                      <td>סה"כ</td>
+                      <td>
+                        {{$ctrl.calculateTotalMoney()}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+            </div>
+</div>

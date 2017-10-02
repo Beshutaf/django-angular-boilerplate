@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="app" ng-controller="DemoCtrl as vm">
+<html lang="en" ng-app="app">
 <head>
     <title>Django Angualr Boilerplate</title>
     <meta charset="utf-8">
@@ -11,25 +11,52 @@
     <meta name="format-detection" content="telephone=yes">
     <meta name="robots" content="noindex">
     <link rel="shortcut icon" href="/favicon.ico"/>
-
-    <!-- build:css css/app.min.css -->
+    
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+   
     <link href="assets/css/app.css" rel="stylesheet">
-    <!-- endbuild -->
+   
+    <script src="../node_modules/moment/moment.js"></script>
+    <script src="../node_modules/moment/min/moment-with-locales.min.js"></script>
+    
+   
+    <script src="../node_modules/angular/angular.js"></script>
+   
+    <script src="../node_modules/angular-route/angular-route.js"></script>
+   <!--/bower_components/angular-ui-select/dist/select.js-->
+   <script type="text/javascript" src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="../bower_components/angular-ui-select/dist/select.js"></script>
+    <link href="../bower_components/angular-ui-select/dist/select.css" rel="stylesheet">
 
-    <!-- build:js js/lib.min.js -->
-    <script src="../bower_components/angular/angular.js"></script>
-    <!-- endbuild -->
 
-    <!-- build:js js/app.min.js -->
+   
     <script src="app/app.js"></script>
+    <script src="app/app.config.js"></script>
 
     <script src="app/modules/demo/demo.module.js"></script>
     <script src="app/modules/demo/demo.controller.js"></script>
-    <!-- endbuild -->
-    <![endif]-->
+    
+    <script src="app/modules/shiftReport/shiftReport.module.js"></script>
+    <script src="app/modules/shiftReport/scripts/shiftReport.controller.js"></script>
+    <script src="app/modules/shiftReport/scripts/shiftReport.constants.js"></script>
+
+    <script type="text/javascript" src="app/modules/shiftReport/scripts/Members/members.component.js"></script>
+    <script type="text/javascript" src="app/modules/shiftReport/scripts/Money/money.component.js"></script>
+    <script type="text/javascript" src="app/modules/shiftReport/scripts/ShiftMetadata/shiftMetadata.component.js"></script>
+    <script type="text/javascript" src="app/modules/shiftReport/scripts/UsefulData/usefulData.component.js"></script>
+    <script type="text/javascript" src="app/modules/shiftReport/scripts/NamesPicker/namesPicker.component.js"></script>
+    <script type="text/javascript" src="app/modules/shiftReport/scripts/Cache/cache.component.js"></script>
+    <script type="text/javascript" src="app/modules/shiftReport/scripts/Cache/CacheIO/cacheIO.component.js"></script>
+    <script type="text/javascript" src="app/modules/shiftReport/scripts/Conclusions/conclusions.component.js"></script>
+    <script type="text/javascript" src="app/modules/shiftReport/scripts/DaysNavigation/daysNavigation.component.js"></script>
+    
 </head>
 <body>
-    <h1>Django Angular Boilerplate</h1>
-    <p class="demo" ng-bind="vm.msg"></p>
+    <h1> Jerucoop Shift Report</h1>
+    <div ng-view></div>
+    <a href="/login">Login</a>
+    <a href="/logout">Logout</a>
 </body>
 </html>
+
+

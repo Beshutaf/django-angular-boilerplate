@@ -1,0 +1,32 @@
+<div class="panel" ng-class="{'panel-success': $ctrl.panelColor, 'panel-danger':!$ctrl.panelColor}">
+            <div class="panel-heading">
+              <a href="$ctrl.link">
+                {{ $ctrl.title }}
+              </a>
+            </div>
+            <div class="panel-body">
+               <div class="input-group">
+                  <input type="text" class="form-control" ng-model="memberName" placeholder="שם">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="$ctrl.addMember(memberName)">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+                  </span>    
+                </div>
+                
+                <table>
+                    <tr ng-repeat="friend in $ctrl.membersList">
+                        <td>
+                            <lable class="control-label">
+                            <b>{{friend}}</b>
+                            </lable>
+                        </td>
+                        <td>
+                            <button class="btn btn-xs btn-error" ng-click=$ctrl.removeWorker(name)>
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table> 
+            </div>
+        </div>

@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-xs-6">
+        <div class="alert alert-info" role="alert">
+            <div class="glyphicon glyphicon-phone-alt"></div>
+            <span class="lable"> <b>{{::$ctrl.phonesTitle}} </b></span>
+            <table class="table table-condensed">
+                <thead></thead>
+                <tbody>
+                    <tr ng-repeat="phoneData in $ctrl.usefulPhones">
+                        <td>{{phoneData.role}}</td>
+                        <td>{{phoneData.name}}</td>
+                        <td>{{phoneData.phone}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="alert alert-danger">
+            <span class="lable"> <b>{{::$ctrl.poseDataTitle}} </b></span>
+            <table class="table table-condensed">
+                <thead></thead>
+                <tbody>
+                    <tr ng-repeat="item in $ctrl.poseData">
+                        <td>{{item.title}}</td>
+                        <td>{{item.data}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

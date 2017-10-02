@@ -10,5 +10,6 @@
     var vm = this;
 
     vm.msg = 'If you can read this, something went right';
+    console.log(vm.msg);
   }
 })();

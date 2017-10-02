@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-xs-6 pull-right">
+    <div class=row>
+      <div class="col-xs-1 pull-right">
+        <days-navigation></days-navigation>
+        <br>
+        <div class="container">
+          <button class="btn btn-success btn-lg glyphicon glyphicon-save" ng-click="save()" title="שמירה"> </button>
+        </div>
+        <br>
+        <div ng-include="'/app/modules/shiftReport/scripts/Links/links.template.html'"></div>
+      </div>
+      <div class="col-xs-9">
+        <useful-data></useful-data>
+      </div>
+    </div>
+    <div class="row">
+      <shift-metadata></shift-metadata>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <members title="newMembersTitle" members-list="newMembers" panel-color="true" link="newMembersLink"></members>
+      </div>
+      <div class="col-xs-6">
+        <members title="leftMembersTitle" members-list="leftMembers" panel-color="false" link="leftMembersLink"></members>
+      </div>
+    </div>
+    <div class="row">
+      <conclusions></conclusions>
+    </div>
+  </div>
+  <div class="col-xs-6">
+    <cache> </cache>
+  </div>
+</div>

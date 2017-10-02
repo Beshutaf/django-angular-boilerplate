@@ -1,0 +1,33 @@
+<div class="panel panel-info" class="float-right">
+    <div class="panel-heading">{{::$ctrl.title}}</div>
+    <div class="panel-body">
+        <table class="table table-condensed" >
+            <thead >
+                <tr>
+                    <th style="text-align:right;">
+                        הערה
+                    </th>
+                    <th style="text-align:right; max-width: 170px;">
+                        למי רלוונטי
+                    </th>
+                    <th style="text-align:right;">
+                        טופל
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in $ctrl.conclusions track by $index">
+                    <td>
+                        <input class="form-control" type="text" name="" ng-model="$ctrl.conclusions[$index].note" />
+                    </td>
+                    <td>
+                        <select class="form-control" ng-model="$ctrl.conclusions[$index].assignedTo" ng-options="team for team in $ctrl.teamOptions" style="max-width: 170px;"></select>
+                    </td>
+                    <td>
+                        <input class="form-control" type="checkbox" ng-model="$ctrl.conclusions[$index].checked"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

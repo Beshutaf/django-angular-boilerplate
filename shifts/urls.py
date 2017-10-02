@@ -1,10 +1,11 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import include, url
+from django.contrib import admin
 from django.template.response import TemplateResponse
 from django.views.generic import TemplateView, RedirectView
-from myapp import settings
+from django.contrib.staticfiles.views import serve
+from shifts import settings
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html'), name="home"),
     #url(r'^api/', include('api.urls')),
 
@@ -16,11 +17,13 @@ urlpatterns = patterns(
             template='robots.txt',
             content_type='text/plain',
         )
-    )
-)
+    ),
+    
+    url(r'^admin/', admin.site.urls),
+    url('^', include('django.contrib.auth.urls')),
+]
 
 if settings.DEBUG:
-    urlpatterns += patterns(
-        'django.contrib.staticfiles.views',
-        url(r'^(?P<path>.*)$', 'serve'),
-)
+    urlpatterns += [
+        url(r'^(?P<path>.*)$', serve),
+]

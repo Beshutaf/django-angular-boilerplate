@@ -1,0 +1,23 @@
+<div class="panel panel-primary" dir="rtl">
+    <div class="panel-heading">{{$ctrl.title}}</div>
+    <div class="panel-body">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>כמות</th>
+                    <th>פירוט</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="q in $ctrl.quantities track by $index">
+                    <td>
+                        <input class="form-control" type="number" min="1" step="any" ng-model="$ctrl.quantities[$index]" />
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
