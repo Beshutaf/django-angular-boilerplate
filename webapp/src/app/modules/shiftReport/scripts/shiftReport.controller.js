@@ -24,8 +24,6 @@
 
     $scope.report = {};
     
-    $scope.save= save;
-    
     $scope.report.products = {
       missingProducts:[]
     }
@@ -43,9 +41,7 @@
       }
     }
     
-    function save(){
-      console.log("save");
-    }
+   
     
   }
   
