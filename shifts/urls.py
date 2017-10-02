@@ -7,7 +7,7 @@ from shifts import settings
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html'), name="home"),
-    #url(r'^api/', include('api.urls')),
+    url(r'^', include('shift_report.urls')),
 
     url(r'^favicon.ico$', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
 
@@ -20,7 +20,6 @@ urlpatterns = [
     ),
     
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('shift_report.urls')),
     # url('^', include('django.contrib.auth.urls')),
 ]
 
