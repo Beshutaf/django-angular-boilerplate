@@ -9,7 +9,7 @@
             templateUrl: '/app/modules/shiftReport/scripts/DaysNavigation/daysNavigation.template.html'
         });
 
-    function daysNavigationCtrl() {
+    function daysNavigationCtrl($http) {
         var ctrl = this;
 
         ctrl.$onInit = function() {
@@ -20,6 +20,8 @@
         ctrl.getPrevDay = getPrevDay;
         
         function getNextDay(){
+            var todayDate = moment().format("YYYY-MM-DD"),
+            $http.get()
             console.log("Next day");
         }
         

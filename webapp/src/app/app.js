@@ -9,6 +9,5 @@
             'ngRoute',
             'ui.select',
             'ngSanitize'
-            // '$http'
         ]);
 })();
