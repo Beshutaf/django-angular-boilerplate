@@ -2,55 +2,16 @@
     <div class="panel-heading">פרטי המשמרת הכללים</div>
     <div class="panel-body">
         <lable class="control-label">תאריך</lable>
-        <input type="text" class="form-control" ng-model="$ctrl.reportMetadata.todayDate" />
+        <input type="text" class="form-control" ng-model="$ctrl.reportMetadata.date" />
         <lable class="control-label">יום</lable>
         <input type="text" class="form-control" ng-model="$ctrl.reportMetadata.day" />
-        <lable class="control-label">אחראי משמרת</lable>
-        <names-picker api-path="" selected-names="$ctrl.reportMetadata.shiftLeaders"></names-picker>
-        <!--<input type="text" class="form-control" ng-model="report.metadata.shiftleader"/>-->
-        <!--<div class="input-group">-->
-        <!--  <input type="text" class="form-control" ng-model="$ctrl.shiftLeaderName" placeholder="הכנס שם אחראי משמרת" >-->
-        <!--  <span class="input-group-btn">-->
-        <!--    <button class="btn btn-default" type="button" ng-click="$ctrl.addShiftLeader($ctrl.shiftLeaderName)"><b>+</b></button>-->
-        <!--  </span>    -->
-        <!--</div>-->
-
-        <!--<table>-->
-        <!--    <tr ng-repeat="name in $ctrl.reportMetadata.shiftLeaders">-->
-        <!--        <td>-->
-        <!--            <lable class="control-label">-->
-        <!--            <b>{{name}}</b>-->
-        <!--            </lable>-->
-        <!--        </td>-->
-        <!--        <td>-->
-        <!--            <button class="btn btn-xs btn-error" ng-click=$ctrl.removeShiftLeader(name)><b>X</b></button>-->
-        <!--        </td>-->
-        <!--    </tr>-->
-        <!--</table>-->
-
-
-        <lable class="control-label">תורנים</lable>
-        <names-picker api-path="" selected-names="$ctrl.reportMetadata.shiftWorkers"></names-picker>
-        <!-- Shift workers-->
-        <!--<div class="input-group">-->
-        <!--  <input type="text" class="form-control" ng-model="$ctrl.workerName" placeholder="הכנס שם תורן">-->
-        <!--  <span class="input-group-btn">-->
-        <!--    <button class="btn btn-default" type="button" ng-click="$ctrl.addWorker($ctrl.workerName)"><b>+</b></button>-->
-        <!--  </span>    -->
-        <!--</div>-->
-
-        <!--<table>-->
-        <!--    <tr ng-repeat="name in $ctrl.reportMetadata.shiftWorkers">-->
-        <!--        <td>-->
-        <!--            <lable class="control-label">-->
-        <!--            <b>{{name}}</b>-->
-        <!--            </lable>-->
-        <!--        </td>-->
-        <!--        <td>-->
-        <!--            <button class="btn btn-xs btn-error" ng-click=$ctrl.removeWorker(name)><b>X</b></button>-->
-        <!--        </td>-->
-        <!--    </tr>-->
-        <!--</table>-->
-        <!-- Shift workers-->
+        <div class="row">
+            <div class="col-xs-4">
+                <lable class="control-label">אחראי משמרת</lable>
+                <names-picker api-path="" selected-names="$ctrl.reportMetadata.shiftLeaders"></names-picker>
+                <lable class="control-label">תורנים</lable>
+                <names-picker api-path="" selected-names="$ctrl.reportMetadata.shiftWorkers"></names-picker>
+            </div>
+        </div>
     </div>
 </div>
