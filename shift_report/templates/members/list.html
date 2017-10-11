@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 <div>
 <table>
 {% for member in members %}
@@ -35,3 +39,5 @@
     <input type="file" name="csv_file" />
     <input type="submit" value="הוספה" />
 </form>
+
+{% endblock %}

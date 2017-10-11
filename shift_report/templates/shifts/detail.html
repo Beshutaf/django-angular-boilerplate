@@ -1,4 +1,8 @@
-{{ shift.date|date:"d.m.Y" }}
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ shift.date|date:"d.m.Y" }}</h2>
 
 <div>
 <table>
@@ -13,3 +17,5 @@
 {% endfor %}
 </table>
 </div>
+
+{% endblock %}
