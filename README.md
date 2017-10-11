@@ -1,9 +1,10 @@
-#Setting up Django
-Set up a virtualenv
-pip install -r requirements.txt
+# Setting up Django
+* Set up a virtualenv
 
-#Setting up Angular
-Ensure npm package manager, grunt cli and bower are installed, then install required node packages for Grunt and 
+    pip install -r requirements.txt
+
+# Setting up Angular
+Ensure `npm`, `grunt cli` and `bower` are installed, then install required node packages for Grunt and 
 bower components used by the app.
 
     npm install -g grunt-cli
@@ -12,7 +13,7 @@ bower components used by the app.
     sudo npm install
     bower install
 
-#Running the app
+# Running the app
 
 The front-end app uses Grunt to build the app and dependent assets. In development mode, run:
 
@@ -40,7 +41,7 @@ The management command determines where to find the Gruntfile from settings.WEBA
 another process is spawned to run a Grunt task (django-dev) to watch for changes to front-end files. In this boilerplate,
 this will result in LESS files being re-compiled and livereload reloading the page.
 
-#Misc
+# Misc
 The angular project layout is based on [John Papa's style guide](https://github.com/johnpapa/angularjs-styleguide)
 
 
