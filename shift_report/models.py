@@ -7,17 +7,29 @@ from django.db import models
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
+    def serialize(self):
+        return self.user.username
+
 
 class Shift(models.Model):
     date = models.DateField(unique=True)
     members = models.ManyToManyField(Member, through="MemberShift")
+    new_members = models.ManyToManyField(Member, related_name="new")
+    leaving_members = models.ManyToManyField(Member, related_name="leaving")
 
     def serialize(self):
-        return dict(date=self.date, member_shifts=[m.serialize() for m in self.membershift_set.all()])
+        return dict(date=self.date,
+                    member_shifts=[m.serialize() for m in self.membershift_set.all()],
+                    new_members=[m.serialize() for m in self.new_members.all()],
+                    leaving_members=[m.serialize() for m in self.leaving_members.all()],
+                    )
 
 
 class Role(models.Model):
     name = models.CharField(max_length=128)
+
+    def serialize(self):
+        return self.name
 
 
 class MemberShift(models.Model):
@@ -27,5 +39,4 @@ class MemberShift(models.Model):
     shift_number = models.IntegerField()
 
     def serialize(self):
-        return dict(member=self.member.user.username, role=self.role.name,
-                    shift_number=self.shift_number)
+        return dict(member=self.member.serialize(), role=self.role.serialize(), shift_number=self.shift_number)

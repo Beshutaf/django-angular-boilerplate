@@ -77,7 +77,7 @@ def detail(request, *year_month_day):
             setattr(s, key, value)
         s.save()
     return JsonResponse(s.serialize()) if is_return_json(request) else \
-        render(request, "shifts/detail.html", {"shift": s})
+        render(request, "shifts/detail.html", dict(shift=s))
 
 
 def members(request):
@@ -93,8 +93,8 @@ def members(request):
                 process_member(d)
         else:
             process_member(request.POST or None)
-    return JsonResponse([m.user.username for m in Member.objects.all()], safe=False) if is_return_json(request) else \
-        render(request, "members/list.html", {"members": Member.objects.all(), "form": MemberForm()})
+    return JsonResponse([m.serialize() for m in Member.objects.all()], safe=False) if is_return_json(request) else \
+        render(request, "members/list.html", dict(members=Member.objects.all(), form=MemberForm()))
 
 
 def process_member(fields):
