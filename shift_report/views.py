@@ -93,7 +93,7 @@ def members(request):
                 process_member(d)
         else:
             process_member(request.POST or None)
-    return JsonResponse(m.username for m in Member.objects.all()) if is_return_json(request) else \
+    return JsonResponse([m.user.username for m in Member.objects.all()], safe=False) if is_return_json(request) else \
         render(request, "members/list.html", {"members": Member.objects.all(), "form": MemberForm()})
 
 
