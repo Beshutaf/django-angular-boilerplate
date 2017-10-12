@@ -16,9 +16,9 @@ MEMBERS = [
 
 
 def add_members(s):
-    for name, role in MEMBERS:
-        MemberShift.objects.create(member=Member.objects.create(user=User.objects.get_or_create(username=name)[0]),
-                                   shift=s, role=Role.objects.get_or_create(name=role)[0], shift_number=1)
+    return [MemberShift.objects.create(member=Member.objects.create(user=User.objects.get_or_create(username=name)[0]),
+                                       shift=s, role=Role.objects.get_or_create(name=role)[0], shift_number=1)
+            for name, role in MEMBERS]
 
 
 class ShiftModelTests(TestCase):
@@ -33,12 +33,20 @@ class ShiftViewTests(TestCase):
         self.client = Client()
         self.date = timezone.now()
         s, is_new = Shift.objects.get_or_create(date=timezone.now())
-        add_members(s)
+        self.members = add_members(s)
 
     def test_list_members(self):
+        members = self.get_members()
+        self.assertJSONEqual(members, [m for m, _ in MEMBERS])
+
+    def test_delete_members(self):
+        for i in range(2):
+            response = self.client.post(reverse("delete"), data={"pk": self.members[i].pk})
+            self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+            members = self.get_members()
+            self.assertJSONEqual(members, [m for m, _ in MEMBERS[i + 1:]])
+
+    def get_members(self):
         response = self.client.get(reverse("members"), data={"format": "json"})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        response_content = response.content
-        if six.PY3:
-            response_content = str(response_content, encoding="utf8")
-        self.assertJSONEqual(response_content, [m for m, _ in MEMBERS])
+        return str(response.content, encoding="utf8") if six.PY3 else response.content
