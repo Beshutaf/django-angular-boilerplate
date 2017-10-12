@@ -40,20 +40,24 @@ class ShiftViewTests(TestCase):
 
     def test_delete_members(self):
         for i in range(2):
-            response = self.client.post(reverse("delete"), data={"pk": self.members[i].pk})
+            response = self.client.post(reverse("delete"), data=dict(pk=self.members[i].pk))
             self.assertEqual(response.status_code, status.HTTP_302_FOUND)
             self.assertJSONEqual(self.get_members(), [m for m, _ in MEMBERS[i + 1:]])
 
     def get_members(self):
-        response = self.client.get(reverse("members"), data={"format": "json"})
+        response = self.client.get(reverse("members"), data=dict(format="json"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         return self.get_response_content(response)
 
     def test_get_shift(self):
-        response = self.client.get(reverse("index"), data={"format": "json"})
+        response = self.client.get(reverse("index"), data=dict(format="json"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # self.assertJSONEqual(self.get_response_content(response),
-        #                      {"date": self.date.strftime()})
+        self.assertJSONEqual(self.get_response_content(response), dict(
+            date=self.date.date().isoformat(),
+            member_shifts=[dict(member=name, role=role, shift_number=1) for name, role in MEMBERS],
+            new_members=[],
+            leaving_members=[],
+        ))
 
     @staticmethod
     def get_response_content(response):
