@@ -9,9 +9,9 @@ from rest_framework import status
 from .models import Shift, MemberShift, Member, Role, User
 
 MEMBERS = [
-    ("יונתן", 'אחמ"ש'),
-    ("גלי", 'תורן'),
-    ("מיכל", 'תורן'),
+    (u"יונתן", u'אחמ"ש'),
+    (u"גלי", u'תורן'),
+    (u"מיכל", u'תורן'),
 ]
 
 
