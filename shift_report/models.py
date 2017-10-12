@@ -12,29 +12,29 @@ class Member(models.Model):
 
 
 class Role(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, primary_key=True)
 
     def serialize(self):
         return self.name
 
 
 class Money(models.Model):
-    unit = models.IntegerField(null=False)
-    amount = models.IntegerField(null=False)
+    unit = models.IntegerField(null=False, primary_key=True)
+    amount = models.IntegerField(null=False, primary_key=True)
 
     def serialize(self):
         return dict(unit=self.unit, amount=self.amount)
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, primary_key=True)
 
     def serialize(self):
         return self.name
 
 
 class Shift(models.Model):
-    date = models.DateField(unique=True, db_index=True)
+    date = models.DateField(unique=True, db_index=True, primary_key=True)
     members = models.ManyToManyField(Member, through="MemberShift")
     new_members = models.ManyToManyField(Member, related_name="new")
     leaving_members = models.ManyToManyField(Member, related_name="leaving")

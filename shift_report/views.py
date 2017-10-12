@@ -73,9 +73,7 @@ def detail(request, *year_month_day):
     """
     s, _ = Shift.objects.get_or_create(date="-".join(year_month_day))
     if request.method == "POST":
-        for key, value in request.POST.items():
-            setattr(s, key, value)
-        s.save()
+        s.update(**request.POST)
     return JsonResponse(s.serialize()) if is_return_json(request) else \
         render(request, "shifts/detail.html", dict(shift=s))
 
