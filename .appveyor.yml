@@ -1,0 +1,13 @@
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27\\python.exe"
+    - PYTHON: "C:\\Python36\\python.exe"
+
+install:
+  - "%PYTHON% -m pip install -r requirements.txt"
+  - "%PYTHON% manage.py migrate"
+
+build: off
+
+test_script:
+  - "%PYTHON% manage.py test shift_report"
