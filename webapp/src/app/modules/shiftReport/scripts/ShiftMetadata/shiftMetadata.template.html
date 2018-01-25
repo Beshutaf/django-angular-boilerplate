@@ -1,16 +1,24 @@
 <div class="panel panel-primary" class="float-right">
     <div class="panel-heading">פרטי המשמרת הכללים</div>
     <div class="panel-body">
-        <lable class="control-label">תאריך</lable>
-        <input type="text" class="form-control" ng-model="$ctrl.reportMetadata.date" />
-        <lable class="control-label">יום</lable>
-        <input type="text" class="form-control" ng-model="$ctrl.reportMetadata.day" />
-        <div class="row">
+        <div class="row"> 
             <div class="col-xs-4">
-                <lable class="control-label">אחראי משמרת</lable>
-                <names-picker api-path="" selected-names="$ctrl.reportMetadata.shiftLeaders"></names-picker>
-                <lable class="control-label">תורנים</lable>
-                <names-picker api-path="" selected-names="$ctrl.reportMetadata.shiftWorkers"></names-picker>
+                <lable class="control-label">תאריך</lable>
+                <input type="text" class="form-control" ng-model="$ctrl.reportMetadata.date" />
+                <lable class="control-label">יום</lable>
+                <input type="text" class="form-control" ng-model="$ctrl.reportMetadata.day" />
+            </div>
+        </div>
+        <div class="row">
+            <div ng-repeat="shiftKey in $ctrl.shifts">
+                <div class= "col-xs-4">
+                    <label> משמרת {{shiftKey}} </label>
+                    <br>
+                    <lable class="control-label">אחראי משמרת</lable>
+                    <names-picker api-path="'/names'" selected-names="$ctrl.reportMetadata.shiftLeaders[shiftKey]"></names-picker>
+                    <lable class="control-label">תורנים</lable>
+                    <names-picker api-path="'/names'" selected-names="$ctrl.reportMetadata.shiftWorkers[shiftKey]"></names-picker>
+                </div>
             </div>
         </div>
     </div>

@@ -10,8 +10,8 @@
   function shiftService($http) {
         
         return {
-            getShiftData: getShiftData,
-            saveShiftData: saveShiftData
+            getShiftData: getShiftData
+            
         }
         function getShiftData(shiftDate){
           var urlDate = moment(shiftDate, 'DD-MM-YYYY').format("YYYY/MM/DD")
@@ -21,11 +21,6 @@
               console.error(errRes)
             });    
         }
-        
-        function saveShiftData(){
-            
-        }
-        
     }
   
 })();

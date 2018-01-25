@@ -5,8 +5,8 @@
         .module('app.shiftReport')
         .component('namesPicker', {
             bindings: {
-                apiPath:"=",
-                selectedNames:"="
+                apiPath:"<",
+                selectedNames:"<"
             },
             controller: namesPickerCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html'
@@ -21,6 +21,22 @@
             ctrl.removeName = removeName;
             
             ctrl.names = [];
+            
+            ctrl.$onInit = function(){
+                console.log(ctrl.apiPath)
+                console.log(ctrl.selectedNames)
+            }
+                      
+            ctrl.$onChange = function (changes){
+                if (changes.apiPath){
+                    console.log(changes.apiPath.newValue)
+                }
+                
+                if (changes.selectedNames){
+                    console.log(changes.selectedNames.newValue)
+                }
+                
+            }
   
             function searchNames(term){
                 var params = {term:term};
