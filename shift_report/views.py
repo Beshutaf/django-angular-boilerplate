@@ -73,11 +73,9 @@ def detail(request, *year_month_day):
     """
     s, _ = Shift.objects.get_or_create(date="-".join(year_month_day))
     if request.method == "POST":
-        for key, value in request.POST.items():
-            setattr(s, key, value)
-        s.save()
-    return JsonResponse(s.serialize()) if request.GET.get("format") == "json" else \
-        render(request, "shifts/detail.html", {"shift": s})
+        s.update(**request.POST)
+    return JsonResponse(s.serialize()) if is_return_json(request) else \
+        render(request, "shifts/detail.html", dict(shift=s))
 
 
 def members(request):
@@ -93,8 +91,8 @@ def members(request):
                 process_member(d)
         else:
             process_member(request.POST or None)
-    return JsonResponse(m.username for m in Member.objects.all()) if request.GET.get("format") == "json" else \
-        render(request, "members/list.html", {"members": Member.objects.all(), "form": MemberForm()})
+    return JsonResponse([m.serialize() for m in Member.objects.all()], safe=False) if is_return_json(request) else \
+        render(request, "members/list.html", dict(members=Member.objects.all(), form=MemberForm()))
 
 
 def process_member(fields):
@@ -106,3 +104,7 @@ def process_member(fields):
 def delete(request):
     get_object_or_404(Member, pk=request.POST["pk"]).delete()
     return redirect("/members/")
+
+
+def is_return_json(request):
+    return request.GET.get("format") == "json" or request.is_ajax()

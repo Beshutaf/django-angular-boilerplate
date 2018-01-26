@@ -5,7 +5,7 @@
     .module('app.shiftReport')
     .controller('ShiftReportCtrl', ShiftReportCtrl);
     
-    ShiftReportCtrl.$inject=['$scope', 'constants', '$http']
+    ShiftReportCtrl.$inject=['$scope', 'constants', '$http'];
 
   function ShiftReportCtrl($scope, constants, $http) {
     
@@ -29,7 +29,7 @@
     
     $scope.report.products = {
       missingProducts:[]
-    }
+    };
     
     
     function addMissingProduct(productName) {
@@ -38,7 +38,7 @@
     }
     
     function removeMissingProduct(productName) {
-      var index = $scope.report.products.missingProducts.indexOf(productName)
+      var index = $scope.report.products.missingProducts.indexOf(productName);
       if (index > -1){
         $scope.report.products.missingProducts.splice(index,1);
       }
