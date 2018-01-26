@@ -1,0 +1,32 @@
+<div class="panel" class="panel-danger">
+            <div class="panel-heading">
+              <a href="$ctrl.link">
+                {{ $ctrl.title }}
+              </a>
+            </div>
+            <div class="panel-body">
+               <div class="input-group">
+                  <input type="text" class="form-control" ng-model="productName" placeholder="שם מוצר">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="$ctrl.addMissingProduct(productName)">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+                  </span>    
+                </div>
+                
+                <table>
+                    <tr ng-repeat="product in $ctrl.productsList">
+                        <td>
+                            <lable class="control-label">
+                            <b>{{product}}</b>
+                            </lable>
+                        </td>
+                        <td>
+                            <button class="btn btn-xs btn-error" ng-click=$ctrl.removeProduct(product)>
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </table> 
+            </div>
+        </div>
