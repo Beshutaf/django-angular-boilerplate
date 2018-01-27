@@ -1,0 +1,8 @@
+@font-face {
+   font-family: beshutafCooperative;
+   src: url(/webapp/src/assets/fonts/BeshutafBoldBETA.otf);
+}
+
+* {
+   font-family: beshutafCooperative;
+}
