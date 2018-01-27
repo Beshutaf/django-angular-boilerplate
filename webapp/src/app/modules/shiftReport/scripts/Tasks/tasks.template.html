@@ -1,0 +1,27 @@
+<div class="panel panel-info" class="float-right">
+    <div class="panel-heading">{{$ctrl.title}}</div>
+    <div class="panel-body">
+        <table class="table table-condensed" >
+            <thead >
+                <tr>
+                    <th style="text-align:right;">
+                        משימה
+                    </th>
+                    <th style="text-align:right;">
+                        טופל
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in $ctrl.tasks track by $index">
+                    <td>
+                        <input class="form-control" type="text" name="" ng-model="$ctrl.tasks[$index].content" />
+                    </td>
+                    <td>
+                        <input class="form-control" type="checkbox" ng-model="$ctrl.tasks[$index].checked"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
