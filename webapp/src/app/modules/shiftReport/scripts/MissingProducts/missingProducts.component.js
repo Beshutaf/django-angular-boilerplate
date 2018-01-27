@@ -26,6 +26,7 @@
             
             function addMissingProduct(productName) {
                 ctrl.productsList.push(productName);
+                ctrl.productName = ""
             }
             
             function removeProduct(productName){
