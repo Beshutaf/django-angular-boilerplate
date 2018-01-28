@@ -91,8 +91,11 @@ def members(request):
                 process_member(d)
         else:
             process_member(request.POST or None)
-    return JsonResponse([m.serialize() for m in Member.objects.all()], safe=False) if is_return_json(request) else \
-        render(request, "members/list.html", dict(members=Member.objects.all(), form=MemberForm()))
+    term = request.GET.get("term")
+    result = Member.objects.filter(user__username__contains=term) if term else Member.objects.all()
+    if is_return_json(request):
+        return JsonResponse([m.serialize() for m in result], safe=False)
+    render(request, "members/list.html", dict(members=result, form=MemberForm()))
 
 
 def process_member(fields):
