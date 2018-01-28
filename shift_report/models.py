@@ -6,7 +6,7 @@ class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def serialize(self):
-        return self.user.username
+        return " ".join((self.user.first_name, self.user.last_name))
 
 
 class Role(models.Model):

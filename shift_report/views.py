@@ -98,8 +98,7 @@ def members(request):
 def process_member(fields):
     form = MemberForm(fields)
     if form.is_valid():
-        form.save(Member.objects.create(user=User.objects.create_user(username=" ".join((
-            form.cleaned_data["first_name"], form.cleaned_data["last_name"])))))
+        form.save()
 
 
 def delete(request):
