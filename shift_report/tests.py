@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.core.urlresolvers import reverse
-from django.test import Client
-from django.test import TestCase
-from django.utils import six
-from django.utils import timezone
+from django.test import Client, TestCase
+from django.urls import reverse
+from django.utils import six, timezone
 from rest_framework import status
 
 from .models import Shift, MemberShift, Member, Role, User
