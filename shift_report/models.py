@@ -17,8 +17,8 @@ class Role(models.Model):
 
 
 class Money(models.Model):
-    unit = models.IntegerField(null=False, primary_key=True)
-    amount = models.IntegerField(null=False, primary_key=True)
+    unit = models.IntegerField(null=False)
+    amount = models.IntegerField(null=False)
 
     def serialize(self):
         return dict(unit=self.unit, amount=self.amount)
