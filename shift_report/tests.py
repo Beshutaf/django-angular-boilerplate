@@ -14,7 +14,8 @@ MEMBERS = [
 
 
 def add_members(s):
-    return [MemberShift.objects.create(member=Member.objects.create(user=User.objects.get_or_create(username=name)[0]),
+    return [MemberShift.objects.create(member=Member.objects.create(user=User.objects.get_or_create(
+        username=name, first_name=name)[0]),
                                        shift=s, role=Role.objects.get_or_create(name=role)[0], shift_number=1)
             for name, role in MEMBERS]
 
