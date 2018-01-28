@@ -120,9 +120,9 @@ class Shift(models.Model):
 
 
 class MemberShift(models.Model):
-    member = models.ForeignKey(Member)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
-    role = models.ForeignKey(Role)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
     shift_number = models.IntegerField(null=False)
 
     def serialize(self):
@@ -130,7 +130,7 @@ class MemberShift(models.Model):
 
 
 class Conclusions(models.Model):
-    shift = models.ForeignKey(Shift)
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     comment = models.TextField()
     assigned_team = models.CharField(max_length=128)
     done = models.BooleanField(default=False)
