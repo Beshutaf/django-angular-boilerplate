@@ -104,7 +104,7 @@ def process_member(fields):
 
 def delete(request):
     get_object_or_404(Member, pk=request.POST["pk"]).delete()
-    return redirect("/members/")
+    return redirect("/members")
 
 
 def is_return_json(request):
