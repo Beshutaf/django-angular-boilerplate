@@ -3,7 +3,6 @@ import csv
 from datetime import datetime
 from io import TextIOWrapper
 
-from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -15,7 +14,7 @@ def index(request):
     return detail(request, *datetime.now().date().isoformat().split("-"))
 
 
-def detail(request, *year_month_day):
+def detail(request, year, month, day):
     """
     {
      date: ...,
@@ -71,7 +70,7 @@ def detail(request, *year_month_day):
      ],
     }
     """
-    s, _ = Shift.objects.get_or_create(date="-".join(year_month_day))
+    s, _ = Shift.objects.get_or_create(date="-".join((year, month, day)))
     if request.method == "POST":
         s.update(**request.POST)
     return JsonResponse(s.serialize()) if is_return_json(request) else \
@@ -95,7 +94,7 @@ def members(request):
     result = Member.objects.filter(user__username__contains=term) if term else Member.objects.all()
     if is_return_json(request):
         return JsonResponse([m.serialize() for m in result], safe=False)
-    render(request, "members/list.html", dict(members=result, form=MemberForm()))
+    return render(request, "members/list.html", dict(members=result, form=MemberForm()))
 
 
 def process_member(fields):
