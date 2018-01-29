@@ -39,6 +39,12 @@ class Cache(models.Model):
     money_from_cash = models.IntegerField(default=0)
     envelope_number = models.IntegerField(default=0)
 
+    @staticmethod
+    def empty():
+        obj = Cache()
+        obj.save()
+        return obj.id
+
     def serialize(self):
         return dict(money_at_shift_start=dict(m.serialize() for m in self.money_at_shift_start.all()),
                     money_at_shift_end=dict(m.serialize() for m in self.money_at_shift_end.all()),
@@ -66,17 +72,17 @@ class Shift(models.Model):
     new_members = models.ManyToManyField(Member, related_name="new")
     leaving_members = models.ManyToManyField(Member, related_name="leaving")
     missing_products = models.ManyToManyField(Product, related_name="almost_missing")
-    cache = models.ForeignKey(Cache, on_delete=models.CASCADE)
+    cache = models.ForeignKey(Cache, on_delete=models.CASCADE, default=Cache.empty)
 
     def serialize(self):
         return dict(date=self.date,
                     member_shifts=[m.serialize() for m in self.membershift_set.all()],
                     new_members=[m.serialize() for m in self.new_members.all()],
                     leaving_members=[m.serialize() for m in self.leaving_members.all()],
+                    tasks=[c.serialize() for c in self.task_set.all()],
                     conclusions=[c.serialize() for c in self.conclusions_set.all()],
-                    tasks=[c.serialize() for c in self.tasks_set.all()],
                     missing_products=[p.serialize() for p in self.missing_products.all()],
-                    cache=cache.serialize(),
+                    cache=self.cache.serialize(),
                     )
 
     def update(self, date=None, members=None, new_members=None, leaving_members=None, conclusions=None, tasks=None,
@@ -97,6 +103,17 @@ class Shift(models.Model):
             self.new_members = [self.get_or_create_member(m) for m in new_members]
         if leaving_members is not None:
             self.leaving_members = [self.get_or_create_member(m) for m in leaving_members]
+        if tasks is not None:
+            tasks_iter = iter(self.task_set.all())
+            for d in tasks:
+                try:
+                    c = next(tasks_iter)
+                except StopIteration:
+                    c = Conclusions.objects.create(shift=self)
+                c.comment = d["comment"]
+                c.done = d["done"]
+            for c in tasks_iter:
+                c.delete()
         if conclusions is not None:
             conclusions_iter = iter(self.conclusions_set.all())
             for d in conclusions:
@@ -108,17 +125,6 @@ class Shift(models.Model):
                 c.assigned_team = d["assigned_team"]
                 c.done = d["done"]
             for c in conclusions_iter:
-                c.delete()
-        if tasks is not None:
-            tasks_iter = iter(self.tasks_set.all())
-            for d in tasks:
-                try:
-                    c = next(tasks_iter)
-                except StopIteration:
-                    c = Conclusions.objects.create(shift=self)
-                c.comment = d["comment"]
-                c.done = d["done"]
-            for c in tasks_iter:
                 c.delete()
         self.cache = Cache(**cache)
         if missing_products is not None:
@@ -144,8 +150,7 @@ class MemberShift(models.Model):
         return dict(member=self.member.serialize(), role=self.role.serialize(), shift_number=self.shift_number)
 
 
-class Task(models.Model):
-    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
+class Item(models.Model):
     comment = models.TextField()
     done = models.BooleanField(default=False)
 
@@ -153,8 +158,15 @@ class Task(models.Model):
         return dict(comment=self.comment, done=self.done)
 
 
-class Conclusions(Task):
+class Task(Item):
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
+
+
+class Conclusions(Item):
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     assigned_team = models.CharField(max_length=128)
 
     def serialize(self):
-        return dict(comment=self.comment, assigned_team=self.assigned_team, done=self.done)
+        d = super().serialize()
+        d.update(assigned_team=self.assigned_team)
+        return d
