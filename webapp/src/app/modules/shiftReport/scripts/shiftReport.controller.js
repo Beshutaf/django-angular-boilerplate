@@ -27,8 +27,8 @@
       newMembers:[],
       leavingMembers:[],
       tasks:[],
-      conclusions[],
-      missingProducts[],
+      conclusions:[],
+      missingProducts:[],
       cache:{
         monyFromStocks:0,
         checks:0,
@@ -37,7 +37,7 @@
         money:{
           moneyAtStart:{
             "1":0,
-            "2":0'
+            "2":0,
             "5":0,
             "10":0,
             "20":0,
@@ -47,7 +47,7 @@
           },
           moneyAtEnd:{
             "1":0,
-            "2":0'
+            "2":0,
             "5":0,
             "10":0,
             "20":0,
