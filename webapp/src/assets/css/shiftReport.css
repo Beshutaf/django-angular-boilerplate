@@ -1,6 +1,6 @@
 @font-face {
    font-family: beshutafCooperative;
-   src: url(/webapp/src/assets/fonts/BeshutafBoldBETA.otf);
+   src: url(/assets/fonts/BeshutafBoldBETA.otf);
 }
 
 * {
@@ -19,11 +19,11 @@
 .select-box {
  background: #fff;
  position: relative;
- z-index: 1;
+ z-index: 1000;
 }
 .alert-info.positioned {
  margin-top: 1em;
  position: relative;
- z-index: 10000; /* The select2 dropdown has a z-index of 9999 */
+ z-index: 100001; /* The select2 dropdown has a z-index of 9999 */
 }
         
