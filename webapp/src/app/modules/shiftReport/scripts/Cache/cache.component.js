@@ -19,21 +19,17 @@
         ctrl.cacheInput = new Array(5);
         ctrl.cacheOutput = new Array(5);
         
-        ctrl.totalFromCellingProducts = 0;
+        ctrl.totalFromSealingProducts = 0;
         
-        ctrl.totalInCacheFromCellingSubstraction = totalInCacheFromCellingSubstraction;
-        ctrl.totalInCacheFromCellingAddition = totalInCacheFromCellingAddition;
+        ctrl.totalInCacheFromSealingSubstraction = totalInCacheFromSealingSubstraction;
+        ctrl.totalInCacheFromSealingAddition = totalInCacheFromSealingAddition;
         
-        ctrl.updateTotalInCacheFromCelling = function (){
-            
+        function totalInCacheFromSealingSubstraction (value){
+            ctrl.totalFromSealingProducts = ctrl.totalFromSealingProducts - value;
         }
         
-        function totalInCacheFromCellingSubstraction (value){
-            ctrl.totalFromCellingProducts = ctrl.totalFromCellingProducts - value;
-        }
-        
-        function totalInCacheFromCellingAddition (value){
-            ctrl.totalFromCellingProducts = ctrl.totalFromCellingProducts + value;
+        function totalInCacheFromSealingAddition (value){
+            ctrl.totalFromSealingProducts = ctrl.totalFromSealingProducts + value;
         }
 
     }

@@ -10,7 +10,8 @@
     function shiftService($http) {
         return {
 
-            getShiftData: getShiftData
+            getShiftData: getShiftData,
+            saveShiftData: saveShiftData
             
         };
 
@@ -18,9 +19,19 @@
             var urlDate = moment(shiftDate, 'DD-MM-YYYY').format("YYYY/MM/DD");
             $http.get('shifts/'+urlDate).then(function (res){
                 console.log(res)
+                return res.data
             }, function (errRes){
                 console.error(errRes)
             });
+        }
+        
+        function saveShiftData(shiftReport){
+          $http.post('shifts/',shiftReport).then(function (res){
+                console.log(res)
+            }, function (errRes){
+                console.error(errRes)
+            });
+          
         }
     }
 

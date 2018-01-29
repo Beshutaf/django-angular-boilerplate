@@ -11,7 +11,7 @@
             templateUrl: '/app/modules/shiftReport/scripts/ShiftMetadata/shiftMetadata.template.html'
         });
 
-    function shiftMetadataCtrl($http, shiftService) {
+    function shiftMetadataCtrl(shiftService) {
         var ctrl = this;
 
         /////////////////////////////////

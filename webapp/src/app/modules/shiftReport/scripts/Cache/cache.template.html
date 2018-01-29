@@ -1,18 +1,18 @@
 <div class="row">
     <div class="col-xs-4 pull-right">
-        <money title="$ctrl.moneyAtStart" callback="$ctrl.totalInCacheFromCellingSubstraction(value);">
+        <money title="$ctrl.moneyAtStart" callback="$ctrl.totalInCacheFromSealingSubstraction(value);">
             </mony>
             <cache-i-o title="$ctrl.cacheInputTitle" quantities="$ctrl.cacheInput"> </cache-i-o>
     </div>
     <div class="col-xs-4 pull-right">
-        <money title="$ctrl.changeLeft" callback="$ctrl.totalInCacheFromCellingAddition(value);">
+        <money title="$ctrl.changeLeft" callback="$ctrl.totalInCacheFromSealingAddition(value);">
             </mony>
             <cache-i-o title="$ctrl.cacheOutputTitle" quantities="$ctrl.cacheOutput"> </cache-i-o>
     </div>
     <div class="col-xs-4">
         <div class="alert alert-success" role="alert">
             <label for="stocksInput"> כסף מיחידות השתתפות</label>
-            <input class="form-control" type="number" min="1" step="any" ng-model="monyFronStocks" name="stocksInput" />
+            <input class="form-control" type="number" min="1" step="any" ng-model="monyFromStocks" name="stocksInput" />
             <label for="checksInput"> צ'קים</label>
             <input class="form-control" type="text" name="checksInput" />
             <label for="cashInput"> מזומן</label>
@@ -21,7 +21,7 @@
             <input class="form-control" type="text" name="envalopeNumberInput" />
         </div>
         <h3>
-            <span class="label label-success"> סה"כ מזומן ממכירת מוצרים:  {{$ctrl.totalFromCellingProducts}} </span>
+            <span class="label label-success"> סה"כ מזומן ממכירת מוצרים:{{  ctrl.totalFromSealingProductsts}} </span>
         </h3>
     </div>
 </div>

@@ -5,17 +5,14 @@
     .module('app.shiftReport')
     .controller('ShiftReportCtrl', ShiftReportCtrl);
     
-    ShiftReportCtrl.$inject=['$scope', 'constants', '$http'];
+    ShiftReportCtrl.$inject=['$scope', 'constants', '$http', 'shiftService', '$window'];
 
-  function ShiftReportCtrl($scope, constants, $http) {
-    
-    $scope.addMissingProduct = addMissingProduct;
-    $scope.removeMissingProduct = removeMissingProduct;
+  function ShiftReportCtrl($scope, constants, $http, shiftService, $window) {
     
     moment.locale('he');
     
     $scope.newMembers = [];
-    $scope.leftMembers = [];
+    $scope.leavingMembers = [];
     $scope.newMembersTitle = "מצטרפים חדשים";
     $scope.leftMembersTitle = "חברים שעזבו";
     $scope.newMembersLink="https://docs.google.com/forms/d/e/1FAIpQLScLwyRApEifTXIxasjY_fVe2DPuPiJdh5mqeMuO9DZ9O5nLQw/viewform?c=0&w=1";
@@ -24,28 +21,62 @@
     
     
     $scope.report = {
-      date:moment().format("DD-MM-YYYY")
-    };
-    
-    $scope.report.products = {
-      missingProducts:[]
-    };
-    
-    
-    function addMissingProduct(productName) {
-      $scope.report.products.missingProducts.push(productName);
-      $scope.productName ="";
-    }
-    
-    function removeMissingProduct(productName) {
-      var index = $scope.report.products.missingProducts.indexOf(productName);
-      if (index > -1){
-        $scope.report.products.missingProducts.splice(index,1);
+      date:moment().format("DD-MM-YYYY"),
+      members:[],
+      newMembers:[],
+      leavingMembers:[],
+      tasks:[],
+      conclusions[],
+      missingProducts[],
+      cache:{
+        monyFromStocks:0,
+        checks:0,
+        cash:0,
+        envalopeNumber:0,
+        money:{
+          moneyAtStart:{
+            "1":0,
+            "2":0'
+            "5":0,
+            "10":0,
+            "20":0,
+            "50":0,
+            "100":0,
+            "200":0
+          },
+          moneyAtEnd:{
+            "1":0,
+            "2":0'
+            "5":0,
+            "10":0,
+            "20":0,
+            "50":0,
+            "100":0,
+            "200":0
+          }
+        }
       }
+    };
+    
+    
+    
+    $scope.saveShiftReport = saveShiftReport;
+    
+    function saveShiftReport(shiftReport){
+      shiftService.saveShiftData(report).then(function(res){
+        $window.alert("Shift Report Saved");
+      })
+      
     }
     
-   
-    
+    function applyShiftReportData(){
+      shiftService.getShiftData(shiftDate).then(function (res){
+                        console.log(res);
+                        $scope.report = res.data;
+                    })
+    }
+      
+    }
   }
   
 })();
