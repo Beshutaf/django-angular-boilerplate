@@ -11,8 +11,9 @@
     
     moment.locale('he');
     
-    $scope.newMembers = [];
-    $scope.leavingMembers = [];
+    $scope.saveShiftReport = saveShiftReport;
+    $scope.getShiftReport = getShiftReport;
+    
     $scope.newMembersTitle = "מצטרפים חדשים";
     $scope.leftMembersTitle = "חברים שעזבו";
     $scope.newMembersLink="https://docs.google.com/forms/d/e/1FAIpQLScLwyRApEifTXIxasjY_fVe2DPuPiJdh5mqeMuO9DZ9O5nLQw/viewform?c=0&w=1";
@@ -60,16 +61,16 @@
     
     
     
-    $scope.saveShiftReport = saveShiftReport;
+    
     
     function saveShiftReport(shiftReport){
-      shiftService.saveShiftData(report).then(function(res){
+      shiftService.saveShiftData(shiftReport).then(function(res){
         $window.alert("Shift Report Saved");
       })
       
     }
     
-    function applyShiftReportData(){
+    function getShiftReport(shiftDate){
       shiftService.getShiftData(shiftDate).then(function (res){
                         console.log(res);
                         $scope.report = res.data;

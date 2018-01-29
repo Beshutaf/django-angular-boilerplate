@@ -5,7 +5,9 @@
         .module('app.shiftReport')
         .component('daysNavigation', {
             bindings: {
-                shiftDate: "="
+                shiftDate: "=",
+                getShiftData:"&"
+                
             },
             controller: daysNavigationCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/DaysNavigation/daysNavigation.template.html'
@@ -22,17 +24,15 @@
         function getNextDay() {
             var nextDay = moment(ctrl.shiftDate, 'DD-MM-YYYY').add(1, 'day').format('DD-MM-YYYY');
             ctrl.shiftDate = angular.copy(nextDay);
-            shiftService.getShiftData(nextDay);
-            console.log("Next day");
-            console.log(nextDay);
+            // shiftService.getShiftData(nextDay);
+            ctrl.getShiftData({value:ctrl.shiftDate})
         }
 
         function getPrevDay() {
             var prevDay = moment(ctrl.shiftDate, 'DD-MM-YYYY').subtract(1, 'day').format('DD-MM-YYYY');
             ctrl.shiftDate = angular.copy(prevDay);
-            shiftService.getShiftData(prevDay);
-            console.log("Prev Day");
-            console.log(prevDay);
+            // shiftService.getShiftData(prevDay);
+            ctrl.getShiftData({value:ctrl.shiftDate})
         }
     }
 })();
