@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -8,7 +6,7 @@ class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def serialize(self):
-        return self.user.username
+        return " ".join(filter(None, (self.user.first_name, self.user.last_name)))
 
 
 class Role(models.Model):
@@ -19,8 +17,8 @@ class Role(models.Model):
 
 
 class Money(models.Model):
-    unit = models.IntegerField(null=False, primary_key=True)
-    amount = models.IntegerField(null=False, primary_key=True)
+    unit = models.IntegerField(null=False)
+    amount = models.IntegerField(null=False)
 
     def serialize(self):
         return dict(unit=self.unit, amount=self.amount)
@@ -120,9 +118,9 @@ class Shift(models.Model):
 
 
 class MemberShift(models.Model):
-    member = models.ForeignKey(Member)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
-    role = models.ForeignKey(Role)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
     shift_number = models.IntegerField(null=False)
 
     def serialize(self):
@@ -130,7 +128,7 @@ class MemberShift(models.Model):
 
 
 class Conclusions(models.Model):
-    shift = models.ForeignKey(Shift)
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     comment = models.TextField()
     assigned_team = models.CharField(max_length=128)
     done = models.BooleanField(default=False)

@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.core.urlresolvers import reverse
-from django.test import Client
-from django.test import TestCase
-from django.utils import six
-from django.utils import timezone
+from django.test import Client, TestCase
+from django.urls import reverse
+from django.utils import six, timezone
 from rest_framework import status
 
 from .models import Shift, MemberShift, Member, Role, User
@@ -16,7 +14,8 @@ MEMBERS = [
 
 
 def add_members(s):
-    return [MemberShift.objects.create(member=Member.objects.create(user=User.objects.get_or_create(username=name)[0]),
+    return [MemberShift.objects.create(member=Member.objects.create(user=User.objects.get_or_create(
+        username=name, first_name=name)[0]),
                                        shift=s, role=Role.objects.get_or_create(name=role)[0], shift_number=1)
             for name, role in MEMBERS]
 

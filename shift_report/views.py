@@ -3,7 +3,6 @@ import csv
 from datetime import datetime
 from io import TextIOWrapper
 
-from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -15,7 +14,7 @@ def index(request):
     return detail(request, *datetime.now().date().isoformat().split("-"))
 
 
-def detail(request, *year_month_day):
+def detail(request, year, month, day):
     """
     {
      date: ...,
@@ -71,7 +70,7 @@ def detail(request, *year_month_day):
      ],
     }
     """
-    s, _ = Shift.objects.get_or_create(date="-".join(year_month_day))
+    s, _ = Shift.objects.get_or_create(date="-".join((year, month, day)))
     if request.method == "POST":
         s.update(**request.POST)
     return JsonResponse(s.serialize()) if is_return_json(request) else \
@@ -91,19 +90,22 @@ def members(request):
                 process_member(d)
         else:
             process_member(request.POST or None)
-    return JsonResponse([m.serialize() for m in Member.objects.all()], safe=False) if is_return_json(request) else \
-        render(request, "members/list.html", dict(members=Member.objects.all(), form=MemberForm()))
+    term = request.GET.get("term")
+    result = Member.objects.filter(user__username__contains=term) if term else Member.objects.all()
+    if is_return_json(request):
+        return JsonResponse([m.serialize() for m in result], safe=False)
+    return render(request, "members/list.html", dict(members=result, form=MemberForm()))
 
 
 def process_member(fields):
     form = MemberForm(fields)
     if form.is_valid():
-        form.save(Member.objects.create(user=User.objects.create_user(username=True)))
+        form.save()
 
 
 def delete(request):
     get_object_or_404(Member, pk=request.POST["pk"]).delete()
-    return redirect("/members/")
+    return redirect("/members")
 
 
 def is_return_json(request):

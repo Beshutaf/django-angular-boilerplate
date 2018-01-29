@@ -13,7 +13,7 @@
         <td>{{ member.user.first_name }}</td>
         <td>{{ member.user.last_name }}</td>
         <td>
-            <form action="delete" method="post">
+            <form action="/members/delete" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="pk" value="{{ member.pk }}">
                 <input type="submit" value="מחיקה" />
