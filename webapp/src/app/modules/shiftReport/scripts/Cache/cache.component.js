@@ -4,7 +4,9 @@
     angular
         .module('app.shiftReport')
         .component('cache', {
-            bindings: {},
+            bindings: {
+                cache:"="
+            },
             controller: cacheCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/Cache/cache.template.html'
         });
