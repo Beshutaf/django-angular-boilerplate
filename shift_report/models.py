@@ -21,7 +21,7 @@ class Money(models.Model):
     amount = models.IntegerField(null=False)
 
     def serialize(self):
-        return dict(unit=self.unit, amount=self.amount)
+        return self.unit, self.amount
 
 
 class Product(models.Model):
@@ -31,19 +31,42 @@ class Product(models.Model):
         return self.name
 
 
-class Shift(models.Model):
-    date = models.DateField(unique=True, db_index=True, primary_key=True)
-    members = models.ManyToManyField(Member, through="MemberShift")
-    new_members = models.ManyToManyField(Member, related_name="new")
-    leaving_members = models.ManyToManyField(Member, related_name="leaving")
+class Cache(models.Model):
     money_at_shift_start = models.ManyToManyField(Money, related_name="shift_start")
     money_at_shift_end = models.ManyToManyField(Money, related_name="shift_end")
     money_from_shares = models.IntegerField(default=0)
     money_from_cheques = models.IntegerField(default=0)
     money_from_cash = models.IntegerField(default=0)
     envelope_number = models.IntegerField(default=0)
-    almost_missing_products = models.ManyToManyField(Product, related_name="almost_missing")
-    disposed_products = models.ManyToManyField(Product, related_name="disposed")
+
+    def serialize(self):
+        return dict(money_at_shift_start=dict(m.serialize() for m in self.money_at_shift_start.all()),
+                    money_at_shift_end=dict(m.serialize() for m in self.money_at_shift_end.all()),
+                    money_from_shares=self.money_from_shares,
+                    money_from_cheques=self.money_from_cheques,
+                    money_from_cash=self.money_from_cash,
+                    envelope_number=self.envelope_number,
+                    )
+
+    def update(self, money_at_shift_start=None, money_at_shift_end=None,
+               money_from_shares=None, money_from_cheques=None,
+               money_from_cash=None, envelope_number=None, **kwargs):
+        self.money_at_shift_start = [Money(int(u), a) for u, a in money_at_shift_start.items()]
+        self.money_at_shift_end = [Money(int(u), a) for u, a in money_at_shift_end.items()]
+        self.money_from_shares = money_from_shares
+        self.money_from_cheques = money_from_cheques
+        self.money_from_cash = money_from_cash
+        self.envelope_number = envelope_number
+        self.save()
+
+
+class Shift(models.Model):
+    date = models.DateField(unique=True, db_index=True, primary_key=True)
+    members = models.ManyToManyField(Member, through="MemberShift")
+    new_members = models.ManyToManyField(Member, related_name="new")
+    leaving_members = models.ManyToManyField(Member, related_name="leaving")
+    missing_products = models.ManyToManyField(Product, related_name="almost_missing")
+    cache = models.ForeignKey(Cache, on_delete=models.CASCADE)
 
     def serialize(self):
         return dict(date=self.date,
@@ -51,32 +74,25 @@ class Shift(models.Model):
                     new_members=[m.serialize() for m in self.new_members.all()],
                     leaving_members=[m.serialize() for m in self.leaving_members.all()],
                     conclusions=[c.serialize() for c in self.conclusions_set.all()],
-                    money_at_shift_start=[m.serialize() for m in self.money_at_shift_start.all()],
-                    money_at_shift_end=[m.serialize() for m in self.money_at_shift_end.all()],
-                    money_from_shares=self.money_from_shares,
-                    money_from_cheques=self.money_from_cheques,
-                    money_from_cash=self.money_from_cash,
-                    envelope_number=self.envelope_number,
-                    almost_missing_products=[p.serialize() for p in self.almost_missing_products.all()],
-                    disposed_products=[p.serialize() for p in self.disposed_products.all()],
+                    tasks=[c.serialize() for c in self.tasks_set.all()],
+                    missing_products=[p.serialize() for p in self.missing_products.all()],
+                    cache=cache.serialize(),
                     )
 
-    def update(self, date=None, member_shifts=None, new_members=None, leaving_members=None, conclusions=None,
-               money_at_shift_start=None, money_at_shift_end=None, money_from_shares=None, money_from_cheques=None,
-               money_from_cash=None, envelope_number=None, almost_missing_products=None, disposed_products=None,
-               **kwargs):
+    def update(self, date=None, members=None, new_members=None, leaving_members=None, conclusions=None, tasks=None,
+               missing_products=None, cache=None, **kwargs):
         if date is not None:
             self.date = date
-        if member_shifts is not None:
-            members = []
-            for m in member_shifts:
+        if members is not None:
+            members_in_shift = []
+            for m in members:
                 member = self.get_or_create_member(m["member"])
                 member_shift, _ = MemberShift.objects.get_or_create(shift=self, member=member)
                 member_shift.role, _ = Role.objects.get_or_create(m["role"])
                 member_shift.shift_number = m["shift_number"]
                 member_shift.save()
-                members.append(member)
-            MemberShift.objects.filter(shift=self, member__not_in=members).delete()
+                members_in_shift.append(member)
+            MemberShift.objects.filter(shift=self, member__not_in=members_in_shift).delete()
         if new_members is not None:
             self.new_members = [self.get_or_create_member(m) for m in new_members]
         if leaving_members is not None:
@@ -93,22 +109,23 @@ class Shift(models.Model):
                 c.done = d["done"]
             for c in conclusions_iter:
                 c.delete()
-        self.money_at_shift_start = money_at_shift_start
-        self.money_at_shift_end = money_at_shift_end
-        self.money_from_shares = money_from_shares
-        self.money_from_cheques = money_from_cheques
-        self.money_from_cash = money_from_cash
-        self.envelope_number = envelope_number
-        if almost_missing_products is not None:
-            self.almost_missing_products = []
-            for p in almost_missing_products:
+        if tasks is not None:
+            tasks_iter = iter(self.tasks_set.all())
+            for d in tasks:
+                try:
+                    c = next(tasks_iter)
+                except StopIteration:
+                    c = Conclusions.objects.create(shift=self)
+                c.comment = d["comment"]
+                c.done = d["done"]
+            for c in tasks_iter:
+                c.delete()
+        self.cache = Cache(**cache)
+        if missing_products is not None:
+            self.missing_products = []
+            for p in missing_products:
                 product, _ = Product.objects.get_or_create(name=p)
-                self.almost_missing_products.append(p)
-        if disposed_products is not None:
-            self.disposed_products = []
-            for p in disposed_products:
-                product, _ = Product.objects.get_or_create(name=p)
-                self.disposed_products.append(p)
+                self.missing_products.append(p)
         self.save()
 
     def get_or_create_member(self, username):
@@ -127,11 +144,17 @@ class MemberShift(models.Model):
         return dict(member=self.member.serialize(), role=self.role.serialize(), shift_number=self.shift_number)
 
 
-class Conclusions(models.Model):
+class Task(models.Model):
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     comment = models.TextField()
-    assigned_team = models.CharField(max_length=128)
     done = models.BooleanField(default=False)
+
+    def serialize(self):
+        return dict(comment=self.comment, done=self.done)
+
+
+class Conclusions(Task):
+    assigned_team = models.CharField(max_length=128)
 
     def serialize(self):
         return dict(comment=self.comment, assigned_team=self.assigned_team, done=self.done)
