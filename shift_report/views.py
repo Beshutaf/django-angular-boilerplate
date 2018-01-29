@@ -71,10 +71,11 @@ def detail(request, year, month, day):
     }
     """
     s, _ = Shift.objects.get_or_create(date="-".join((year, month, day)))
+    json = is_return_json(request)
     if request.method == "POST":
         s.update(**request.POST)
-    return JsonResponse(s.serialize()) if is_return_json(request) else \
-        render(request, "shifts/detail.html", dict(shift=s))
+        json = True
+    return JsonResponse(s.serialize()) if json else render(request, "shifts/detail.html", dict(shift=s))
 
 
 def members(request):
