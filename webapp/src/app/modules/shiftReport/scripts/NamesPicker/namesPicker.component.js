@@ -20,7 +20,7 @@
             ctrl.searchNames = searchNames;
             ctrl.removeName = removeName;
             
-            ctrl.names = [];
+            ctrl.names = ["gali","daniel"];
             
             ctrl.$onInit = function(){
                 console.log(ctrl.apiPath)
@@ -28,13 +28,14 @@
             }
                       
             ctrl.$onChange = function (changes){
-                if (changes.apiPath){
-                    console.log(changes.apiPath.newValue)
-                }
+                // if (changes.apiPath){
+                //     console.log(changes.apiPath.newValue)
+                // }
                 
-                if (changes.selectedNames){
-                    console.log(changes.selectedNames.newValue)
-                }
+                // if (changes.selectedNames){
+                //     console.log(changes.selectedNames.newValue)
+                // }
+                console.log(changes)
                 
             }
   
@@ -45,7 +46,6 @@
                 };
                 return $http.get(ctrl.apiPath, {params: params})
                 .then(function(response) {
-                    console.log(response)
                     ctrl.names = response.data;
                 })
             }
