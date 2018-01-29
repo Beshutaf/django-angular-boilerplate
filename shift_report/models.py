@@ -21,7 +21,7 @@ class Money(models.Model):
     amount = models.IntegerField(null=False)
 
     def serialize(self):
-        return dict(unit=self.unit, amount=self.amount)
+        return self.unit, self.amount
 
 
 class Product(models.Model):
@@ -31,18 +31,42 @@ class Product(models.Model):
         return self.name
 
 
-class Shift(models.Model):
-    date = models.DateField(unique=True, db_index=True, primary_key=True)
-    members = models.ManyToManyField(Member, through="MemberShift")
-    new_members = models.ManyToManyField(Member, related_name="new")
-    leaving_members = models.ManyToManyField(Member, related_name="leaving")
+class Cache(models.Model):
     money_at_shift_start = models.ManyToManyField(Money, related_name="shift_start")
     money_at_shift_end = models.ManyToManyField(Money, related_name="shift_end")
     money_from_shares = models.IntegerField(default=0)
     money_from_cheques = models.IntegerField(default=0)
     money_from_cash = models.IntegerField(default=0)
     envelope_number = models.IntegerField(default=0)
+
+    def serialize(self):
+        return dict(money_at_shift_start=dict(m.serialize() for m in self.money_at_shift_start.all()),
+                    money_at_shift_end=dict(m.serialize() for m in self.money_at_shift_end.all()),
+                    money_from_shares=self.money_from_shares,
+                    money_from_cheques=self.money_from_cheques,
+                    money_from_cash=self.money_from_cash,
+                    envelope_number=self.envelope_number,
+                    )
+
+    def update(self, money_at_shift_start=None, money_at_shift_end=None,
+               money_from_shares=None, money_from_cheques=None,
+               money_from_cash=None, envelope_number=None, **kwargs):
+        self.money_at_shift_start = [Money(int(u), a) for u, a in money_at_shift_start.items()]
+        self.money_at_shift_end = [Money(int(u), a) for u, a in money_at_shift_end.items()]
+        self.money_from_shares = money_from_shares
+        self.money_from_cheques = money_from_cheques
+        self.money_from_cash = money_from_cash
+        self.envelope_number = envelope_number
+        self.save()
+
+
+class Shift(models.Model):
+    date = models.DateField(unique=True, db_index=True, primary_key=True)
+    members = models.ManyToManyField(Member, through="MemberShift")
+    new_members = models.ManyToManyField(Member, related_name="new")
+    leaving_members = models.ManyToManyField(Member, related_name="leaving")
     missing_products = models.ManyToManyField(Product, related_name="almost_missing")
+    cache = models.ForeignKey(Cache, on_delete=models.CASCADE)
 
     def serialize(self):
         return dict(date=self.date,
@@ -51,22 +75,12 @@ class Shift(models.Model):
                     leaving_members=[m.serialize() for m in self.leaving_members.all()],
                     conclusions=[c.serialize() for c in self.conclusions_set.all()],
                     tasks=[c.serialize() for c in self.tasks_set.all()],
-                    # TODO all following should be under "cache" dict
-                    # TODO change money_at_shift_start, money_at_shift_end to dict of unit -> amount
-                    money_at_shift_start=[m.serialize() for m in self.money_at_shift_start.all()],
-                    money_at_shift_end=[m.serialize() for m in self.money_at_shift_end.all()],
-                    money_from_shares=self.money_from_shares,
-                    money_from_cheques=self.money_from_cheques,
-                    money_from_cash=self.money_from_cash,
-                    envelope_number=self.envelope_number,
-                    # end "cache"
                     missing_products=[p.serialize() for p in self.missing_products.all()],
+                    cache=cache.serialize(),
                     )
 
     def update(self, date=None, members=None, new_members=None, leaving_members=None, conclusions=None, tasks=None,
-               money_at_shift_start=None, money_at_shift_end=None, money_from_shares=None, money_from_cheques=None,
-               money_from_cash=None, envelope_number=None, missing_products=None,
-               **kwargs):
+               missing_products=None, cache=None, **kwargs):
         if date is not None:
             self.date = date
         if members is not None:
@@ -106,12 +120,7 @@ class Shift(models.Model):
                 c.done = d["done"]
             for c in tasks_iter:
                 c.delete()
-        self.money_at_shift_start = money_at_shift_start
-        self.money_at_shift_end = money_at_shift_end
-        self.money_from_shares = money_from_shares
-        self.money_from_cheques = money_from_cheques
-        self.money_from_cash = money_from_cash
-        self.envelope_number = envelope_number
+        self.cache = Cache(**cache)
         if missing_products is not None:
             self.missing_products = []
             for p in missing_products:
