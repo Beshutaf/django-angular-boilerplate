@@ -126,7 +126,8 @@ class Shift(models.Model):
                 c.done = d["done"]
             for c in conclusions_iter:
                 c.delete()
-        self.cache.update(**cache)
+        if cache is not None:
+            self.cache.update(**cache)
         if missing_products is not None:
             self.missing_products = []
             for p in missing_products:
