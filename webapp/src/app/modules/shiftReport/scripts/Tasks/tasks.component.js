@@ -21,8 +21,8 @@
             var n = 5;
             for (var i = 0; i < n; i++)
                 ctrl.tasks.push({
-                    content: "",
-                    checked:false
+                    comment: "",
+                    done:false
                 });
 
             ctrl.title = "משימות ממנהל החנות";

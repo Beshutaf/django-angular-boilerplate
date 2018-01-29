@@ -62,32 +62,32 @@
         // [{
         //                 member: "firstname1 lastname1",
         //                 role: "leader",
-        //                 shift_number: "1"
+        //                 shift_number: 1
         //             },
         //             { 
         //                 member: "firstname2 lastname2",
         //                 role: "worker",
-        //                 shift_number: "1"
+        //                 shift_number: 1
         //             },
         //             {
         //                 member: "firstname3 lastname3",
         //                 role: "leader",
-        //                 shift_number: "2"
+        //                 shift_number: 2
         //             },
         //             {
         //                 member: "firstname4 lastname4",
         //                 role: "worker",
-        //                 shift_number: "2"
+        //                 shift_number: 2
         //             },
         //             {
         //                 member: "firstname5 lastname5",
         //                 role: "leader",
-        //                 shift_number: "3"
+        //                 shift_number: 3
         //             },
         //             {
         //                 member: "firstname6 lastname6",
         //                 role: "worker",
-        //                 shift_number: "3"
+        //                 shift_number: 3
         //             }
         //         ]
 

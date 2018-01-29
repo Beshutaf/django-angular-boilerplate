@@ -18,13 +18,13 @@
             <tbody>
                 <tr ng-repeat="item in $ctrl.conclusions track by $index">
                     <td>
-                        <input class="form-control" type="text" name="" ng-model="$ctrl.conclusions[$index].note" />
+                        <input class="form-control" type="text" name="" ng-model="$ctrl.conclusions[$index].comment" />
                     </td>
                     <td>
-                        <select class="form-control" ng-model="$ctrl.conclusions[$index].assignedTo" ng-options="team for team in $ctrl.teamOptions" style="max-width: 170px;"></select>
+                        <select class="form-control" ng-model="$ctrl.conclusions[$index].assigned_team" ng-options="team for team in $ctrl.teamOptions" style="max-width: 170px;"></select>
                     </td>
                     <td>
-                        <input class="form-control" type="checkbox" ng-model="$ctrl.conclusions[$index].checked"/>
+                        <input class="form-control" type="checkbox" ng-model="$ctrl.conclusions[$index].done"/>
                     </td>
                 </tr>
             </tbody>

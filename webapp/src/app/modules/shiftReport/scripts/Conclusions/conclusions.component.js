@@ -19,9 +19,9 @@
             var n = 5;
             for (var i = 0; i < n; i++)
                 ctrl.conclusions.push({
-                    note: "",
-                    assignedTo: "",
-                    checked:false
+                    comment: "",
+                    assigned_team: "",
+                    done:false
                 });
 
 

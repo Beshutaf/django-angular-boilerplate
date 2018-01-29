@@ -15,10 +15,10 @@
             <tbody>
                 <tr ng-repeat="item in $ctrl.tasks track by $index">
                     <td>
-                        <input class="form-control" type="text" name="" ng-model="$ctrl.tasks[$index].content" />
+                        <input class="form-control" type="text" name="" ng-model="$ctrl.tasks[$index].comment" />
                     </td>
                     <td>
-                        <input class="form-control" type="checkbox" ng-model="$ctrl.tasks[$index].checked"/>
+                        <input class="form-control" type="checkbox" ng-model="$ctrl.tasks[$index].done"/>
                     </td>
                 </tr>
             </tbody>

@@ -39,9 +39,13 @@
             }
   
             function searchNames(term){
-                var params = {term:term};
+                var params = {
+                    term:term,
+                    format:"json"
+                };
                 return $http.get(ctrl.apiPath, {params: params})
                 .then(function(response) {
+                    console.log(response)
                     ctrl.names = response.data;
                 })
             }

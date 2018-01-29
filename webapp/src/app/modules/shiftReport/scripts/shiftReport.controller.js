@@ -24,18 +24,17 @@
     $scope.report = {
       date:moment().format("DD-MM-YYYY"),
       members:[],
-      newMembers:[],
-      leavingMembers:[],
+      new_members:[],
+      leaving_members:[],
       tasks:[],
       conclusions:[],
-      missingProducts:[],
+      missing_products:[],
       cache:{
-        monyFromStocks:0,
-        checks:0,
-        cash:0,
-        envalopeNumber:0,
-        money:{
-          moneyAtStart:{
+        money_from_shares:0,
+        money_from_cash:0,
+        money_from_cheques:0,
+        envelope_number:0,
+        money_at_shift_start:{
             "1":0,
             "2":0,
             "5":0,
@@ -45,7 +44,7 @@
             "100":0,
             "200":0
           },
-          moneyAtEnd:{
+          money_at_shift_end:{
             "1":0,
             "2":0,
             "5":0,
@@ -56,7 +55,6 @@
             "200":0
           }
         }
-      }
     };
     
     
@@ -78,6 +76,6 @@
     }
       
     }
-  }
+  
   
 })();

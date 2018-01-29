@@ -1,19 +1,24 @@
 <ui-select multiple ng-model="$ctrl.selectedNames">
-    <ui-select-choices  repeat="name in $ctrl.names"  refresh="$ctrl.searchNames($select.search)" refresh-delay="0" close-on-select="false">
-</ui-select-choices>
-<ui-select-match></ui-select-match>
+    <ui-select-match placeholder="הכנס שם חברה" ng-class="{empty :!$ctrl.selectedNames.length }"></ui-select-match>
+    <ui-select-choices  repeat="name in $ctrl.names track by $index"  
+    refresh="$ctrl.searchNames($select.search)" 
+    refresh-delay="0" 
+    close-on-select="false"
+    ng-hide="!$selected.open"
+    >
+    </ui-select-choices>
 </ui-select>
-<table>
-    <tr ng-repeat="name in $ctrl.selectedNames">
-        <td>
-            <lable class="control-label">
-                <b>{{name}}</b>
-            </lable>
-        </td>
-        <td>
-            <button class="btn btn-xs btn-error" ng-click=$ctrl.removeName(name)>
-                <span class="glyphicon glyphicon-remove"></span>
-            </button>
-        </td>
-    </tr>
-</table>
+<!--<table>-->
+<!--    <tr ng-repeat="name in $ctrl.selectedNames">-->
+<!--        <td>-->
+<!--            <lable class="control-label">-->
+<!--                <b>{{name}}</b>-->
+<!--            </lable>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <button class="btn btn-xs btn-error" ng-click=$ctrl.removeName(name)>-->
+<!--                <span class="glyphicon glyphicon-remove"></span>-->
+<!--            </button>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
