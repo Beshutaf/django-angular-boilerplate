@@ -56,15 +56,17 @@ class ShiftViewTests(TestCase):
             member_shifts=[dict(member=name, role=role, shift_number=1) for name, role in MEMBERS],
             new_members=[],
             leaving_members=[],
+            tasks=[],
             conclusions=[],
-            money_at_shift_start=[],
-            money_at_shift_end=[],
-            money_from_shares=0,
-            money_from_cheques=0,
-            money_from_cash=0,
-            envelope_number=0,
-            almost_missing_products=[],
-            disposed_products=[],
+            cache=dict(
+                money_at_shift_start=dict(),
+                money_at_shift_end=dict(),
+                money_from_shares=0,
+                money_from_cheques=0,
+                money_from_cash=0,
+                envelope_number=0,
+            ),
+            missing_products=[],
         ))
 
     @staticmethod
