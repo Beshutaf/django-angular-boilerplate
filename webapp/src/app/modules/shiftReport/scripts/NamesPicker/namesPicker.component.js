@@ -3,6 +3,9 @@
     
     angular
         .module('app.shiftReport')
+        .run(function($templateRequest) {
+            $templateRequest('/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html', true);
+        })
         .component('namesPicker', {
             bindings: {
                 apiPath:"<",
@@ -20,9 +23,8 @@
             ctrl.searchNames = searchNames;
             ctrl.removeName = removeName;
             
-            ctrl.names = ["gali","daniel"];
-            
             ctrl.$onInit = function(){
+                ctrl.data = {};
                 console.log(ctrl.apiPath)
                 console.log(ctrl.selectedNames)
             }
@@ -38,7 +40,11 @@
                 console.log(changes)
                 
             }
-  
+            ctrl.onSelectedCallback = function(item, model){
+                console.log(item)
+                console.log(model)
+            }
+            
             function searchNames(term){
                 var params = {
                     term:term,
@@ -46,14 +52,14 @@
                 };
                 return $http.get(ctrl.apiPath, {params: params})
                 .then(function(response) {
-                    ctrl.names = response.data;
+                    ctrl.data.names = ["gali", "daniel"];
                 })
             }
             
             function removeName(nameToRemove){
-                var index = ctrl.selectedNames.indexOf(nameToRemove)
+                var index = ctrl.data.selectedNames.indexOf(nameToRemove)
                 if (index > -1){
-                    ctrl.selectedNames.splice(index,1);
+                    ctrl.data.selectedNames.splice(index,1);
                 }
             }
         }

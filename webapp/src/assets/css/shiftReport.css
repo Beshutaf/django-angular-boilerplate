@@ -12,18 +12,18 @@
             height: 29px;
         }
 
-.selectize-control > .selectize-dropdown {
-   top: 36px;
-}
+/*.selectize-control > .selectize-dropdown {*/
+/*   top: 36px;*/
+/*}*/
 /* Some additional styling to demonstrate that append-to-body helps achieve the proper z-index layering. */
-.select-box {
- background: #fff;
- position: relative;
- z-index: 1000;
-}
-.alert-info.positioned {
- margin-top: 1em;
- position: relative;
+/*.select-box {*/
+/* background: #fff;*/
+/* position: relative;*/
+/* z-index: 1000;*/
+/*}*/
+/*.alert-info.positioned {*/
+/* margin-top: 1em;*/
+/* position: relative;*/
  z-index: 100001; /* The select2 dropdown has a z-index of 9999 */
-}
+/*}*/
         
