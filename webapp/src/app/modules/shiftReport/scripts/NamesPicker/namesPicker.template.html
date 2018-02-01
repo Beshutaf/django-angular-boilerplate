@@ -1,14 +1,14 @@
-<ui-select multiple ng-model="$ctrl.data.selectedNames">
-    <ui-select-match placeholder="הכנס שם חברה" ng-class="{empty :!$ctrl.selectedNames.length }"></ui-select-match>
-    <ui-select-choices  repeat="name in $ctrl.data.names track by $index"  
-    refresh="$ctrl.searchNames($select.search)" 
-    refresh-delay="0" 
-    close-on-select="false"
-    ng-hide="!$selected.open"
-    >
-    </ui-select-choices>
-</ui-select>
-<p> selected: {{$ctrl.data.selectedNames}} </p>
+<!--<ui-select multiple ng-model="$ctrl.data.selectedNames">-->
+<!--    <ui-select-match placeholder="הכנס שם חברה" ng-class="{empty :!$ctrl.selectedNames.length }"></ui-select-match>-->
+<!--    <ui-select-choices  repeat="name in $ctrl.data.names track by $index"  -->
+<!--    refresh="$ctrl.searchNames($select.search)" -->
+<!--    refresh-delay="0" -->
+<!--    close-on-select="false"-->
+<!--    ng-hide="!$selected.open"-->
+<!--    >-->
+<!--    </ui-select-choices>-->
+<!--</ui-select>-->
+<!--<p> selected: {{$ctrl.data.selectedNames}} </p>-->
 <!--<table>-->
 <!--    <tr ng-repeat="name in $ctrl.selectedNames">-->
 <!--        <td>-->
@@ -23,3 +23,4 @@
 <!--        </td>-->
 <!--    </tr>-->
 <!--</table>-->
+<select id="$ctrl.pickerId" multiple="multiple"></select>

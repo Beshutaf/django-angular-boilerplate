@@ -6754,3 +6754,13 @@ body {
     border-left-width: 1px;
     border-left-style: double;
     border-left-color: #ccc;
+}
+
+@font-face {
+   font-family: beshutafCooperative;
+   src: url(/assets/fonts/BeshutafBoldBETA.otf);
+}
+
+* {
+   font-family: beshutafCooperative;
+}

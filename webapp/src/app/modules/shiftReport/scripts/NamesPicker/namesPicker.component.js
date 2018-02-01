@@ -3,13 +3,11 @@
     
     angular
         .module('app.shiftReport')
-        .run(function($templateRequest) {
-            $templateRequest('/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html', true);
-        })
         .component('namesPicker', {
             bindings: {
                 apiPath:"<",
-                selectedNames:"<"
+                selectedNames:"<",
+                pickerId :"<"
             },
             controller: namesPickerCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html'
