@@ -13,35 +13,53 @@
             templateUrl: '/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html'
         });
         
-        namesPickerCtrl.$inject= ['$http'];
+        namesPickerCtrl.$inject= ['$http','$document'];
         
-        function namesPickerCtrl ($http){
+        function namesPickerCtrl ($http, $document){
             var ctrl = this;
             
             ctrl.searchNames = searchNames;
             ctrl.removeName = removeName;
             
             ctrl.$onInit = function(){
-                ctrl.data = {};
-                console.log(ctrl.apiPath)
-                console.log(ctrl.selectedNames)
+                ctrl.queryOptions = {
+                    query: function (query) {
+                        var data = {
+                            results: [
+                                    { id: "1", text: "A" },
+                                    { id: "2", text: "B" }
+                                ]
+                            };
+                        query.callback(data);
+                        }
+                };
+                
+                
+            
+                
+                // console.log($('#'+ctrl.pickerId))
+                // minimumInputLength: 1,
+                //         ajax: {
+                //             url: ctrl.apiPath,
+                //             data: function (params) {
+                //               var query = {
+                //                 term:params.term,
+                //                 format:"json"
+                //               }
+                //              // Query parameters will be ?search=[term]&type=public
+                //               return query;
+                //             },
+                //             processResults: function (data) {
+                //             // Tranforms the top-level key of the response object from 'items' to 'results'
+                //               return {
+                //                 results: data
+                //               };
+                //             },
+                //             cache: true
+                //         }
             }
                       
-            ctrl.$onChange = function (changes){
-                // if (changes.apiPath){
-                //     console.log(changes.apiPath.newValue)
-                // }
-                
-                // if (changes.selectedNames){
-                //     console.log(changes.selectedNames.newValue)
-                // }
-                console.log(changes)
-                
-            }
-            ctrl.onSelectedCallback = function(item, model){
-                console.log(item)
-                console.log(model)
-            }
+            ctrl.$onChange = function (changes){}
             
             function searchNames(term){
                 var params = {

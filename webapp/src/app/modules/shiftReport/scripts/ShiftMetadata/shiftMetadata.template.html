@@ -12,9 +12,9 @@
                     <label> משמרת {{shiftKey}} </label>
                     <br>
                     <lable class="control-label">אחראי משמרת</lable>
-                    <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftLeaders[shiftKey]" picker-id="leader-picker-{{shiftKey}}"></names-picker>
+                    <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftLeaders[shiftKey]" picker-id="'leader-picker-'+shiftKey"></names-picker>
                     <lable class="control-label">תורנים</lable>
-                    <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftWorkers[shiftKey]" picker-id="member-picker-{{shiftKey}}"></names-picker>
+                    <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftWorkers[shiftKey]" picker-id="'member-picker-'+shiftKey"></names-picker>
                 </div>
             </div>
     </div>

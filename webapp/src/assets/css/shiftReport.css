@@ -7,10 +7,10 @@
    font-family: beshutafCooperative;
 }
 
-.select2 > .select2-choice.ui-select-match {
+/*.select2 > .select2-choice.ui-select-match {*/
             /* Because of the inclusion of Bootstrap */
-            height: 29px;
-        }
+/*            height: 29px;*/
+/*        }*/
 
 /*.selectize-control > .selectize-dropdown {*/
 /*   top: 36px;*/

@@ -7,6 +7,7 @@
             'app.demo',
             'app.shiftReport',
             'ngRoute',
-            'ngSanitize'
+            'ngSanitize',
+            'rt.select2'
         ]);
 })();
