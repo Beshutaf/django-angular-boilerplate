@@ -8,13 +8,17 @@
             <input type="text" class="form-control" ng-model="$ctrl.reportMetadata.day" />
         </div>    
             <div ng-repeat="shiftKey in $ctrl.shifts">
-                <div class="col-xs-12"> 
-                    <label> משמרת {{shiftKey}} </label>
-                    <br>
-                    <lable class="control-label">אחראי משמרת</lable>
-                    <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftLeaders[shiftKey]" picker-id="'leader-picker-'+shiftKey"></names-picker>
-                    <lable class="control-label">תורנים</lable>
-                    <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftWorkers[shiftKey]" picker-id="'member-picker-'+shiftKey"></names-picker>
+                <div class="row">
+                    <div class="col-xs-12"> 
+                        <label> משמרת {{shiftKey}} </label>
+                        <br>
+                        <lable class="control-label">אחראי משמרת</lable>
+                        <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftLeaders[shiftKey]"></names-picker>
+                        <br>
+                        <br>
+                        <lable class="control-label">תורנים</lable>
+                        <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftWorkers[shiftKey]"></names-picker>
+                    </div>
                 </div>
             </div>
     </div>

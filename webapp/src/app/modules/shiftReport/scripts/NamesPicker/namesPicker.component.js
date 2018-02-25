@@ -3,36 +3,90 @@
     
     angular
         .module('app.shiftReport')
-        .component('namesPicker', {
-            bindings: {
-                apiPath:"<",
-                selectedNames:"<",
-                pickerId :"<"
-            },
-            controller: namesPickerCtrl,
-            templateUrl: '/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html'
-        });
+        .directive('namesPicker', namesPickerDirective);
         
-        namesPickerCtrl.$inject= ['$http','$document'];
         
-        function namesPickerCtrl ($http, $document){
-            var ctrl = this;
+        //  {
+        //     bindings: {
+        //         apiPath:"<",
+        //         selectedNames:"<",
+        //         pickerId :"<"
+        //     },
+        //     controller: namesPickerCtrl,
+        //     templateUrl: '/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html'
+        // }
+        
+         
+        
+        function namesPickerDirective (){
+            console.log("directive");
+            return {
+                restrict:'EA',
+                templateUrl:'/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html',
+                scope: {
+                    apiPath:"<",
+                    selectedNames:"<"
+                },
+                link:link
+            };
             
-            ctrl.searchNames = searchNames;
-            ctrl.removeName = removeName;
             
-            ctrl.$onInit = function(){
-                ctrl.queryOptions = {
-                    query: function (query) {
-                        var data = {
-                            results: [
-                                    { id: "1", text: "A" },
-                                    { id: "2", text: "B" }
-                                ]
-                            };
-                        query.callback(data);
+            function link(scope, element, attrs){
+                angular.element(element).select2({
+                    placeholder: "הכנסי שם של חברה",
+                    minimumInputLength : 2,
+                    allowClear : true,
+                    dir:"rtl",
+                    ajax: {
+                        url: scope.apiPath,    
+                        data: function (params) {
+                            var query = {
+                                term:params.term,
+                                format:"json"
+                                }
+                                // Query parameters will be ?search=[term]&type=public
+                                return query;
+                        },
+                        processResults: function (data) {
+                            console.log(data)
+                            // Tranforms the top-level key of the response object from 'items' to 'results'
+                            return {
+                                results: data
+                                };
+                        },
+                        cache: true
+                    },
+                    language: {
+                        // You can find all of the options in the language files provided in the
+                        // build. They all must be functions that return the string that should be
+                        // displayed.
+                        inputTooShort: function () {
+                            return "הכנסי 2 תווים לפחות";
                         }
-                };
+                    }
+                    
+                });
+                
+            }
+            
+            
+            // var ctrl = this;
+            
+            // ctrl.searchNames = searchNames;
+            // ctrl.removeName = removeName;
+            
+            // ctrl.$onInit = function(){
+            //     ctrl.queryOptions = {
+            //         query: function (query) {
+            //             var data = {
+            //                 results: [
+            //                         { id: "1", text: "A" },
+            //                         { id: "2", text: "B" }
+            //                     ]
+            //                 };
+            //             query.callback(data);
+            //             }
+            //     };
                 
                 
             
@@ -57,26 +111,26 @@
                 //             },
                 //             cache: true
                 //         }
-            }
+            // }
                       
-            ctrl.$onChange = function (changes){}
+            // ctrl.$onChange = function (changes){}
             
-            function searchNames(term){
-                var params = {
-                    term:term,
-                    format:"json"
-                };
-                return $http.get(ctrl.apiPath, {params: params})
-                .then(function(response) {
-                    ctrl.data.names = ["gali", "daniel"];
-                })
-            }
+            // function searchNames(term){
+            //     var params = {
+            //         term:term,
+            //         format:"json"
+            //     };
+            //     return $http.get(ctrl.apiPath, {params: params})
+            //     .then(function(response) {
+            //         ctrl.data.names = ["gali", "daniel"];
+            //     })
+            // }
             
-            function removeName(nameToRemove){
-                var index = ctrl.data.selectedNames.indexOf(nameToRemove)
-                if (index > -1){
-                    ctrl.data.selectedNames.splice(index,1);
-                }
-            }
+            // function removeName(nameToRemove){
+            //     var index = ctrl.data.selectedNames.indexOf(nameToRemove)
+            //     if (index > -1){
+            //         ctrl.data.selectedNames.splice(index,1);
+            //     }
+            // }
         }
 })();
