@@ -18,7 +18,7 @@
         function getShiftData(shiftDate){
             var urlDate = moment(shiftDate, 'DD-MM-YYYY').format("YYYY/MM/DD");
             var params= {format:"json"}
-            $http.get('shifts/'+urlDate,{params: params}).then(function (res){
+            return $http.get('shifts/'+urlDate,{params: params}).then(function (res){
                 console.log(res)
                 return res.data
             }, function (errRes){
@@ -28,7 +28,7 @@
         
         function saveShiftData(shiftReport){
             var urlDate = moment(shiftReport.date, 'DD-MM-YYYY').format("YYYY/MM/DD");
-          $http.post('shifts/'+urlDate,JSON.stringify(shiftReport)).then(function (res){
+            return $http.post('shifts/'+urlDate,JSON.stringify(shiftReport)).then(function (res){
                 console.log(res)
             }, function (errRes){
                 console.error(errRes)

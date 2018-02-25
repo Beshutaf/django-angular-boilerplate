@@ -11,6 +11,8 @@
     
     moment.locale('he');
     
+    console.log(shiftService);
+    
     $scope.saveShiftReport = saveShiftReport;
     $scope.getShiftReport = getShiftReport;
     
@@ -19,7 +21,7 @@
     $scope.newMembersLink="https://docs.google.com/forms/d/e/1FAIpQLScLwyRApEifTXIxasjY_fVe2DPuPiJdh5mqeMuO9DZ9O5nLQw/viewform?c=0&w=1";
     $scope.leftMembersLink="https://docs.google.com/forms/d/e/1FAIpQLSeT_Oz2gTdAzE5-BgTwL5EUAUYFAidj12AIjyHs7C_UOAMPeg/viewform?c=0&w=1&usp=send_form";
     
-    $scope.searchNames = searchNames;
+    // $scope.searchNames = searchNames;
     
     $scope.report = {
       date:moment().format("DD-MM-YYYY"),
@@ -77,16 +79,16 @@
     
     $scope.data = {selectedNames:[]}
     
-    function searchNames(term){
-                var params = {
-                    term:term,
-                    format:"json"
-                };
-                return $http.get("/members", {params: params})
-                .then(function(response) {
-                    $scope.data.names = response.data;
-                })
-            }
+    // function searchNames(term){
+    //             var params = {
+    //                 term:term,
+    //                 format:"json"
+    //             };
+    //             return $http.get("/members", {params: params})
+    //             .then(function(response) {
+    //                 $scope.data.names = response.data;
+    //             })
+    //         }
       
     }
   
