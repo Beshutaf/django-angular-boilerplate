@@ -1,9 +1,16 @@
 <div class="row">
-    <div class="col-xs-6">
-        <div class="alert alert-info" role="alert">
-            <div class="glyphicon glyphicon-phone-alt"></div>
-            <span class="lable"> <b>{{::$ctrl.phonesTitle}} </b></span>
-            <table class="table table-condensed">
+    
+    <section class="page-section cta">
+      <div class="container">
+        <div class="col-xs-6">
+        <!--<div class="row">-->
+          <div class="col-xl-9 mx-auto">
+            <div class="cta-inner rounded">
+              <h2 class="section-heading mb-4">
+                <span class="section-heading-upper"><div class="glyphicon glyphicon-phone-alt"></div></span>
+                <span class="lable"> <b>{{::$ctrl.phonesTitle}} </b></span>
+              </h2>
+              <table class="table table-condensed">
                 <thead></thead>
                 <tbody>
                     <tr ng-repeat="phoneData in $ctrl.usefulPhones">
@@ -13,12 +20,18 @@
                     </tr>
                 </tbody>
             </table>
+              
+            </div>
+          </div>
         </div>
-    </div>
-    <div class="col-xs-6">
-        <div class="alert alert-danger">
-            <span class="lable"> <b>{{::$ctrl.poseDataTitle}} </b></span>
-            <table class="table table-condensed">
+        
+         <div class="col-xs-6">
+        <div class="col-xl-9 mx-auto">
+            <div class="cta-inner rounded">
+              <h2 class="section-heading mb-4">
+                <span class="lable"> <b>{{::$ctrl.poseDataTitle}} </b></span>
+              </h2>
+               <table class="table table-condensed">
                 <thead></thead>
                 <tbody>
                     <tr ng-repeat="item in $ctrl.poseData">
@@ -26,7 +39,43 @@
                         <td>{{item.data}}</td>
                     </tr>
                 </tbody>
-            </table>
+               </table>
+            </div>
         </div>
     </div>
+      </div>
+    </section>
+    
+    
+   
+    
+        <!--<div class="alert alert-info" role="alert">-->
+        <!--    <div class="glyphicon glyphicon-phone-alt"></div>-->
+        <!--    <span class="lable"> <b>{{::$ctrl.phonesTitle}} </b></span>-->
+        <!--    <table class="table table-condensed">-->
+        <!--        <thead></thead>-->
+        <!--        <tbody>-->
+        <!--            <tr ng-repeat="phoneData in $ctrl.usefulPhones">-->
+        <!--                <td>{{phoneData.role}}</td>-->
+        <!--                <td>{{phoneData.name}}</td>-->
+        <!--                <td>{{phoneData.phone}}</td>-->
+        <!--            </tr>-->
+        <!--        </tbody>-->
+        <!--    </table>-->
+        <!--</div>-->
+    
+    <!--<div class="col-xs-6">-->
+    <!--    <div class="alert alert-danger">-->
+    <!--        <span class="lable"> <b>{{::$ctrl.poseDataTitle}} </b></span>-->
+    <!--        <table class="table table-condensed">-->
+    <!--            <thead></thead>-->
+    <!--            <tbody>-->
+    <!--                <tr ng-repeat="item in $ctrl.poseData">-->
+    <!--                    <td>{{item.title}}</td>-->
+    <!--                    <td>{{item.data}}</td>-->
+    <!--                </tr>-->
+    <!--            </tbody>-->
+    <!--        </table>-->
+    <!--    </div>-->
+    <!--</div>-->
 </div>
