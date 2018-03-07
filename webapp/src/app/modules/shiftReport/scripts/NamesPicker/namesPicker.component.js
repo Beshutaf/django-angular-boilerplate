@@ -14,14 +14,15 @@
                 templateUrl:'/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html',
                 scope: {
                     apiPath:"<",
-                    selectedNames:"<"
+                    selectedNames:"="
                 },
                 link:link
             };
             
             
             function link(scope, element, attrs){
-                angular.element(element).select2({
+                var selectElement = angular.element(element);
+                selectElement.select2({
                     placeholder: "הכנסי שם של חברה",
                     minimumInputLength : 2,
                     allowClear : true,
@@ -54,6 +55,26 @@
                         }
                     }
                     
+                });
+                
+                //udate the select element with the data
+                selectElement.append(scope.selectedNames).trigger('change');
+                
+                //update the model binding selectedNames when select event is fired
+                selectElement.on('select2:select', function (e) {
+                    scope.selectedNames.push(e.params.data);
+                    var data = e.params.data;
+                    console.log(data);
+                });
+                
+                //udate the model binding selectedNames when unselect event is fired
+                selectElement.on('select2:unselect', function (e) {
+                    var data = e.params.data;
+                    console.log(data);
+                    var index = scope.selectedNames.indexOf(data)
+                    if (index > -1){
+                        scope.selectedNames.membersList.splice(index,1);
+                    }
                 });
                 
             }

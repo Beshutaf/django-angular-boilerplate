@@ -26,6 +26,7 @@
         };
 
         ctrl.$onInit = function() {
+            console.log(ctrl.shiftDate);
             ctrl.reportMetadata = {
                 date: ctrl.shiftDate,
                 day: moment(ctrl.shiftDate, 'DD-MM-YYYY').format('dddd'),
@@ -45,12 +46,12 @@
         }
         
         function mapMemebers(){
-            angular.forEach(ctrl.members, function(memberData){
-                if (memberData.role === "leader"){
-                    ctrl.reportMetadata.shiftLeaders[memberData.shift_number].push(memberData.member)
+            angular.forEach(ctrl.members, function(membersData){
+                if (membersData.role === "leader"){
+                    ctrl.reportMetadata.shiftLeaders[membersData.shift_number].push(membersData.member)
                 }
-                if (memberData.role == "worker"){
-                    ctrl.reportMetadata.shiftWorkers[memberData.shift_number].push(memberData.member)
+                if (membersData.role == "worker"){
+                    ctrl.reportMetadata.shiftWorkers[membersData.shift_number].push(membersData.member)
                 }
                 
             })

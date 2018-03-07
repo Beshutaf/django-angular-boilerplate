@@ -6843,3 +6843,7 @@ ul {
   margin-top: 5rem;
   margin-bottom: 5rem;
 }
+
+.panel-heading{
+  font-size: large;
+}

@@ -17,6 +17,9 @@
         var ctrl = this;
 
         ctrl.$onInit = function() {
+            if (angular.isUndefined(ctrl.tasks) ){
+                ctrl.tasks = [];
+            }
             
             var n = 5;
             for (var i = 0; i < n; i++)

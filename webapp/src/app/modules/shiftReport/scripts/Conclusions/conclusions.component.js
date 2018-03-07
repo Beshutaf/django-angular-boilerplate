@@ -15,6 +15,9 @@
         var ctrl = this;
 
         ctrl.$onInit = function() {
+            if (angular.isUndefined(ctrl.conclusions) ){
+                ctrl.conclusions = [];
+            }
             
             var n = 5;
             for (var i = 0; i < n; i++)

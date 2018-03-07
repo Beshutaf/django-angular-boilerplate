@@ -15,10 +15,10 @@
     function cacheIOCtrl() {
         var ctrl = this;
         
-        ctrl.number = 5;
-        ctrl.getNumber = function(num) {
-            return new Array(num);
-        }
+        // ctrl.number = 5;
+        // ctrl.getNumber = function(num) {
+        //     return new Array(num);
+        // }
 
     }
 

@@ -1,4 +1,4 @@
-<div class="panel panel-primary" dir="rtl">
+<div class="panel panel-primary cachio" dir="rtl">
     <div class="panel-heading">{{$ctrl.title}}</div>
     <div class="panel-body">
         <table class="table table-condensed">
@@ -11,10 +11,10 @@
             <tbody>
                 <tr ng-repeat="q in $ctrl.quantities track by $index">
                     <td>
-                        <input class="form-control" type="number" min="1" step="any" ng-model="$ctrl.quantities[$index]" />
+                        <input class="form-control" type="number" min="1" step="any" ng-model="$ctrl.quantities[$index].amount" />
                     </td>
                     <td>
-                        <input class="form-control" type="text" />
+                        <input class="form-control" type="text" value="$ctrl.quantities[$index].unit">
                     </td>
                 </tr>
             </tbody>

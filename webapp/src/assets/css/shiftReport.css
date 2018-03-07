@@ -27,3 +27,7 @@
  z-index: 100001; /* The select2 dropdown has a z-index of 9999 */
 /*}*/
         
+        
+.money{
+    font-size: large !important;
+}        

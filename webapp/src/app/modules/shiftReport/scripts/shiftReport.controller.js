@@ -11,86 +11,134 @@
     
     moment.locale('he');
     
-    console.log(shiftService);
-    
     $scope.saveShiftReport = saveShiftReport;
     $scope.getShiftReport = getShiftReport;
+    $scope.getPrevDay = getPrevDay;
     
     $scope.newMembersTitle = "מצטרפים חדשים";
     $scope.leftMembersTitle = "חברים שעזבו";
     $scope.newMembersLink="https://docs.google.com/forms/d/e/1FAIpQLScLwyRApEifTXIxasjY_fVe2DPuPiJdh5mqeMuO9DZ9O5nLQw/viewform?c=0&w=1";
     $scope.leftMembersLink="https://docs.google.com/forms/d/e/1FAIpQLSeT_Oz2gTdAzE5-BgTwL5EUAUYFAidj12AIjyHs7C_UOAMPeg/viewform?c=0&w=1&usp=send_form";
     
-    // $scope.searchNames = searchNames;
     
-    $scope.report = {
-      date:moment().format("DD-MM-YYYY"),
-      members:[],
-      new_members:[],
-      leaving_members:[],
-      tasks:[],
-      conclusions:[],
-      missing_products:[],
-      cache:{
-        money_from_shares:0,
-        money_from_cash:0,
-        money_from_cheques:0,
-        envelope_number:0,
-        money_at_shift_start:{
-            "1":0,
-            "2":0,
-            "5":0,
-            "10":0,
-            "20":0,
-            "50":0,
-            "100":0,
-            "200":0
+    $scope.todayDate = moment().format("DD-MM-YYYY");
+    console.log($scope.todayDate);
+    getShiftReport ($scope.todayDate);
+  
+    
+    function updateShiftData(data){
+      $scope.report = {
+        shiftDate:data.date ? data.date : $scope.todayDate,
+        members:data.member_shifts,
+        new_members:data.new_members,
+        leaving_members:data.leaving_members ? data.leaving_members : [],
+        tasks:data.tasks ? data.tasks: [],
+        conclusions:data.conclusions ? data.conclusions : [],
+        disposed_products:data.disposed_products,
+        cache:{
+          money_from_shares:data.money_from_shares,
+          money_from_cash:data.money_from_cash,
+          money_from_cheques:data.money_from_cheques,
+          envelope_number:data.envelope_number,
+          money_at_shift_start: data.money_at_shift_start ? data.money_at_shift_start:
+          [
+            {
+              unit:"1",
+              amount:"0"
+            },
+            {
+              unit:"2",
+              amount:"0"
+            },
+            {
+              unit:"5",
+              amount:"0"
+            },
+            {
+              unit:"10",
+              amount:"0"
+            },
+            {
+              unit:"20",
+              amount:"0"
+            },
+            {
+              unit:"50",
+              amount:"0"
+            },
+            {
+              unit:"100",
+              amount:"0"
+            },
+            {
+              unit:"200",
+              amount:"0"
+            }
+          ],
+          money_at_shift_end: money_at_shift_end ? money_at_shift_end: 
+          [
+           {
+            unit:"1",
+            amount:"0"
           },
-          money_at_shift_end:{
-            "1":0,
-            "2":0,
-            "5":0,
-            "10":0,
-            "20":0,
-            "50":0,
-            "100":0,
-            "200":0
-          }
+          {
+            unit:"2",
+            amount:"0"
+          },
+          {
+            unit:"5",
+            amount:"0"
+          },
+          {
+            unit:"10",
+            amount:"0"
+          },
+          {
+            unit:"20",
+            amount:"0"
+          },
+          {
+            unit:"50",
+            amount:"0"
+          },
+          {
+            unit:"100",
+            amount:"0"
+          },
+          {
+            unit:"200",
+            amount:"0"
+          } 
+        ]
         }
-    };
-    
-    
-    
-    
+      };
+    }
     
     function saveShiftReport(shiftReport){
       shiftService.saveShiftData(shiftReport).then(function(res){
         $window.alert("Shift Report Saved");
-      })
-      
+      });
     }
     
     function getShiftReport(shiftDate){
       shiftService.getShiftData(shiftDate).then(function (res){
                         console.log(res);
-                        $scope.report = res.data;
+                        updateShiftData(res.data);
+                    }, function (err){
+                      updateShiftData({});
                     })
     }
     
-    $scope.data = {selectedNames:[]}
-    
-    // function searchNames(term){
-    //             var params = {
-    //                 term:term,
-    //                 format:"json"
-    //             };
-    //             return $http.get("/members", {params: params})
-    //             .then(function(response) {
-    //                 $scope.data.names = response.data;
-    //             })
-    //         }
-      
+    function getNextDay() {
+          $scope.shiftDate = moment($scope.todayDate, 'DD-MM-YYYY').add(1, 'day').format('DD-MM-YYYY');
+          getShiftData($scope.shiftDate);
     }
+
+    function getPrevDay() {
+        $scope.shiftDate = moment($scope.shiftDate, 'DD-MM-YYYY').subtract(1, 'day').format('DD-MM-YYYY');
+        getShiftData($scope.shiftDate);
+    }
+  }
   
   
 })();

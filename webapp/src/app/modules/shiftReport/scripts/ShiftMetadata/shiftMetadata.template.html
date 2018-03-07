@@ -14,51 +14,25 @@
         <div class="row">
             <div class="col-xs-12"> 
                 <table class="table table-condensed">
-                     <!--<thead></thead>-->
                     <tbody>
                             <tr ng-repeat="shiftKey in $ctrl.shifts">
-                                <td> משמרת {{shiftKey}} </td>
-                                <td>
+                                <td class="col-xs-2"> משמרת {{shiftKey}} </td>
+                                <td class="col-xs-5">
                                     אחראי משמרת
-                                    <div>
+                                    <span>
                                         <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftLeaders[shiftKey]"></names-picker>
-                                    </div>
+                                    </span>
                                 </td>
-                                <td>
+                                <td class="col-xs-5">
                                     תורנים
-                                    <div>
+                                    <span>
                                         <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftWorkers[shiftKey]"></names-picker>    
-                                    </div>
+                                    </span>
                                 </td>
                             </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-            <!--<div ng-repeat="shiftKey in $ctrl.shifts">-->
-            <!--    <div class="row">-->
-            <!--        <div class="col-xs-12"> -->
-            <!--            <label> משמרת {{shiftKey}} </label>-->
-            <!--            <br>-->
-            <!--            <lable class="control-label">אחראי משמרת</lable>-->
-            <!--            <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftLeaders[shiftKey]"></names-picker>-->
-            <!--            <br>-->
-            <!--            <br>-->
-            <!--            <lable class="control-label">תורנים</lable>-->
-            <!--            <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftWorkers[shiftKey]"></names-picker>-->
-            <!--        </div>-->
-            <!--    </div>-->
-            <!--</div>-->
     </div>
 </div>
-
-
-<!--<table class="table table-condensed">-->
-<!--                <thead></thead>-->
-<!--                <tbody>-->
-<!--                    <tr ng-repeat="item in $ctrl.poseData">-->
-<!--                        <td>{{item.title}}</td>-->
-<!--                        <td>{{item.data}}</td>-->
-<!--                    </tr>-->
-<!--                </tbody>-->
-<!--               </table>-->
