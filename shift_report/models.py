@@ -57,6 +57,7 @@ class Cache(models.Model):
     def update(self, money_at_shift_start=None, money_at_shift_end=None,
                money_from_shares=None, money_from_cheques=None,
                money_from_cash=None, envelope_number=None, **kwargs):
+        del kwargs
         self.money_at_shift_start = [Money(int(u), a) for u, a in money_at_shift_start.items()]
         self.money_at_shift_end = [Money(int(u), a) for u, a in money_at_shift_end.items()]
         self.money_from_shares = money_from_shares
@@ -87,6 +88,7 @@ class Shift(models.Model):
 
     def update(self, date=None, members=None, new_members=None, leaving_members=None, conclusions=None, tasks=None,
                missing_products=None, cache=None, **kwargs):
+        del kwargs
         if date is not None:
             self.date = date
         if members is not None:
@@ -135,7 +137,8 @@ class Shift(models.Model):
                 self.missing_products.append(p)
         self.save()
 
-    def get_or_create_member(self, username):
+    @staticmethod
+    def get_or_create_member(username):
         user, _ = User.objects.get_or_create(username)
         member, _ = Member.objects.get_or_create(user=user)
         return member
