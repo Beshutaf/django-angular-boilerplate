@@ -3,6 +3,7 @@ import csv
 from datetime import datetime
 from io import TextIOWrapper
 
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -91,8 +92,12 @@ def members(request):
                 process_member(d)
         else:
             process_member(request.POST or None)
-    term = request.GET.get("term")
-    result = Member.objects.filter(user__username__contains=term) if term else Member.objects.all()
+    terms = request.GET.get("term")
+    if terms:
+        result = [m for t in terms.split()
+                  for m in Member.objects.filter(Q(user__first_name__startswith=t) | Q(user__last_name__startswith=t))]
+    else:
+        result = Member.objects.all()
     if is_return_json(request):
         return JsonResponse([m.serialize() for m in result], safe=False)
     return render(request, "members/list.html", dict(members=result, form=MemberForm()))
