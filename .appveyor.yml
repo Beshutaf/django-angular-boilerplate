@@ -1,6 +1,5 @@
 environment:
   matrix:
-    - PYTHON: "C:\\Python27\\python.exe"
     - PYTHON: "C:\\Python36\\python.exe"
 
 install:
