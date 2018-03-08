@@ -18,8 +18,8 @@
         ctrl.cacheOutputTitle = "כסף שיצא מהקופה";
         ctrl.moneyAtStart = "כסף בתחילת המשמרת";
         ctrl.changeLeft = "עודף למשמרת הבאה";
-        ctrl.cacheInput = new Array(5);
-        ctrl.cacheOutput = new Array(5);
+    //   ctrl.cacheInput = new Array(5);
+        // ctrl.cacheOutput = new Array(5);
         
         ctrl.totalFromSealingProducts = 0;
         
