@@ -14,6 +14,7 @@
     $scope.saveShiftReport = saveShiftReport;
     $scope.getShiftReport = getShiftReport;
     $scope.getPrevDay = getPrevDay;
+    $scope.getNextDay = getNextDay;
     
     $scope.newMembersTitle = "מצטרפים חדשים";
     $scope.leftMembersTitle = "חברים שעזבו";
@@ -25,10 +26,12 @@
     console.log($scope.todayDate);
     getShiftReport ($scope.todayDate);
   
-    
+   
     function updateShiftData(data){
+      console.log(data);
+      $scope.shiftDate = data.date ?  moment(data.date).format("DD-MM-YYYY") : $scope.todayDate;
       $scope.report = {
-        shiftDate:data.date ? data.date : $scope.todayDate,
+        shiftDate: $scope.shiftDate,
         members:data.member_shifts,
         new_members:data.new_members,
         leaving_members:data.leaving_members ? data.leaving_members : [],
@@ -75,7 +78,7 @@
               amount:"0"
             }
           ],
-          money_at_shift_end: money_at_shift_end ? money_at_shift_end: 
+          money_at_shift_end: data.money_at_shift_end ? data.money_at_shift_end: 
           [
            {
             unit:"1",
@@ -112,6 +115,12 @@
         ]
         }
       };
+      
+      //call digest
+      if(!$scope.$$phase) {
+        $scope.$apply();
+      }
+      
     }
     
     function saveShiftReport(shiftReport){
@@ -123,20 +132,26 @@
     function getShiftReport(shiftDate){
       shiftService.getShiftData(shiftDate).then(function (res){
                         console.log(res);
-                        updateShiftData(res.data);
+                        updateShiftData(res);
                     }, function (err){
                       updateShiftData({});
                     })
     }
     
     function getNextDay() {
-          $scope.shiftDate = moment($scope.todayDate, 'DD-MM-YYYY').add(1, 'day').format('DD-MM-YYYY');
-          getShiftData($scope.shiftDate);
+          var shiftDate = moment($scope.shiftDate, 'DD-MM-YYYY').add(1, 'day').format('DD-MM-YYYY');
+          console.log(shiftDate);
+          $scope.shiftDate = angular.copy(shiftDate);
+          
+          shiftService.getShiftData(shiftDate);
+          
     }
 
     function getPrevDay() {
-        $scope.shiftDate = moment($scope.shiftDate, 'DD-MM-YYYY').subtract(1, 'day').format('DD-MM-YYYY');
-        getShiftData($scope.shiftDate);
+        var shiftDate  = moment($scope.shiftDate, 'DD-MM-YYYY').subtract(1, 'day').format('DD-MM-YYYY');
+        $scope.shiftDate = angular.copy(shiftDate);
+        shiftService.getShiftData(shiftDate);
+        
     }
   }
   

@@ -3,11 +3,11 @@
 <div class="row">
   <div class="col-xs-6 pull-right">
       <div class="col-xs-4">
-        <tasks data-tasks="report.tasks"></tasks>
+        <tasks tasks-obj="report.tasks"></tasks>
         <conclusions data-conclusions="report.conclusions"></conclusions>
       </div>
       <div class="col-xs-8">
-        <shift-metadata shift-date="report.date" members="report.members"></shift-metadata>
+        <shift-metadata shift-date="shiftDate" members="report.members"></shift-metadata>
         <missing-products products-list="report.disposed_products" ></missing-products>
         <members title="newMembersTitle" members-list="report.new_members" panel-color="true" link="newMembersLink"></members>
         <members title="leftMembersTitle" members-list="report.leaving_members" panel-color="false" link="leftMembersLink"></members>

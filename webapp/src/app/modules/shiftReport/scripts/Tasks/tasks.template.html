@@ -13,12 +13,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in $ctrl.tasks track by $index">
+                <tr ng-repeat="item in $ctrl.tasksObj track by $index">
                     <td>
-                        <input class="form-control" type="text" ng-model="$ctrl.tasks[$index].comment" />
+                        <input class="form-control" type="text" ng-model="$ctrl.tasksObj[$index].comment" />
                     </td>
                     <td>
-                        <input class="form-control" type="checkbox" ng-model="$ctrl.tasks[$index].done"/>
+                        <input class="form-control" type="checkbox" ng-model="$ctrl.tasksObj[$index].done"/>
                     </td>
                 </tr>
             </tbody>
