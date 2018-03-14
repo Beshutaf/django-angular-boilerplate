@@ -21,15 +21,22 @@
             
             
             function link(scope, element, attrs){
-                var selectElement = angular.element(element);
-                selectElement.select2({
+                var selectElement = angular.element(element[0].getElementsByClassName("namePickerClass"));
+               
+                selectElement.select2(
+                    {
                     placeholder: "הכנסי שם של חברה",
                     minimumInputLength : 2,
                     allowClear : true,
                     dir:"rtl",
+                    // data:[{id:1, text:"Daniel"},{id:2, text:"gali paz"}],
+                    // language : "he"
                     ajax: {
-                        url: scope.apiPath,    
-                        data: function (params) {
+                        url: scope.apiPath, 
+                        dataType: 'json',
+                        delay: 250,
+                        data: 
+                        function (params) {
                             var query = {
                                 term:params.term,
                                 format:"json"
@@ -39,10 +46,8 @@
                         },
                         processResults: function (data) {
                             console.log(data)
-                            // Tranforms the top-level key of the response object from 'items' to 'results'
-                            return {
-                                results: data
-                                };
+                            // debugger;
+                            return {results: data};
                         },
                         cache: true
                     },
@@ -55,27 +60,28 @@
                         }
                     }
                     
-                });
+                }
+                );
                 
-                //udate the select element with the data
-                selectElement.append(scope.selectedNames).trigger('change');
+                // //udate the select element with the data
+                // selectElement.append(scope.selectedNames).trigger('change');
                 
-                //update the model binding selectedNames when select event is fired
-                selectElement.on('select2:select', function (e) {
-                    scope.selectedNames.push(e.params.data);
-                    var data = e.params.data;
-                    console.log(data);
-                });
+                // //update the model binding selectedNames when select event is fired
+                // selectElement.on('select2:select', function (e) {
+                //     scope.selectedNames.push(e.params.data);
+                //     var data = e.params.data;
+                //     console.log(data);
+                // });
                 
-                //udate the model binding selectedNames when unselect event is fired
-                selectElement.on('select2:unselect', function (e) {
-                    var data = e.params.data;
-                    console.log(data);
-                    var index = scope.selectedNames.indexOf(data)
-                    if (index > -1){
-                        scope.selectedNames.membersList.splice(index,1);
-                    }
-                });
+                // //udate the model binding selectedNames when unselect event is fired
+                // selectElement.on('select2:unselect', function (e) {
+                //     var data = e.params.data;
+                //     console.log(data);
+                //     var index = scope.selectedNames.indexOf(data)
+                //     if (index > -1){
+                //         scope.selectedNames.membersList.splice(index,1);
+                //     }
+                // });
                 
             }
             
