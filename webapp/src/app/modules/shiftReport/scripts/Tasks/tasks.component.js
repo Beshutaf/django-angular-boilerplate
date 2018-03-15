@@ -17,6 +17,7 @@
         var ctrl = this;
         
         ctrl.$onChanges = function(changes) {
+            console.log("change");
             console.log(changes);
             if (changes.tasksObj.currentValue) {
                 if (changes.tasksObj.currentValue.length ==0) {
@@ -31,18 +32,16 @@
         }
         
         ctrl.$onInit = function() {
-            
+            console.log("init");
             if (angular.isUndefined(ctrl.tasksObj) ){
                 ctrl.tasksObj = [];
+                var n = 5;
+                for (var i = 0; i < n; i++)
+                    ctrl.tasksObj.push({
+                        comment: "",
+                        done:false
+                    });
             }
-            
-            var n = 5;
-            for (var i = 0; i < n; i++)
-                ctrl.tasksObj.push({
-                    comment: "",
-                    done:false
-                });
-
             ctrl.title = "משימות ממנהל החנות";
             console.log(ctrl.tasksObj)
            

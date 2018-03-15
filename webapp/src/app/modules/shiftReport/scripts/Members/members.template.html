@@ -13,20 +13,22 @@
                     </button>
                   </span>    
                 </div>
-                
-                <table>
-                    <tr ng-repeat="friend in $ctrl.membersList">
-                        <td>
-                            <lable class="control-label">
-                            <b>{{friend}}</b>
-                            </lable>
-                        </td>
-                        <td>
-                            <button class="btn btn-xs btn-error" ng-click=$ctrl.removeWorker(name)>
-                                <i class="glyphicon glyphicon-remove"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </table> 
+                <br>
+                <br>
+                <div class = "row">
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6">
+                        <ul class="list-group">
+                            <li ng-repeat="friend in $ctrl.membersList" class="list-group-item">
+                                <button class="btn btn-xs btn-danger" ng-click=$ctrl.removeWorker(name) title="הסרה">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                                &nbsp;&nbsp;&nbsp;
+                                <span> {{friend}} </span>
+                                
+                            </li>
+                        </ul>        
+                    </div>
+                </div>
             </div>
         </div>

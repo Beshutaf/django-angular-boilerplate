@@ -12,19 +12,19 @@
                   </span>    
                 </div>
                 <br>
-                <table>
-                    <tr ng-repeat="product in $ctrl.productsList">
-                        <td>
-                            <lable class="control-label">
-                            <b>{{product}}</b>
-                            </lable>
-                        </td>
-                        <td>
-                            <button class="btn btn-xs btn-error" ng-click=$ctrl.removeProduct(product)>
-                                <i class="glyphicon glyphicon-remove"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </table> 
+                 <div class = "row">
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6">
+                        <ul class="list-group">
+                            <li ng-repeat="product in $ctrl.productsList" class="list-group-item">
+                                <button class="btn btn-xs btn-danger" ng-click=$ctrl.removeProduct(product) title="הסרה">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                                &nbsp;&nbsp;&nbsp;
+                                <span> {{product}} </span>
+                                
+                            </li>
+                        </ul>        
+                    </div>
             </div>
         </div>

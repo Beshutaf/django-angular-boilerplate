@@ -37,7 +37,7 @@
         leaving_members:data.leaving_members ? data.leaving_members : [],
         tasks:data.tasks ? data.tasks: [],
         conclusions:data.conclusions ? data.conclusions : [],
-        disposed_products:data.disposed_products,
+        disposed_products:data.disposed_products ? data.disposed_products : [],
         cache:{
           money_from_shares:data.money_from_shares,
           money_from_cash:data.money_from_cash,

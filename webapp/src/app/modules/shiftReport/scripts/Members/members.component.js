@@ -22,7 +22,7 @@
             
             function addMember(memberName) {
                 ctrl.membersList.push(memberName);
-                $scope.memberName = "";
+                ctrl.memberName = "";
             }
             
             function removeMember(memberName){

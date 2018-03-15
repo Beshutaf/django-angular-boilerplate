@@ -1,11 +1,4 @@
 <div ng-include="'/app/modules/shiftReport/scripts/Links/links.template.html'"></div>
-<!-- <div class="row">-->
-<!--   <select class="namePickerClass"  name="ss" style="width: 50%" multiple="multiple">-->
-<!--    <option value="AL">Alabama</option>-->
-<!--    <option value="CA">California</option>-->
-<!--  <option value="WY">Wyoming</option>-->
-<!--</select>-->
-<!-- </div>   -->
 <div class="row">
   <div class="col-xs-6 pull-right">
       <div class="col-xs-4">
@@ -15,8 +8,14 @@
       <div class="col-xs-8">
         <shift-metadata shift-date="shiftDate" members="report.members"></shift-metadata>
         <missing-products products-list="report.disposed_products" ></missing-products>
-        <members title="newMembersTitle" members-list="report.new_members" panel-color="true" link="newMembersLink"></members>
-        <members title="leftMembersTitle" members-list="report.leaving_members" panel-color="false" link="leftMembersLink"></members>
+        <div class="row">
+        <div class="col-xs-6">
+          <members title="newMembersTitle" members-list="report.new_members" panel-color="true" link="newMembersLink"></members>
+        </div>
+        <div class="col-xs-6"> 
+          <members title="leftMembersTitle" members-list="report.leaving_members" panel-color="false" link="leftMembersLink"></members>
+        </div>
+        </div>
       </div>
   </div>
   <div class="col-xs-6">

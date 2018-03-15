@@ -5,7 +5,7 @@
         .module('app.shiftReport')
         .component('conclusions', {
             bindings: {
-                conclusions:"="
+                conclusions:"<"
             },
             controller: conclusionsCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/Conclusions/conclusions.template.html'
@@ -13,20 +13,38 @@
 
     function conclusionsCtrl() {
         var ctrl = this;
-
+        
+        
+         ctrl.$onChanges = function(changes) {
+            console.log("change");
+            console.log(changes);
+            if (changes.conclusions.currentValue) {
+                if (changes.conclusions.currentValue.length ==0) {
+                    var n = 5;
+                    for (var i = 0; i < n; i++)
+                        ctrl.conclusions.push({
+                            comment: "",
+                            assigned_team: "",
+                            done:false
+                        });
+                }
+            }
+        }
+        
+        
         ctrl.$onInit = function() {
+            console.log("init");
             if (angular.isUndefined(ctrl.conclusions) ){
                 ctrl.conclusions = [];
-            }
             
-            var n = 5;
-            for (var i = 0; i < n; i++)
-                ctrl.conclusions.push({
-                    comment: "",
-                    assigned_team: "",
-                    done:false
-                });
-
+                var n = 5;
+                for (var i = 0; i < n; i++)
+                    ctrl.conclusions.push({
+                        comment: "",
+                        assigned_team: "",
+                        done:false
+                    });
+            }
 
             ctrl.title = "הערות ומסקנות מהמשמרת";
             

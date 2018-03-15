@@ -63,25 +63,25 @@
                 }
                 );
                 
-                // //udate the select element with the data
-                // selectElement.append(scope.selectedNames).trigger('change');
+                //udate the select element with the data
+                selectElement.append(scope.selectedNames).trigger('change');
                 
-                // //update the model binding selectedNames when select event is fired
-                // selectElement.on('select2:select', function (e) {
-                //     scope.selectedNames.push(e.params.data);
-                //     var data = e.params.data;
-                //     console.log(data);
-                // });
+                //update the model binding selectedNames when select event is fired
+                selectElement.on('select2:select', function (e) {
+                    scope.selectedNames.push(e.params.data);
+                    var data = e.params.data;
+                    console.log(data);
+                });
                 
-                // //udate the model binding selectedNames when unselect event is fired
-                // selectElement.on('select2:unselect', function (e) {
-                //     var data = e.params.data;
-                //     console.log(data);
-                //     var index = scope.selectedNames.indexOf(data)
-                //     if (index > -1){
-                //         scope.selectedNames.membersList.splice(index,1);
-                //     }
-                // });
+                //udate the model binding selectedNames when unselect event is fired
+                selectElement.on('select2:unselect', function (e) {
+                    var data = e.params.data;
+                    console.log(data);
+                    var index = scope.selectedNames.indexOf(data)
+                    if (index > -1){
+                        scope.selectedNames.membersList.splice(index,1);
+                    }
+                });
                 
             }
             
