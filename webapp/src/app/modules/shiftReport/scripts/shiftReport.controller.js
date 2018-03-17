@@ -132,6 +132,84 @@
     function getShiftReport(shiftDate){
       shiftService.getShiftData(shiftDate).then(function (res){
                         console.log(res);
+                        res = {
+                       date: "17-03-18",
+                       member_shifts: [
+                          {
+                              member: "גלי פז",
+                              role: "leader",
+                              shift_number: "1"
+                          },
+                          {
+                              member: "גלי פז",
+                              role: "worker",
+                              shift_number: "2"
+                          },
+                       ],
+                       new_members: [
+                          "sdfsdf sdfds"
+
+                       ],
+                       leaving_members: [
+                          "sdgg weree"
+                       ],
+                       conclusions: [
+                          {
+                              comment: "sdfdgdsg",
+                              assigned_team:                "מחלקת ספקים",
+
+                              done: true
+                          },
+                          {
+                              comment: "lk;lk ;lko",
+                              assigned_team:                 "מחלקת ספקים",
+
+                              done: true
+                          }
+                       ],
+                       tasks: [
+                          {
+                              comment: "sdfdgdsg",
+                              done: true
+                          },
+                          {
+                              comment: "lk;lk ;lko",
+                              done: true
+                          }
+                       ],
+                       money_at_shift_start: [
+                          {
+                              unit: "200",
+                              amount: "3"
+                          },
+                          {
+                              unit: "5",
+                              amount: "20"
+                          }
+                          ],
+                       money_at_shift_end: [
+                          {
+                              unit: "100",
+                              amount: "2"
+                          },
+                          {
+                              unit: "10",
+                              amount: "8"
+                          }
+                       
+                       ],
+                       money_from_shares: "600",
+                       money_from_cheques: "1200",
+                       money_from_cash: "1000",
+                       envelope_number: "1234",
+                       almost_missing_products: [
+                          "tomatos", "salt"
+                       ],
+                       disposed_products: [
+                          "ginger"
+                       ],
+                      };
+                      
                         updateShiftData(res);
                     }, function (err){
                       updateShiftData({});

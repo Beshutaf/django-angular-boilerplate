@@ -17,8 +17,6 @@
         var ctrl = this;
         
         ctrl.$onChanges = function(changes) {
-            console.log("change");
-            console.log(changes);
             if (changes.tasksObj.currentValue) {
                 if (changes.tasksObj.currentValue.length ==0) {
                     var n = 5;
@@ -32,7 +30,6 @@
         }
         
         ctrl.$onInit = function() {
-            console.log("init");
             if (angular.isUndefined(ctrl.tasksObj) ){
                 ctrl.tasksObj = [];
                 var n = 5;

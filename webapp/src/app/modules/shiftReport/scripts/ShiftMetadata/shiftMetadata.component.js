@@ -6,7 +6,7 @@
         .component('shiftMetadata', {
             bindings: {
                 shiftDate: "<",
-                members:"="
+                members:"<"
             },
             controller: shiftMetadataCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/ShiftMetadata/shiftMetadata.template.html'
@@ -24,6 +24,14 @@
                     ctrl.reportMetadata.date = changes.shiftDate.currentValue;
                 }
             }
+            if (changes.members) {
+                if (angular.isDefined(changes.members.currentValue)){
+                    debugger;
+                    if (changes.members.currentValue.length > 0){
+                        mapMemebers();
+                    }    
+                }
+            }
         };
 
         ctrl.$onInit = function() {
@@ -32,28 +40,30 @@
             ctrl.reportMetadata = {
                 date: ctrl.shiftDate,
                 day: moment(ctrl.shiftDate, 'DD-MM-YYYY').format('dddd'),
-                shiftLeaders: {},
-                shiftWorkers: {}
+                shiftLeaders: [[],[],[]],
+                shiftWorkers: [[],[],[]]
             }
-            ctrl.membersCopy = ctrl.members
+            // ctrl.membersCopy = ctrl.members
             ctrl.shifts = ["1", "2", "3"]
-            mapMemebers()
+            // mapMemebers()
         };
 
-        ctrl.$doCheck = function(){
-            if (!angular.equals(ctrl.members, ctrl.membersCopy)){
-               mapMemebers();
-            }
+        // ctrl.$doCheck = function(){
+        //     if (!angular.equals(ctrl.members, ctrl.membersCopy)){
+        //       mapMemebers();
+        //     }
             
-        }
+        // }
         
         function mapMemebers(){
+            console.log(ctrl.members);
+            debugger;
             angular.forEach(ctrl.members, function(membersData){
                 if (membersData.role === "leader"){
-                    ctrl.reportMetadata.shiftLeaders[membersData.shift_number].push(membersData.member)
+                    ctrl.reportMetadata.shiftLeaders[membersData.shift_number-1].push(membersData.member)
                 }
                 if (membersData.role == "worker"){
-                    ctrl.reportMetadata.shiftWorkers[membersData.shift_number].push(membersData.member)
+                    ctrl.reportMetadata.shiftWorkers[membersData.shift_number-1].push(membersData.member)
                 }
                 
             })
