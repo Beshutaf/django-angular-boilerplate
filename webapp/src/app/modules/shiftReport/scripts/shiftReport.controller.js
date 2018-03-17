@@ -28,8 +28,10 @@
   
    
     function updateShiftData(data){
-      console.log(data);
-      $scope.shiftDate = data.date ?  moment(data.date).format("DD-MM-YYYY") : $scope.todayDate;
+      console.log(data.date);
+      var tmpDate = moment(data.date).format("DD-MM-YYYY");
+      debugger;
+      $scope.shiftDate = data.date ?  data.date : $scope.todayDate;
       $scope.report = {
         shiftDate: $scope.shiftDate,
         members:data.member_shifts,

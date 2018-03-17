@@ -17,8 +17,8 @@
 
         /////////////////////////////////
         ctrl.$onChanges = function(changes) {
-            console.log(changes)
             if (changes.shiftDate) {
+                debugger;
                 if (angular.isDefined(ctrl.reportMetadata)) {
                     ctrl.reportMetadata.day = moment(changes.shiftDate.currentValue, 'DD-MM-YYYY').format('dddd');
                     ctrl.reportMetadata.date = changes.shiftDate.currentValue;
@@ -26,7 +26,6 @@
             }
             if (changes.members) {
                 if (angular.isDefined(changes.members.currentValue)){
-                    debugger;
                     if (changes.members.currentValue.length > 0){
                         mapMemebers();
                     }    
@@ -35,7 +34,6 @@
         };
 
         ctrl.$onInit = function() {
-            console.log(ctrl.shiftDate);
             ctrl.shiftDate = ctrl.shiftDate ? ctrl.shiftDate : moment().format("DD-MM-YYYY");
             ctrl.reportMetadata = {
                 date: ctrl.shiftDate,
@@ -43,21 +41,10 @@
                 shiftLeaders: [[],[],[]],
                 shiftWorkers: [[],[],[]]
             }
-            // ctrl.membersCopy = ctrl.members
             ctrl.shifts = ["1", "2", "3"]
-            // mapMemebers()
         };
 
-        // ctrl.$doCheck = function(){
-        //     if (!angular.equals(ctrl.members, ctrl.membersCopy)){
-        //       mapMemebers();
-        //     }
-            
-        // }
-        
         function mapMemebers(){
-            console.log(ctrl.members);
-            debugger;
             angular.forEach(ctrl.members, function(membersData){
                 if (membersData.role === "leader"){
                     ctrl.reportMetadata.shiftLeaders[membersData.shift_number-1].push(membersData.member)

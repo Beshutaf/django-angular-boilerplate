@@ -91,13 +91,13 @@
                 var outsideNamesLoaded  = false;
                 scope.$watchCollection('selectedNames', function(newNames, oldNames) {
                     if (newNames.length >0) {
-                        console.log(newNames);
+                        
                         outsideNamesLoaded = true;
                         
                         var counter = 0;
                         var data = [];
                         angular.forEach(newNames, function (name){
-                            debugger;
+                            
                             data.push({
                                 "id" :counter,
                                 "text": name,
@@ -107,8 +107,7 @@
                         });
                         
                         $q.all(function(){
-                            debugger;
-                            console.log(data);
+                            
                             selectElement.select2(
                                 {
                     placeholder: "הכנסי שם של חברה",
@@ -132,8 +131,8 @@
                                 return query;
                         },
                         processResults: function (data) {
-                            console.log(data)
-                            // debugger;
+                            
+                            
                             return {results: data};
                         },
                         cache: true
