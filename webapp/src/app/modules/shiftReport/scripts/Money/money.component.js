@@ -6,7 +6,8 @@
         .component('money', {
             bindings: {
                 title: "=",
-                callback: "&"
+                callback: "&",
+                moneyDistribution:"="
             },
             controller: moneyCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/Money/money.template.html'

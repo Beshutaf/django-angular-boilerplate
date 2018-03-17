@@ -1,24 +1,24 @@
 <div class="row">
     <div class="col-xs-4 pull-right">
-        <money title="$ctrl.moneyAtStart" callback="$ctrl.totalInCacheFromSealingSubstraction(value);">
-            </mony>
+        <money title="$ctrl.moneyAtStart" callback="$ctrl.totalInCacheFromSealingSubstraction(value);" money-distribution="$ctrl.cache.money_at_shift_start">
+            </money>
             <!--<cache-i-o title="$ctrl.cacheInputTitle" quantities="$ctrl.cacheInput"> </cache-i-o>-->
     </div>
     <div class="col-xs-4 pull-right">
-        <money title="$ctrl.changeLeft" callback="$ctrl.totalInCacheFromSealingAddition(value);">
-            </mony>
+        <money title="$ctrl.changeLeft" callback="$ctrl.totalInCacheFromSealingAddition(value);" money-distribution="$ctrl.cache.money_at_shift_end">
+            </money>
             <!--<cache-i-o title="$ctrl.cacheOutputTitle" quantities="$ctrl.cacheOutput"> </cache-i-o>-->
     </div>
     <div class="col-xs-4 total-cache">
         <div class="alert alert-success" role="alert">
             <label for="stocksInput"> כסף מיחידות השתתפות</label>
-            <input class="form-control" type="number" min="1" step="any" ng-model="$ctrl.money_from_shares" name="stocksInput" />
+            <input class="form-control" type="text" ng-model="$ctrl.cache.money_from_shares" name="stocksInput" />
             <label for="checksInput"> צ'קים</label>
-            <input class="form-control" type="text" name="checksInput" />
+            <input class="form-control" type="text" ng-model="$ctrl.cache.money_from_cheques" name="checksInput" />
             <label for="cashInput"> מזומן</label>
-            <input class="form-control" type="text" name="cashInput" />
+            <input class="form-control" type="text" ng-model="$ctrl.cache.money_from_cash" name="cashInput" />
             <label for="envalopeNumberInput"> מספר מעטפה</label>
-            <input class="form-control" type="text" name="envalopeNumberInput" />
+            <input class="form-control" type="text" ng-model="$ctrl.cache.envelope_number" name="envalopeNumberInput" />
         </div>
         <h3>
             <span class="label label-success"> סה"כ מזומן ממכירת מוצרים:{{  ctrl.totalFromSealingProductsts}} </span>

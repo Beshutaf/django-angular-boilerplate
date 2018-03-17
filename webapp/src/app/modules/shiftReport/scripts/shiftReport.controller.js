@@ -23,14 +23,12 @@
     
     
     $scope.todayDate = moment().format("DD-MM-YYYY");
-    console.log($scope.todayDate);
+    
     getShiftReport ($scope.todayDate);
   
    
     function updateShiftData(data){
-      console.log(data.date);
-      var tmpDate = moment(data.date).format("DD-MM-YYYY");
-      debugger;
+      
       $scope.shiftDate = data.date ?  data.date : $scope.todayDate;
       $scope.report = {
         shiftDate: $scope.shiftDate,
@@ -181,25 +179,25 @@
                        ],
                        money_at_shift_start: [
                           {
-                              unit: "200",
-                              amount: "3"
-                          },
-                          {
                               unit: "5",
                               amount: "20"
+                          },
+                          {
+                              unit: "200",
+                              amount: "3"
                           }
+                          
                           ],
                        money_at_shift_end: [
                           {
-                              unit: "100",
-                              amount: "2"
-                          },
-                          {
                               unit: "10",
                               amount: "8"
+                          },
+                          {
+                              unit: "100",
+                              amount: "2"
                           }
-                       
-                       ],
+                          ],
                        money_from_shares: "600",
                        money_from_cheques: "1200",
                        money_from_cash: "1000",

@@ -5,7 +5,7 @@
         .module('app.shiftReport')
         .component('cache', {
             bindings: {
-                cache:"="
+                cache:"<"
             },
             controller: cacheCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/Cache/cache.template.html'
@@ -13,7 +13,11 @@
 
     function cacheCtrl() {
         var ctrl = this;
-
+        
+        ctrl.$onChanges = function(changes) {
+            console.log(changes);
+        }
+        
         ctrl.cacheInputTitle = "כסף שנכנס לקופה - לא ממכירה או מיחידות";
         ctrl.cacheOutputTitle = "כסף שיצא מהקופה";
         ctrl.moneyAtStart = "כסף בתחילת המשמרת";
