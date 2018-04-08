@@ -7,7 +7,7 @@
             bindings: {
                 title: "=",
                 callback: "&",
-                moneyDistribution:"="
+                moneyDistribution:"<"
             },
             controller: moneyCtrl,
             templateUrl: '/app/modules/shiftReport/scripts/Money/money.template.html'
@@ -22,18 +22,24 @@
         ctrl.calculateTotalMoney = calculateTotalMoney;
 
         ctrl.billAmount = [];
-
-        function calculateTotalMoney() {
-            var total = 0;
-            var itemsProcessed = 0;
-            ctrl.billAmount.forEach(function(element, index, array) {
-                itemsProcessed ++;
-                total += element * ctrl.billsTypes[index]
-                if (itemsProcessed === array.length) {
-                    ctrl.callback({ value: total });
+        
+        ctrl.$onChanges = function (changes){
+            if (changes.moneyDistribution) {
+                if (changes.moneyDistribution.currentValue) {
+                    calculateTotalMoney();   
                 }
-            })
-            return total;
+            }
+        }
+                
+        function calculateTotalMoney() {
+            console.log("something change");
+            var total = 0;
+            angular.forEach(ctrl.moneyDistribution, function (amount,coin){
+                total += amount*coin;
+                ctrl.callback({ value: total });
+            } )
+            ctrl.totalMoney = total;
+            
         }
     }
 

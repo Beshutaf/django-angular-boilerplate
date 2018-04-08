@@ -20,22 +20,36 @@
         
         ctrl.cacheInputTitle = "כסף שנכנס לקופה - לא ממכירה או מיחידות";
         ctrl.cacheOutputTitle = "כסף שיצא מהקופה";
-        ctrl.moneyAtStart = "כסף בתחילת המשמרת";
+        ctrl.moneyAtStartTile = "כסף בתחילת המשמרת";
         ctrl.changeLeft = "עודף למשמרת הבאה";
-    //   ctrl.cacheInput = new Array(5);
-        // ctrl.cacheOutput = new Array(5);
+    
+        ctrl.totalMoneyAtStart = 0;
+        ctrl.totalMoneyAtEnd = 0;
         
-        ctrl.totalFromSealingProducts = 0;
         
-        ctrl.totalInCacheFromSealingSubstraction = totalInCacheFromSealingSubstraction;
-        ctrl.totalInCacheFromSealingAddition = totalInCacheFromSealingAddition;
+        ctrl.totalFromSaleProducts = ctrl.cache ? ctrl.cache.money_from_cash : 0;
         
-        function totalInCacheFromSealingSubstraction (value){
-            ctrl.totalFromSealingProducts = ctrl.totalFromSealingProducts - value;
+        ctrl.totalInCacheFromSaleSubstraction = totalInCacheFromSaleSubstraction;
+        ctrl.totalInCacheFromSaleAddition = totalInCacheFromSaleAddition;
+        ctrl.updateMoneyFromSales = updateMoneyFromSales;
+        
+        function totalInCacheFromSaleSubstraction (value){
+            console.log("totalInCacheFromSealingSubstraction");
+            ctrl.totalFromSaleProducts = ctrl.totalFromSaleProducts - value;
+            console.log(ctrl.totalFromSaleProducts);
+            ctrl.totalMoneyAtStart = value;
         }
         
-        function totalInCacheFromSealingAddition (value){
-            ctrl.totalFromSealingProducts = ctrl.totalFromSealingProducts + value;
+        function totalInCacheFromSaleAddition (value){
+            console.log("totalInCacheFromSealingAddition");
+            ctrl.totalFromSaleProducts = ctrl.totalFromSaleProducts + value;
+            console.log(ctrl.totalFromSaleProducts);
+            ctrl.totalMoneyAtEnd = value;
+        }
+        
+        function updateMoneyFromSales(){
+            ctrl.totalFromSaleProducts = ctrl.cache.money_from_cash + ctrl.totalMoneyAtEnd - ctrl.totalMoneyAtStart;
+            console.log(ctrl.totalFromSaleProducts);
         }
 
     }

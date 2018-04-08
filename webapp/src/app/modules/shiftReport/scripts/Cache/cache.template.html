@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-xs-4 pull-right">
-        <money title="$ctrl.moneyAtStart" callback="$ctrl.totalInCacheFromSealingSubstraction(value);" money-distribution="$ctrl.cache.money_at_shift_start">
+        <money title="$ctrl.moneyAtStartTitle" callback="$ctrl.totalInCacheFromSaleSubstraction(value);" money-distribution="$ctrl.cache.money_at_shift_start">
             </money>
             <!--<cache-i-o title="$ctrl.cacheInputTitle" quantities="$ctrl.cacheInput"> </cache-i-o>-->
     </div>
     <div class="col-xs-4 pull-right">
-        <money title="$ctrl.changeLeft" callback="$ctrl.totalInCacheFromSealingAddition(value);" money-distribution="$ctrl.cache.money_at_shift_end">
+        <money title="$ctrl.changeLeft" callback="$ctrl.totalInCacheFromSaleAddition(value);" money-distribution="$ctrl.cache.money_at_shift_end">
             </money>
             <!--<cache-i-o title="$ctrl.cacheOutputTitle" quantities="$ctrl.cacheOutput"> </cache-i-o>-->
     </div>
@@ -15,13 +15,13 @@
             <input class="form-control" type="text" ng-model="$ctrl.cache.money_from_shares" name="stocksInput" />
             <label for="checksInput"> צ'קים</label>
             <input class="form-control" type="text" ng-model="$ctrl.cache.money_from_cheques" name="checksInput" />
-            <label for="cashInput"> מזומן</label>
-            <input class="form-control" type="text" ng-model="$ctrl.cache.money_from_cash" name="cashInput" />
+            <label for="cashInput"> מזומן שהופקד בכספת</label>
+            <input class="form-control" type="text" ng-model="$ctrl.cache.money_from_cash" name="cashInput" ng-change="$ctrl.updateMoneyFromSales()"/>
             <label for="envalopeNumberInput"> מספר מעטפה</label>
             <input class="form-control" type="text" ng-model="$ctrl.cache.envelope_number" name="envalopeNumberInput" />
         </div>
         <h3>
-            <span class="label label-success"> סה"כ מזומן ממכירת מוצרים:{{  ctrl.totalFromSealingProductsts}} </span>
+            <span class="label label-success"> סך הכל ממכירת מוצרים: {{$ctrl.totalFromSaleProducts}} </span>
         </h3>
     </div>
 </div>

@@ -9,14 +9,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr ng-repeat="bill in $ctrl.billsTypes">
-                      <td>{{bill}}</td>
-                      <td><input class="form-control" type="number" min="0" steps="1" name="" ng-model="$ctrl.moneyDistribution[$index].amount"/></td>
+                    <tr ng-repeat="(key,value) in $ctrl.billsTypes">
+                      <td>{{value}}</td>
+                      <td><input class="form-control" type="number" min="0" steps="1" name="" ng-model="$ctrl.moneyDistribution[value]" value="0" ng-change="$ctrl.calculateTotalMoney()"/></td>
                     </tr>
                     <tr>
                       <td>סה"כ</td>
                       <td>
-                        {{$ctrl.calculateTotalMoney()}}
+                        {{$ctrl.totalMoney}}
                       </td>
                     </tr>
                   </tbody>

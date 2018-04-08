@@ -177,27 +177,14 @@
                               done: true
                           }
                        ],
-                       money_at_shift_start: [
-                          {
-                              unit: "5",
-                              amount: "20"
-                          },
-                          {
-                              unit: "200",
-                              amount: "3"
-                          }
-                          
-                          ],
-                       money_at_shift_end: [
-                          {
-                              unit: "10",
-                              amount: "8"
-                          },
-                          {
-                              unit: "100",
-                              amount: "2"
-                          }
-                          ],
+                       money_at_shift_start: {
+                         "5":20,
+                         "200":3
+                       },
+                       money_at_shift_end: {
+                        "10":8,
+                        "100":2
+                       },
                        money_from_shares: "600",
                        money_from_cheques: "1200",
                        money_from_cash: "1000",
