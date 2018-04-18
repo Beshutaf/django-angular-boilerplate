@@ -4,7 +4,7 @@
             </div>
             <div class="panel-body">
                <div class="input-group">
-                  <input type="text" class="form-control" ng-model="$ctrl.productName" placeholder="שם מוצר">
+                  <input type="text" class="form-control" ng-model="$ctrl.productName" ng-keyup="$event.keyCode == 13 && $ctrl.addMissingProduct($ctrl.productName)" placeholder="שם מוצר">
                   <span class="input-group-btn">
                     <button class="btn btn-default" type="button" ng-click="$ctrl.addMissingProduct($ctrl.productName)">
                         <i class="glyphicon glyphicon-plus"></i>

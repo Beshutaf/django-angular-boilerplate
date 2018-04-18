@@ -18,6 +18,7 @@
     
     $scope.newMembersTitle = "מצטרפים חדשים";
     $scope.leftMembersTitle = "חברים שעזבו";
+    $scope.confirmationMessage = "האם את בטוחה שאת רוצה לסגור את העמוד?";
     $scope.newMembersLink="https://docs.google.com/forms/d/e/1FAIpQLScLwyRApEifTXIxasjY_fVe2DPuPiJdh5mqeMuO9DZ9O5nLQw/viewform?c=0&w=1";
     $scope.leftMembersLink="https://docs.google.com/forms/d/e/1FAIpQLSeT_Oz2gTdAzE5-BgTwL5EUAUYFAidj12AIjyHs7C_UOAMPeg/viewform?c=0&w=1&usp=send_form";
     
@@ -43,76 +44,8 @@
           money_from_cash:data.money_from_cash,
           money_from_cheques:data.money_from_cheques,
           envelope_number:data.envelope_number,
-          money_at_shift_start: data.money_at_shift_start ? data.money_at_shift_start:
-          [
-            {
-              unit:"1",
-              amount:"0"
-            },
-            {
-              unit:"2",
-              amount:"0"
-            },
-            {
-              unit:"5",
-              amount:"0"
-            },
-            {
-              unit:"10",
-              amount:"0"
-            },
-            {
-              unit:"20",
-              amount:"0"
-            },
-            {
-              unit:"50",
-              amount:"0"
-            },
-            {
-              unit:"100",
-              amount:"0"
-            },
-            {
-              unit:"200",
-              amount:"0"
-            }
-          ],
-          money_at_shift_end: data.money_at_shift_end ? data.money_at_shift_end: 
-          [
-           {
-            unit:"1",
-            amount:"0"
-          },
-          {
-            unit:"2",
-            amount:"0"
-          },
-          {
-            unit:"5",
-            amount:"0"
-          },
-          {
-            unit:"10",
-            amount:"0"
-          },
-          {
-            unit:"20",
-            amount:"0"
-          },
-          {
-            unit:"50",
-            amount:"0"
-          },
-          {
-            unit:"100",
-            amount:"0"
-          },
-          {
-            unit:"200",
-            amount:"0"
-          } 
-        ]
+          money_at_shift_start: data.money_at_shift_start ? data.money_at_shift_start:{},
+          money_at_shift_end: data.money_at_shift_end ? data.money_at_shift_end: {}
         }
       };
       
@@ -126,13 +59,37 @@
     function saveShiftReport(shiftReport){
       shiftService.saveShiftData(shiftReport).then(function(res){
         $window.alert("Shift Report Saved");
-      });
+      }, function (errRes){console.error(errRes)});
     }
     
     function getShiftReport(shiftDate){
       shiftService.getShiftData(shiftDate).then(function (res){
                         console.log(res);
-                        res = {
+                        updateShiftData(res);
+                    }, function (err){
+                      updateShiftData({});
+                    })
+    }
+    
+    function getNextDay() {
+          var shiftDate = moment($scope.shiftDate, 'DD-MM-YYYY').add(1, 'day').format('DD-MM-YYYY');
+          console.log(shiftDate);
+          $scope.shiftDate = angular.copy(shiftDate);
+          
+          shiftService.getShiftData(shiftDate).then(function(res){
+            updateShiftData(res);
+          },function(err){
+            updateShiftData({});
+          });
+          
+    }
+
+    function getPrevDay() {
+        var shiftDate  = moment($scope.shiftDate, 'DD-MM-YYYY').subtract(1, 'day').format('DD-MM-YYYY');
+        $scope.shiftDate = angular.copy(shiftDate);
+        shiftService.getShiftData(shiftDate).then(function(res){
+         
+         res = {
                        date: "17-03-18",
                        member_shifts: [
                           {
@@ -196,28 +153,27 @@
                           "ginger"
                        ],
                       };
-                      
-                        updateShiftData(res);
-                    }, function (err){
-                      updateShiftData({});
-                    })
+                      updateShiftData(res);
+          
+        }, function (err){
+          updateShiftData({});
+        });
     }
     
-    function getNextDay() {
-          var shiftDate = moment($scope.shiftDate, 'DD-MM-YYYY').add(1, 'day').format('DD-MM-YYYY');
-          console.log(shiftDate);
-          $scope.shiftDate = angular.copy(shiftDate);
-          
-          shiftService.getShiftData(shiftDate);
-          
-    }
+    /////
+    
+    window.addEventListener("beforeunload", function (e) {
+      var confirmationMessage = $scope.confirmationMessage;
 
-    function getPrevDay() {
-        var shiftDate  = moment($scope.shiftDate, 'DD-MM-YYYY').subtract(1, 'day').format('DD-MM-YYYY');
-        $scope.shiftDate = angular.copy(shiftDate);
-        shiftService.getShiftData(shiftDate);
-        
-    }
+      (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+      return $scope.confirmationMessage;                            //Webkit, Safari, Chrome
+    });
+    
+    window.addEventListener("unload", function (e) {
+      saveShiftReport($scope.report);
+    });
+    
+
   }
   
   

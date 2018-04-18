@@ -6,7 +6,7 @@
             </div>
             <div class="panel-body">
                <div class="input-group">
-                  <input type="text" class="form-control" ng-model="memberName" placeholder="שם">
+                  <input type="text" class="form-control" ng-model="memberName" ng-keyup="$event.keyCode == 13 && $ctrl.addMember(memberName)" placeholder="שם">
                   <span class="input-group-btn">
                     <button class="btn btn-default" type="button" ng-click="$ctrl.addMember(memberName)">
                         <i class="glyphicon glyphicon-plus"></i>

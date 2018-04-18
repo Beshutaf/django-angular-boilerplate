@@ -5,10 +5,11 @@
         .module('app')
         .config(config);
 
-    config.$inject = ['$routeProvider'];
+    config.$inject = ['$routeProvider','$httpProvider'];
 
-    function config( $routeProvider) {
+    function config( $routeProvider, $httpProvider) {
         configRoute($routeProvider);
+        httpConfig($httpProvider);
     }
 
     function configRoute($routeProvider) {
@@ -27,5 +28,10 @@
         .when('/demo',defaultOptions )
         .otherwise(shiftReportOptions);
    
-        }
-        })();
+    }
+    
+    function httpConfig($httpProvider){
+        $httpProvider.defaults.xsrfCookieName = 'csrftoken'
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
+    }
+})();
