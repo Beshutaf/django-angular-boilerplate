@@ -32,13 +32,13 @@
         }
                 
         function calculateTotalMoney() {
-            console.log("something change");
             var total = 0;
             angular.forEach(ctrl.moneyDistribution, function (amount,coin){
                 total += amount*coin;
-                ctrl.callback({ value: total });
+                
             } )
             ctrl.totalMoney = total;
+            ctrl.callback({ value: ctrl.totalMoney });
             
         }
     }

@@ -185,9 +185,9 @@
                         "10":8,
                         "100":2
                        },
-                       money_from_shares: "600",
-                       money_from_cheques: "1200",
-                       money_from_cash: "1000",
+                       money_from_shares: 600,
+                       money_from_cheques: 1200,
+                       money_from_cash: 1000,
                        envelope_number: "1234",
                        almost_missing_products: [
                           "tomatos", "salt"

@@ -18,7 +18,6 @@
         /////////////////////////////////
         ctrl.$onChanges = function(changes) {
             if (changes.shiftDate) {
-                debugger;
                 if (angular.isDefined(ctrl.reportMetadata)) {
                     ctrl.reportMetadata.day = moment(changes.shiftDate.currentValue, 'DD-MM-YYYY').format('dddd');
                     ctrl.reportMetadata.date = changes.shiftDate.currentValue;
