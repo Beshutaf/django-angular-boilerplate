@@ -6,6 +6,7 @@ from io import TextIOWrapper
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 
 from shift_report.forms import MemberForm
@@ -77,7 +78,10 @@ def detail(request, year, month, day):
     s, _ = Shift.objects.get_or_create(date="-".join((year, month, day)))
     json = is_return_json(request)
     if request.method == "POST":
-        s.update(**request.data)
+        try:
+            s.update(**request.data)
+        except ValueError as e:
+            raise ParseError(e)
         json = True
     return Response(s.serialize()) if json else render(request, "shifts/detail.html", dict(shift=s))
 
