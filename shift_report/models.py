@@ -8,6 +8,12 @@ class Member(models.Model):
     def serialize(self):
         return dict(id=self.user.pk, text=" ".join(filter(None, (self.user.first_name, self.user.last_name))))
 
+    @classmethod
+    def get(cls, username):
+        user, _ = User.objects.get_or_create(username=username)
+        member, _ = cls.objects.get_or_create(user=user)
+        return member
+
 
 class Role(models.Model):
     name = models.CharField(max_length=128, primary_key=True)
@@ -97,53 +103,44 @@ class Shift(models.Model):
         if date is not None:
             self.date = date
         if members is not None:
-            members_in_shift = []
-            for m in members:
-                member = self.get_or_create_member(m["member"])
-                role, _ = Role.objects.get_or_create(name=m["role"])
-                member_shift, _ = MemberShift.objects.get_or_create(shift=self, member=member, role=role,
-                                                                    shift_number=int(m["shift_number"]))
-                member_shift.save()
-                members_in_shift.append(member)
+            members_in_shift = self.add_member_shifts(members)
             MemberShift.objects.filter(shift=self).exclude(member__in=members_in_shift).delete()
         if new_members is not None:
-            self.new_members.set([self.get_or_create_member(m) for m in new_members])
+            self.new_members.set([Member.get(m) for m in new_members])
         if leaving_members is not None:
-            self.leaving_members.set([self.get_or_create_member(m) for m in leaving_members])
+            self.leaving_members.set([Member.get(m) for m in leaving_members])
         if tasks is not None:
-            tasks_iter = iter(self.task_set.all())
-            for d in tasks:
-                try:
-                    c = next(tasks_iter)
-                except StopIteration:
-                    c = Conclusions.objects.create(shift=self)
-                c.comment = d["comment"]
-                c.done = d["done"]
-            for c in tasks_iter:
-                c.delete()
+            self.set_tasks(tasks)
         if conclusions is not None:
-            conclusions_iter = iter(self.conclusions_set.all())
-            for d in conclusions:
-                try:
-                    c = next(conclusions_iter)
-                except StopIteration:
-                    c = Conclusions.objects.create(shift=self)
-                c.comment = d["comment"]
-                c.assigned_team = d["assigned_team"]
-                c.done = d["done"]
-            for c in conclusions_iter:
-                c.delete()
+            self.set_conclusions(conclusions)
         if cache is not None:
             self.cache.update(**cache)
         if missing_products is not None:
             self.missing_products.set([Product.objects.get_or_create(name=p)[0] for p in missing_products])
         self.save()
 
-    @staticmethod
-    def get_or_create_member(username):
-        user, _ = User.objects.get_or_create(username=username)
-        member, _ = Member.objects.get_or_create(user=user)
-        return member
+    def add_member_shifts(self, members):
+        members_in_shift = []
+        for m in members:
+            member = Member.get(m["member"])
+            role, _ = Role.objects.get_or_create(name=m["role"])
+            member_shift, _ = MemberShift.objects.get_or_create(shift=self, member=member, role=role,
+                                                                shift_number=int(m["shift_number"]))
+            member_shift.save()
+            members_in_shift.append(member)
+        return members_in_shift
+
+    def set_tasks(self, tasks):
+        for task in self.task_set.all():
+            task.delete()
+        for t in tasks:
+            Task.objects.create(shift=self, **t)
+
+    def set_conclusions(self, conclusions):
+        for conclusion in self.conclusions_set.all():
+            conclusion.delete()
+        for c in conclusions:
+            Conclusions.objects.create(shift=self, **c)
 
 
 class MemberShift(models.Model):
