@@ -20,6 +20,11 @@ def add_members(s):
             for name, role in MEMBERS]
 
 
+def get_expected_members(with_role=False):
+    return [(dict(id=i, text=t), r) if with_role else
+            dict(id=i, text=t) for i, (t, r) in list(enumerate(MEMBERS, start=1))]
+
+
 class ShiftModelTests(TestCase):
     def test_add_members(self):
         s, is_new = Shift.objects.get_or_create(date=timezone.now())
@@ -33,15 +38,16 @@ class ShiftViewTests(TestCase):
         self.date = timezone.now()
         s, is_new = Shift.objects.get_or_create(date=timezone.now())
         self.members = add_members(s)
+        self.maxDiff = None
 
     def test_list_members(self):
-        self.assertJSONEqual(self.get_members(), [m for m, _ in MEMBERS])
+        self.assertJSONEqual(self.get_members(), get_expected_members())
 
     def test_delete_members(self):
         for i in range(2):
             response = self.client.post(reverse("delete"), data=dict(pk=self.members[i].pk))
             self.assertEqual(response.status_code, status.HTTP_302_FOUND)
-            self.assertJSONEqual(self.get_members(), [m for m, _ in MEMBERS[i + 1:]])
+            self.assertJSONEqual(self.get_members(), get_expected_members()[i + 1:])
 
     def get_members(self):
         response = self.client.get(reverse("members"), data=dict(format="json"))
@@ -53,7 +59,7 @@ class ShiftViewTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(self.get_response_content(response), dict(
             date=self.date.date().isoformat(),
-            member_shifts=[dict(member=name, role=role, shift_number=1) for name, role in MEMBERS],
+            member_shifts=[dict(member=m, role=r, shift_number=1) for m, r in get_expected_members(with_role=True)],
             new_members=[],
             leaving_members=[],
             tasks=[],
@@ -71,4 +77,4 @@ class ShiftViewTests(TestCase):
 
     @staticmethod
     def get_response_content(response):
-        return str(response.content, encoding="utf8") if six.PY3 else response.content
+        return str(response.content, encoding=response.charset) if six.PY3 else response.content
