@@ -4,17 +4,21 @@ from datetime import datetime
 from io import TextIOWrapper
 
 from django.db.models import Q
-from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from rest_framework.decorators import api_view
+from rest_framework.exceptions import ParseError
+from rest_framework.response import Response
 
 from shift_report.forms import MemberForm
 from shift_report.models import Member, Shift
 
 
+@api_view(["GET"])
 def index(request):
-    return detail(request, *datetime.now().date().isoformat().split("-"))
+    return detail(request._request, *datetime.now().date().isoformat().split("-"))
 
 
+@api_view(["GET", "POST"])
 def detail(request, year, month, day):
     """
     {
@@ -74,11 +78,15 @@ def detail(request, year, month, day):
     s, _ = Shift.objects.get_or_create(date="-".join((year, month, day)))
     json = is_return_json(request)
     if request.method == "POST":
-        s.update(**request.POST)
+        try:
+            s.update(**request.data)
+        except ValueError as e:
+            raise ParseError(e)
         json = True
-    return JsonResponse(s.serialize()) if json else render(request, "shifts/detail.html", dict(shift=s))
+    return Response(s.serialize()) if json else render(request, "shifts/detail.html", dict(shift=s))
 
 
+@api_view(["GET", "POST"])
 def members(request):
     """
     [
@@ -91,7 +99,7 @@ def members(request):
             for d in csv.DictReader(TextIOWrapper(request.FILES["csv_file"])):
                 process_member(d)
         else:
-            process_member(request.POST or None)
+            process_member(request.data or None)
     terms = request.GET.get("term")
     if terms:
         result = [m for t in terms.split()
@@ -99,7 +107,7 @@ def members(request):
     else:
         result = Member.objects.all()
     if is_return_json(request):
-        return JsonResponse([m.serialize() for m in result], safe=False)
+        return Response([m.serialize() for m in result])
     return render(request, "members/list.html", dict(members=result, form=MemberForm()))
 
 
@@ -109,8 +117,9 @@ def process_member(fields):
         form.save()
 
 
+@api_view(["POST"])
 def delete(request):
-    get_object_or_404(Member, pk=request.POST["pk"]).delete()
+    get_object_or_404(Member, pk=request.data["pk"]).delete()
     return redirect("/members")
 
 
