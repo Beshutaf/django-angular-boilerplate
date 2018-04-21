@@ -19,7 +19,7 @@
         ctrl.$onChanges = function(changes) {
             if (changes.shiftDate) {
                 if (angular.isDefined(ctrl.reportMetadata)) {
-                    ctrl.reportMetadata.day = moment(changes.shiftDate.currentValue, 'DD-MM-YYYY').format('dddd');
+                    ctrl.reportMetadata.day = moment(changes.shiftDate.currentValue).format('dddd');
                     ctrl.reportMetadata.date = changes.shiftDate.currentValue;
                 }
             }

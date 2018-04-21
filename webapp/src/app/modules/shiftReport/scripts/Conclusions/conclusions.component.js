@@ -16,8 +16,6 @@
         
         
          ctrl.$onChanges = function(changes) {
-            console.log("change");
-            console.log(changes);
             if (changes.conclusions.currentValue) {
                 if (changes.conclusions.currentValue.length ==0) {
                     var n = 5;
@@ -33,7 +31,6 @@
         
         
         ctrl.$onInit = function() {
-            console.log("init");
             if (angular.isUndefined(ctrl.conclusions) ){
                 ctrl.conclusions = [];
             

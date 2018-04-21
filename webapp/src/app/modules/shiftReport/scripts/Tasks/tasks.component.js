@@ -40,8 +40,7 @@
                     });
             }
             ctrl.title = "משימות ממנהל החנות";
-            console.log(ctrl.tasksObj)
-           
+          
         }
 
     }
