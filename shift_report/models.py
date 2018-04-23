@@ -13,12 +13,6 @@ class Member(models.Model):
         return " ".join(filter(None, (self.user.first_name, self.user.last_name)))
 
     @classmethod
-    def get_by_id(cls, username):
-        user, _ = User.objects.get_or_create(username=username)
-        member, _ = cls.objects.get_or_create(user=user)
-        return member
-
-    @classmethod
     def get_by_name(cls, name):
         first_name, _, last_name = name.partition(" ")
         user, _ = User.objects.get_or_create(first_name=first_name, last_name=last_name)
@@ -135,7 +129,7 @@ class Shift(models.Model):
     def add_member_shifts(self, members):
         members_in_shift = []
         for m in members:
-            member = Member.get_by_id(m["member"].id)
+            member = Member.get_by_name(m["member"])
             role, _ = Role.objects.get_or_create(name=m["role"])
             member_shift, _ = MemberShift.objects.get_or_create(shift=self, member=member, role=role,
                                                                 shift_number=int(m["shift_number"]))
