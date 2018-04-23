@@ -2,6 +2,7 @@
 import csv
 from datetime import datetime
 from io import TextIOWrapper
+from pprint import pprint
 
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
@@ -79,10 +80,14 @@ def detail(request, year, month, day):
     json = is_return_json(request)
     if request.method == "POST":
         try:
+            print("Got %s:" % s.pk)
+            pprint(request.data, indent=4)
             s.update(**request.data)
         except ValueError as e:
             raise ParseError(e)
         json = True
+    print("Sent %s:" % s.pk)
+    pprint(s.serialize(), indent=4)
     return Response(s.serialize()) if json else render(request, "shifts/detail.html", dict(shift=s))
 
 
