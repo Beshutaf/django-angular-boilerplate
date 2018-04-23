@@ -120,7 +120,7 @@ class Shift(models.Model):
             MemberShift.objects.filter(shift=self).exclude(member__in=members_in_shift).delete()
         if new_members is not None:
             self.new_members.set([Member.get_by_name(m) for m in new_members])
-        if leaving_members is not None:
+        if leaving_members is not None:  # TODO raise exception if leaving member does not exist
             self.leaving_members.set([Member.get_by_name(m) for m in leaving_members])
         if tasks is not None:
             self.set_tasks(tasks)
