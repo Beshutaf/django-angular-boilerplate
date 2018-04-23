@@ -93,7 +93,7 @@ class Shift(models.Model):
 
     def serialize(self):
         return dict(date=self.date,
-                    member_shifts=[m.serialize() for m in self.membershift_set.all()],
+                    members=[m.serialize() for m in self.membershift_set.all()],
                     new_members=[m.text for m in self.new_members.all()],
                     leaving_members=[m.text for m in self.leaving_members.all()],
                     tasks=[c.serialize() for c in self.task_set.all()],

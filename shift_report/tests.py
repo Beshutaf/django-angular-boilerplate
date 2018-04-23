@@ -59,7 +59,7 @@ class ShiftViewTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertJSONEqual(self.get_response_content(response), dict(
             date=self.date.date().isoformat(),
-            member_shifts=[dict(member=m, role=r, shift_number=1) for m, r in get_expected_members(with_role=True)],
+            members=[dict(member=m, role=r, shift_number=1) for m, r in get_expected_members(with_role=True)],
             new_members=[],
             leaving_members=[],
             tasks=[],
