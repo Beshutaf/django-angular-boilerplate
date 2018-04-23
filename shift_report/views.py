@@ -79,12 +79,9 @@ def detail(request, year, month, day):
     s, _ = Shift.objects.get_or_create(date="-".join((year, month, day)))
     json = is_return_json(request)
     if request.method == "POST":
-        try:
-            print("Got %s:" % s.pk)
-            pprint(request.data, indent=4)
-            s.update(**request.data)
-        except ValueError as e:
-            raise ParseError(e)
+        print("Got %s:" % s.pk)
+        pprint(request.data, indent=4)
+        s.update(**request.data)
         json = True
     print("Sent %s:" % s.pk)
     pprint(s.serialize(), indent=4)

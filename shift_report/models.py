@@ -14,8 +14,7 @@ class Member(models.Model):
 
     @classmethod
     def get(cls, username):
-        print(username)
-        first_name, last_name = username.partition(" ")
+        first_name, _, last_name = username.partition(" ")
         user, _ = User.objects.get_or_create(username=username, first_name=first_name, last_name=last_name)
         member, _ = cls.objects.get_or_create(user=user)
         return member
