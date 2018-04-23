@@ -13,9 +13,17 @@ class Member(models.Model):
         return " ".join(filter(None, (self.user.first_name, self.user.last_name)))
 
     @classmethod
-    def get(cls, username):
-        first_name, _, last_name = username.partition(" ")
-        user, _ = User.objects.get_or_create(username=username, first_name=first_name, last_name=last_name)
+    def get_by_id(cls, username):
+        user, _ = User.objects.get_or_create(username=username)
+        member, _ = cls.objects.get_or_create(user=user)
+        return member
+
+    @classmethod
+    def get_by_name(cls, name):
+        first_name, _, last_name = name.partition(" ")
+        user, _ = User.objects.get_or_create(first_name=first_name, last_name=last_name)
+        user.username = name
+        user.save()
         member, _ = cls.objects.get_or_create(user=user)
         return member
 
@@ -111,9 +119,9 @@ class Shift(models.Model):
             members_in_shift = self.add_member_shifts(members)
             MemberShift.objects.filter(shift=self).exclude(member__in=members_in_shift).delete()
         if new_members is not None:
-            self.new_members.set([Member.get(m) for m in new_members])
+            self.new_members.set([Member.get_by_name(m) for m in new_members])
         if leaving_members is not None:
-            self.leaving_members.set([Member.get(m) for m in leaving_members])
+            self.leaving_members.set([Member.get_by_name(m) for m in leaving_members])
         if tasks is not None:
             self.set_tasks(tasks)
         if conclusions is not None:
@@ -127,7 +135,7 @@ class Shift(models.Model):
     def add_member_shifts(self, members):
         members_in_shift = []
         for m in members:
-            member = Member.get(m["member"])
+            member = Member.get_by_id(m["member"].id)
             role, _ = Role.objects.get_or_create(name=m["role"])
             member_shift, _ = MemberShift.objects.get_or_create(shift=self, member=member, role=role,
                                                                 shift_number=int(m["shift_number"]))

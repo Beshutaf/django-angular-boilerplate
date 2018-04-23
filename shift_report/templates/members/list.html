@@ -6,10 +6,9 @@
 <table>
 {% for member in members %}
     {% if forloop.first %}
-    <tr><th>מספר חבר</th><th>שם פרטי</th><th>שם משפחה</th></tr>
+    <tr><th>שם פרטי</th><th>שם משפחה</th></tr>
     {% endif %}
     <tr>
-        <td>{{ member.user.username }}</td>
         <td>{{ member.user.first_name }}</td>
         <td>{{ member.user.last_name }}</td>
         <td>
