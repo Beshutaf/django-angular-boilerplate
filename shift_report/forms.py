@@ -23,10 +23,11 @@ class MemberForm(UserCreationForm):
         return password2
 
     def save(self, commit=True):
-        self.cleaned_data["username"] = " ".join((
-            self.cleaned_data["first_name"], self.cleaned_data["last_name"]))
+        username = " ".join((self.cleaned_data["first_name"], self.cleaned_data["last_name"]))
+        self.cleaned_data["username"] = username
         self.cleaned_data["password1"] = self.cleaned_data["password2"] = None
         user = super().save(commit)
+        user.username = username
         member = Member.objects.create(user=user)
         member.user.first_name = self.cleaned_data["first_name"]
         member.user.last_name = self.cleaned_data["last_name"]

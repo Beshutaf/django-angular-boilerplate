@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import csv
+import sys
 from datetime import datetime
 from io import TextIOWrapper
 from pprint import pprint
@@ -79,9 +80,13 @@ def detail(request, year, month, day):
     s, _ = Shift.objects.get_or_create(date="-".join((year, month, day)))
     json = is_return_json(request)
     if request.method == "POST":
-        print("Got %s:" % s.pk)
-        pprint(request.data, indent=4)
-        s.update(**request.data)
+        try:
+            print("Got %s:" % s.pk)
+            pprint(request.data, indent=4)
+            s.update(**request.data)
+        except ValueError as e:
+            print(e, file=sys.stderr)
+            raise ParseError(e)
         json = True
     print("Sent %s:" % s.pk)
     pprint(s.serialize(), indent=4)

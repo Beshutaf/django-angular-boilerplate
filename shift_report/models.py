@@ -13,9 +13,11 @@ class Member(models.Model):
         return " ".join(filter(None, (self.user.first_name, self.user.last_name)))
 
     @classmethod
-    def get(cls, username):
-        first_name, _, last_name = username.partition(" ")
-        user, _ = User.objects.get_or_create(username=username, first_name=first_name, last_name=last_name)
+    def get_by_name(cls, name):
+        first_name, _, last_name = name.partition(" ")
+        user, _ = User.objects.get_or_create(first_name=first_name, last_name=last_name)
+        user.username = name
+        user.save()
         member, _ = cls.objects.get_or_create(user=user)
         return member
 
@@ -32,7 +34,7 @@ class Money(models.Model):
     amount = models.IntegerField(null=False)
 
     def serialize(self):
-        return self.unit, self.amount
+        return str(self.unit), self.amount
 
     @classmethod
     def get(cls, unit, amount):
@@ -92,8 +94,8 @@ class Shift(models.Model):
     cache = models.ForeignKey(Cache, on_delete=models.CASCADE, default=Cache.empty, null=True)
 
     def serialize(self):
-        return dict(date=self.date,
-                    member_shifts=[m.serialize() for m in self.membershift_set.all()],
+        return dict(date=self.date.strftime("%Y-%m-%d"),
+                    members=[m.serialize() for m in self.membershift_set.all()],
                     new_members=[m.text for m in self.new_members.all()],
                     leaving_members=[m.text for m in self.leaving_members.all()],
                     tasks=[c.serialize() for c in self.task_set.all()],
@@ -111,9 +113,9 @@ class Shift(models.Model):
             members_in_shift = self.add_member_shifts(members)
             MemberShift.objects.filter(shift=self).exclude(member__in=members_in_shift).delete()
         if new_members is not None:
-            self.new_members.set([Member.get(m) for m in new_members])
-        if leaving_members is not None:
-            self.leaving_members.set([Member.get(m) for m in leaving_members])
+            self.new_members.set([Member.get_by_name(m) for m in new_members])
+        if leaving_members is not None:  # TODO raise exception if leaving member does not exist
+            self.leaving_members.set([Member.get_by_name(m) for m in leaving_members])
         if tasks is not None:
             self.set_tasks(tasks)
         if conclusions is not None:
@@ -127,7 +129,7 @@ class Shift(models.Model):
     def add_member_shifts(self, members):
         members_in_shift = []
         for m in members:
-            member = Member.get(m["member"])
+            member = Member.get_by_name(m["member"])
             role, _ = Role.objects.get_or_create(name=m["role"])
             member_shift, _ = MemberShift.objects.get_or_create(shift=self, member=member, role=role,
                                                                 shift_number=int(m["shift_number"]))
