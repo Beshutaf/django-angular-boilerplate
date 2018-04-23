@@ -32,7 +32,7 @@ class Money(models.Model):
     amount = models.IntegerField(null=False)
 
     def serialize(self):
-        return self.unit, self.amount
+        return str(self.unit), self.amount
 
     @classmethod
     def get(cls, unit, amount):
