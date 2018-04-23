@@ -26,7 +26,7 @@
         }
         
         function saveShiftData(shiftReport){
-            var urlDate = moment(shiftReport.shiftDate, 'DD-MM-YYYY').format("YYYY/MM/DD");
+            var urlDate = moment(shiftReport.shiftDate).format("YYYY/MM/DD");
             return $http.post('shifts/'+urlDate,JSON.stringify(shiftReport));
         }
     }
