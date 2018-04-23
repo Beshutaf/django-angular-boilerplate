@@ -72,6 +72,20 @@ class ShiftViewTests(TestCase):
             self.assertEqual(response.status_code, status.HTTP_200_OK)
             self.assertJSONEqual(self.get_response_content(response), expected_data)
 
+    # def test_update_shift(self):
+    #     sent_data = dict(date=self.date.date().strftime("%Y-%m-%d"),
+    #                      members=[dict(member=m["text"], role=r, shift_number=1) for m, r in
+    #                               get_expected_members(with_role=True)],
+    #                      new_members=[], leaving_members=[], tasks=[], conclusions=[],
+    #                      cache=dict(money_at_shift_start=dict(), money_at_shift_end=dict(), money_from_shares=0,
+    #                                 money_from_cheques=0, money_from_cash=0, envelope_number=0,
+    #                                 ),
+    #                      missing_products=[],
+    #                      )
+    #     response = self.client.post(reverse("detail", kwargs=self.date_args()),
+    #                                 sent_data, content_type="application/json")
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     @staticmethod
     def get_response_content(response):
         return str(response.content, encoding=response.charset) if six.PY3 else response.content
