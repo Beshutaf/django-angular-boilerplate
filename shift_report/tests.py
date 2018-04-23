@@ -40,6 +40,9 @@ class ShiftViewTests(TestCase):
         self.members = add_members(s)
         self.maxDiff = None
 
+    def date_args(self):
+        return dict(year="%04d" % self.date.year, month="%02d" % self.date.month, day="%02d" % self.date.day)
+
     def test_list_members(self):
         self.assertJSONEqual(self.get_members(), get_expected_members())
 
@@ -55,25 +58,19 @@ class ShiftViewTests(TestCase):
         return self.get_response_content(response)
 
     def test_get_shift(self):
-        response = self.client.get(reverse("index"), data=dict(format="json"))
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertJSONEqual(self.get_response_content(response), dict(
-            date=self.date.date().isoformat(),
-            members=[dict(member=m, role=r, shift_number=1) for m, r in get_expected_members(with_role=True)],
-            new_members=[],
-            leaving_members=[],
-            tasks=[],
-            conclusions=[],
-            cache=dict(
-                money_at_shift_start=dict(),
-                money_at_shift_end=dict(),
-                money_from_shares=0,
-                money_from_cheques=0,
-                money_from_cash=0,
-                envelope_number=0,
-            ),
-            missing_products=[],
-        ))
+        expected_data = dict(date=self.date.date().strftime("%Y-%m-%d"),
+                             members=[dict(member=m, role=r, shift_number=1) for m, r in
+                                      get_expected_members(with_role=True)],
+                             new_members=[], leaving_members=[], tasks=[], conclusions=[],
+                             cache=dict(money_at_shift_start=dict(), money_at_shift_end=dict(), money_from_shares=0,
+                                        money_from_cheques=0, money_from_cash=0, envelope_number=0,
+                                        ),
+                             missing_products=[],
+                             )
+        for response in (self.client.get(reverse("index"), data=dict(format="json")),
+                         self.client.get(reverse("detail", kwargs=self.date_args()), data=dict(format="json"))):
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertJSONEqual(self.get_response_content(response), expected_data)
 
     @staticmethod
     def get_response_content(response):
