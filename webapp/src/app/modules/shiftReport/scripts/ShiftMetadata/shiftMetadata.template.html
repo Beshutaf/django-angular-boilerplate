@@ -20,13 +20,13 @@
                                 <td class="col-xs-5">
                                     אחראי משמרת
                                     <span>
-                                        <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftLeaders[shiftKey-1]"></names-picker>
+                                        <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftLeaders[shiftKey-1]" names-changed="$ctrl.shiftMemberChange($name, $role, $shiftKey)" shift-key="shiftKey" role="'leader'"></names-picker>
                                     </span>
                                 </td>
                                 <td class="col-xs-5">
                                     תורנים
                                     <span>
-                                        <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftWorkers[shiftKey-1]"></names-picker>    
+                                        <names-picker api-path="'/members'" selected-names="$ctrl.reportMetadata.shiftWorkers[shiftKey-1]" names-changed="$ctrl.shiftMemberChange($name, $role, $shiftKey)" shift-key="shiftKey" role="'worker'"></names-picker>    
                                     </span>
                                 </td>
                             </tr>

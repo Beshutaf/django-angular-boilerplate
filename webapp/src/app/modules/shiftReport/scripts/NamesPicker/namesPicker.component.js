@@ -15,7 +15,10 @@
                 templateUrl:'/app/modules/shiftReport/scripts/NamesPicker/namesPicker.template.html',
                 scope: {
                     apiPath:"<",
-                    selectedNames:"<"
+                    selectedNames:"=",
+                    namesChanged : "&",
+                    shiftKey:"<",
+                    role:"<"
                 },
                 link:link
             };
@@ -74,7 +77,8 @@
                 selectElement.on('select2:select', function (e) {
                     outsideNamesLoaded = false;
                     scope.selectedNames.push(e.params.data);
-                    var data = e.params.data;
+                    scope.namesChanged({$name: e.params.data.text, $role: scope.role, $shiftKey: scope.shiftKey});
+                    // var data = e.params.data;
                     // console.log(data);
                 });
                 
@@ -92,7 +96,53 @@
                 
                 
                 scope.$watchCollection('selectedNames', function(newNames, oldNames) {
+                    if (newNames.length ==0 && oldNames.length > 0) {
                     
+                        console.log("gggggggggggggggggggggg")
+                        $q.all(function(){
+                                    
+                            selectElement.select2(
+                                {
+                                    placeholder: "הכנסי שם של חברה",
+                                    minimumInputLength : 2,
+                                    allowClear : true,
+                                    dir:"rtl",
+                                    data : [],
+                                    ajax: {
+                                        url: scope.apiPath, 
+                                        dataType: 'json',
+                                        delay: 250,
+                                        data: 
+                                        function (params) {
+                                            var query = {
+                                                term:params.term,
+                                                format:"json"
+                                                }
+                                                // Query parameters will be ?search=[term]&type=public
+                                                return query;
+                                        },
+                                        processResults: function (data) {
+                                            
+                                            
+                                            return {results: data};
+                                        },
+                                        cache: true
+                                    },
+                                    language: {
+                                        // You can find all of the options in the language files provided in the
+                                        // build. They all must be functions that return the string that should be
+                                        // displayed.
+                                        inputTooShort: function () {
+                                            return "הכנסי 2 תווים לפחות";
+                                        }
+                                    }
+                                    
+                                });
+                            
+                        }());
+                        
+                        
+                    }
                     if (newNames.length >0) {
                         
                        if(outsideNamesLoaded == true){

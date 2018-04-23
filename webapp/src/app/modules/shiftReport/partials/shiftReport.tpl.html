@@ -3,7 +3,7 @@
   <div class="col-xs-6 pull-right">
       <div class="col-xs-4">
         <tasks tasks-obj="report.tasks"></tasks>
-        <missing-products products-list="report.disposed_products" ></missing-products>
+        <missing-products products-list="report.missing_products" ></missing-products>
         
       </div>
       <div class="col-xs-8">
@@ -11,10 +11,10 @@
         <conclusions data-conclusions="report.conclusions"></conclusions>
         <div class="row">
         <div class="col-xs-6">
-          <members title="newMembersTitle" members-list="report.new_members" panel-color="true" link="newMembersLink"></members>
+          <members data-title="newMembersTitle" members-list="report.new_members" panel-color="true" link="newMembersLink"></members>
         </div>
         <div class="col-xs-6"> 
-          <members title="leftMembersTitle" members-list="report.leaving_members" panel-color="false" link="leftMembersLink"></members>
+          <members data-title="leftMembersTitle" members-list="report.leaving_members" panel-color="false" link="leftMembersLink"></members>
         </div>
         </div>
       </div>

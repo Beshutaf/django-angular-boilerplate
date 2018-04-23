@@ -41,7 +41,7 @@
         leaving_members:data.leaving_members ? data.leaving_members : [],
         tasks:data.tasks ? data.tasks: [],
         conclusions:data.conclusions ? data.conclusions : [],
-        disposed_products:data.disposed_products ? data.disposed_products : [],
+        missing_products:data.missing_products ? data.missing_products : [],
         cache:{
           money_from_shares:data.money_from_shares,
           money_from_cash:data.money_from_cash,
@@ -62,6 +62,8 @@
     }
     
     function saveShiftReport(shiftReport){
+      console.log(shiftReport.new_members)
+      console.log($scope.report.new_members)
       shiftService.saveShiftData(shiftReport).then(function(res){
         $window.alert("Shift Report Saved");
       }, function (errRes){console.error(errRes)});

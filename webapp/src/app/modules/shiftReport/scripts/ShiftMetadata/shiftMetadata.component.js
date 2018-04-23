@@ -14,7 +14,8 @@
 
     function shiftMetadataCtrl(shiftService) {
         var ctrl = this;
-
+        
+        ctrl.shiftMemberChange = shiftMemberChange;
         /////////////////////////////////
         ctrl.$onChanges = function(changes) {
             if (changes.shiftDate) {
@@ -25,6 +26,7 @@
             }
             if (changes.members) {
                 if (angular.isDefined(changes.members.currentValue)){
+                    console.log(changes.members);
                     if (changes.members.currentValue.length > 0){
                         mapMemebers();
                     }    
@@ -45,7 +47,9 @@
 
         function mapMemebers(){
             angular.forEach(ctrl.members, function(membersData){
+               
                 if (membersData.role === "leader"){
+                    
                     ctrl.reportMetadata.shiftLeaders[membersData.shift_number-1].push(membersData.member)
                 }
                 if (membersData.role == "worker"){
@@ -56,6 +60,15 @@
         
         }
         
+
+        function shiftMemberChange(name, role, shiftKey){
+             ctrl.members.push({
+                    member: name,
+                    role: role,
+                    shift_number: shiftKey
+
+                })
+        }
         
         /////////////////////////////////
         // [{

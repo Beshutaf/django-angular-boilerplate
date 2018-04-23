@@ -1,7 +1,7 @@
 <div class="panel" ng-class="{'panel-success': $ctrl.panelColor, 'panel-danger':!$ctrl.panelColor}">
             <div class="panel-heading">
               <a href="$ctrl.link">
-                {{ $ctrl.title }}
+                {{ $ctrl.dataTitle }}
               </a>
             </div>
             <div class="panel-body">
@@ -19,7 +19,7 @@
                     <div class="col-xs-12">
                         <ul class="list-group">
                             <li ng-repeat="friend in $ctrl.membersList" class="list-group-item">
-                                <button class="btn btn-xs btn-danger" ng-click=$ctrl.removeWorker(name) title="הסרה">
+                                <button class="btn btn-xs btn-danger" ng-click=$ctrl.removeWorker(name) title="'הסרה'">
                                     <i class="glyphicon glyphicon-remove"></i>
                                 </button>
                                 &nbsp;&nbsp;&nbsp;
