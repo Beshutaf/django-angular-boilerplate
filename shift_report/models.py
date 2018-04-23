@@ -6,11 +6,17 @@ class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def serialize(self):
-        return dict(id=self.user.pk, text=" ".join(filter(None, (self.user.first_name, self.user.last_name))))
+        return dict(id=self.user.pk, text=self.text)
+
+    @property
+    def text(self):
+        return " ".join(filter(None, (self.user.first_name, self.user.last_name)))
 
     @classmethod
     def get(cls, username):
-        user, _ = User.objects.get_or_create(username=username)
+        print(username)
+        first_name, last_name = username.partition(" ")
+        user, _ = User.objects.get_or_create(username=username, first_name=first_name, last_name=last_name)
         member, _ = cls.objects.get_or_create(user=user)
         return member
 
@@ -89,8 +95,8 @@ class Shift(models.Model):
     def serialize(self):
         return dict(date=self.date,
                     member_shifts=[m.serialize() for m in self.membershift_set.all()],
-                    new_members=[m.serialize() for m in self.new_members.all()],
-                    leaving_members=[m.serialize() for m in self.leaving_members.all()],
+                    new_members=[m.text for m in self.new_members.all()],
+                    leaving_members=[m.text for m in self.leaving_members.all()],
                     tasks=[c.serialize() for c in self.task_set.all()],
                     conclusions=[c.serialize() for c in self.conclusions_set.all()],
                     missing_products=[p.serialize() for p in self.missing_products.all()],
