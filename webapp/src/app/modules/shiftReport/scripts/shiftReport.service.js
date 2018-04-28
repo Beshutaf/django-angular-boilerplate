@@ -19,6 +19,7 @@
             var urlDate = moment(shiftDate, 'DD-MM-YYYY').format("YYYY/MM/DD");
             var params= {format:"json"}
             return $http.get('shifts/'+urlDate,{params: params}).then(function (res){
+                // debugger;
                 return res.data
             }, function (errRes){
                 console.error(errRes)

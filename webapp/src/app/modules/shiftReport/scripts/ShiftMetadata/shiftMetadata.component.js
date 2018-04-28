@@ -15,7 +15,8 @@
     function shiftMetadataCtrl(shiftService) {
         var ctrl = this;
         
-        ctrl.shiftMemberChange = shiftMemberChange;
+        ctrl.shiftMemberAdded = shiftMemberAdded;
+        ctrl.shiftMemberRemoved = shiftMemberRemoved;
         /////////////////////////////////
         ctrl.$onChanges = function(changes) {
             if (changes.shiftDate) {
@@ -61,13 +62,25 @@
         }
         
 
-        function shiftMemberChange(name, role, shiftKey){
+        function shiftMemberAdded(name, role, shiftKey){
              ctrl.members.push({
                     member: name,
                     role: role,
                     shift_number: shiftKey
 
                 })
+        }
+        
+        function shiftMemberRemoved(name, role, shiftKey) {
+            var indexToRemove  = -1;
+            ctrl.members.forEach(function(el, index){
+                if (el.member == name && el.role == role && el.shift_number == shiftKey) {
+                    indexToRemove = index;
+                }
+            })
+            if (indexToRemove != -1) {
+                ctrl.members.splice(indexToRemove,1);
+            }
         }
         
         /////////////////////////////////

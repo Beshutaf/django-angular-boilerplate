@@ -16,9 +16,11 @@
                 scope: {
                     apiPath:"<",
                     selectedNames:"=",
-                    namesChanged : "&",
+                    namesAdded : "&",
+                    namesRemoved :"&",
                     shiftKey:"<",
-                    role:"<"
+                    role:"<",
+                    maxSelectionLength:"<"
                 },
                 link:link
             };
@@ -31,6 +33,21 @@
                        
                 //     }
                 // }
+                /*
+                * When loading selected names, iterate over the names and filter it according
+                * to the element role and insert key to the object to mark it as selected.
+                */
+                console.log(scope.selectedNames);
+                var preSelectedNames = [];
+                if (scope.selectedNames.length > 0) {
+                    scope.selectedNames.forEach(function(el) {
+                       if (el.role == scope.role) {
+                           var index = preSelectedNames.push(el);
+                           preSelectedNames[index].selected = true;
+                       } 
+                    });
+                }
+                
                 
                 selectElement.select2(
                     {
@@ -38,6 +55,8 @@
                     minimumInputLength : 2,
                     allowClear : true,
                     dir:"rtl",
+                    maximumSelectionLength: scope.maxSelectionLength,
+                    results:preSelectedNames,
                     // data:[{id:1, text:"Daniel"},{id:2, text:"gali paz"}],
                     // language : "he"
                     ajax: {
@@ -68,141 +87,130 @@
                         }
                     }
                     
-                }
-                );
-                
-                var outsideNamesLoaded  = true;
+                });
                 
                 //update the model binding selectedNames when select event is fired
                 selectElement.on('select2:select', function (e) {
-                    outsideNamesLoaded = false;
-                    scope.selectedNames.push(e.params.data);
-                    scope.namesChanged({$name: e.params.data.text, $role: scope.role, $shiftKey: scope.shiftKey});
-                    // var data = e.params.data;
-                    // console.log(data);
+                    scope.namesAdded({$name: e.params.data.text, $role: scope.role, $shiftKey: scope.shiftKey});
                 });
                 
                 //update the model binding selectedNames when unselect event is fired
                 selectElement.on('select2:unselect', function (e) {
-                    var data = e.params.data;
-                    // console.log(data);
-                    var index = scope.selectedNames.indexOf(data)
-                    if (index > -1){
-                        scope.selectedNames.membersList.splice(index,1);
-                    }
-                    outsideNamesLoaded = false;
-                });
-                
-                
-                
-                scope.$watchCollection('selectedNames', function(newNames, oldNames) {
-                    if (newNames.length ==0 && oldNames.length > 0) {
+                    scope.namesRemoved({$name: e.params.data.text, $role: scope.role, $shiftKey: scope.shiftKey});
+                   
                     
-                        console.log("gggggggggggggggggggggg")
-                        $q.all(function(){
-                                    
-                            selectElement.select2(
-                                {
-                                    placeholder: "הכנסי שם של חברה",
-                                    minimumInputLength : 2,
-                                    allowClear : true,
-                                    dir:"rtl",
-                                    data : [],
-                                    ajax: {
-                                        url: scope.apiPath, 
-                                        dataType: 'json',
-                                        delay: 250,
-                                        data: 
-                                        function (params) {
-                                            var query = {
-                                                term:params.term,
-                                                format:"json"
-                                                }
-                                                // Query parameters will be ?search=[term]&type=public
-                                                return query;
-                                        },
-                                        processResults: function (data) {
-                                            
-                                            
-                                            return {results: data};
-                                        },
-                                        cache: true
-                                    },
-                                    language: {
-                                        // You can find all of the options in the language files provided in the
-                                        // build. They all must be functions that return the string that should be
-                                        // displayed.
-                                        inputTooShort: function () {
-                                            return "הכנסי 2 תווים לפחות";
-                                        }
-                                    }
-                                    
-                                });
-                            
-                        }());
-                        
-                        
-                    }
-                    if (newNames.length >0) {
-                        
-                       if(outsideNamesLoaded == true){
-                        
-                                var counter = 0;
-                                var data = [];
-                                angular.forEach(newNames, function (name){
-                                    console.log(name);
-                                    data.push({
-                                        "id" :counter,
-                                        "text": name,
-                                        selected : true
-                                    });
-                                    counter++;
-                                });
-                                
-                                $q.all(function(){
-                                    
-                            selectElement.select2(
-                                {
-                                    placeholder: "הכנסי שם של חברה",
-                                    minimumInputLength : 2,
-                                    allowClear : true,
-                                    dir:"rtl",
-                                    data : data,
-                                    ajax: {
-                                        url: scope.apiPath, 
-                                        dataType: 'json',
-                                        delay: 250,
-                                        data: 
-                                        function (params) {
-                                            var query = {
-                                                term:params.term,
-                                                format:"json"
-                                                }
-                                                // Query parameters will be ?search=[term]&type=public
-                                                return query;
-                                        },
-                                        processResults: function (data) {
-                                            
-                                            
-                                            return {results: data};
-                                        },
-                                        cache: true
-                                    },
-                                    language: {
-                                        // You can find all of the options in the language files provided in the
-                                        // build. They all must be functions that return the string that should be
-                                        // displayed.
-                                        inputTooShort: function () {
-                                            return "הכנסי 2 תווים לפחות";
-                                        }
-                                    }
-                                    
-                                });
-                            
-                        }());
-                       }
-                    }
                 });
+                
+                
+                
+                // scope.$watchCollection('selectedNames', function(newNames, oldNames) {
+                //     if (newNames.length ==0 && oldNames.length > 0) {
+                    
+                //         console.log("gggggggggggggggggggggg")
+                //         $q.all(function(){
+                                    
+                //             selectElement.select2(
+                //                 {
+                //                     placeholder: "הכנסי שם של חברה",
+                //                     minimumInputLength : 2,
+                //                     allowClear : true,
+                //                     dir:"rtl",
+                //                     data : [],
+                //                     ajax: {
+                //                         url: scope.apiPath, 
+                //                         dataType: 'json',
+                //                         delay: 250,
+                //                         data: 
+                //                         function (params) {
+                //                             var query = {
+                //                                 term:params.term,
+                //                                 format:"json"
+                //                                 }
+                //                                 // Query parameters will be ?search=[term]&type=public
+                //                                 return query;
+                //                         },
+                //                         processResults: function (data) {
+                                            
+                                            
+                //                             return {results: data};
+                //                         },
+                //                         cache: true
+                //                     },
+                //                     language: {
+                //                         // You can find all of the options in the language files provided in the
+                //                         // build. They all must be functions that return the string that should be
+                //                         // displayed.
+                //                         inputTooShort: function () {
+                //                             return "הכנסי 2 תווים לפחות";
+                //                         }
+                //                     }
+                                    
+                //                 });
+                            
+                //         }());
+                        
+                        
+                //     }
+                //     if (newNames.length >0) {
+                        
+                //       if(outsideNamesLoaded == true){
+                        
+                //                 var counter = 0;
+                //                 var data = [];
+                //                 angular.forEach(newNames, function (name){
+                //                     console.log(name);
+                //                     data.push({
+                //                         "id" :counter,
+                //                         "text": name,
+                //                         selected : true
+                //                     });
+                //                     counter++;
+                //                 });
+                                
+                //                 $q.all(function(){
+                                    
+                //             selectElement.select2(
+                //                 {
+                //                     placeholder: "הכנסי שם של חברה",
+                //                     minimumInputLength : 2,
+                //                     allowClear : true,
+                //                     dir:"rtl",
+                //                     data : data,
+                //                     ajax: {
+                //                         url: scope.apiPath, 
+                //                         dataType: 'json',
+                //                         delay: 250,
+                //                         data: 
+                //                         function (params) {
+                //                             var query = {
+                //                                 term:params.term,
+                //                                 format:"json"
+                //                                 }
+                //                                 // Query parameters will be ?search=[term]&type=public
+                //                                 return query;
+                //                         },
+                //                         processResults: function (data) {
+                                            
+                                            
+                //                             return {results: data};
+                //                         },
+                //                         cache: true
+                //                     },
+                //                     language: {
+                //                         // You can find all of the options in the language files provided in the
+                //                         // build. They all must be functions that return the string that should be
+                //                         // displayed.
+                //                         inputTooShort: function () {
+                //                             return "הכנסי 2 תווים לפחות";
+                //                         }
+                //                     }
+                                    
+                //                 });
+                            
+                //         }());
+                //       }
+                //     }
+                // });
             }
         }
 })();

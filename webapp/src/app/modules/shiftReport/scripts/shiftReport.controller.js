@@ -17,10 +17,10 @@
     $scope.getNextDay = getNextDay;
     
     $scope.newMembersTitle = "מצטרפים חדשים";
-    $scope.leftMembersTitle = "חברים שעזבו";
+    $scope.leavingMembersTitle = "חברים שעזבו";
     $scope.confirmationMessage = "האם את בטוחה שאת רוצה לסגור את העמוד?";
     $scope.newMembersLink="https://docs.google.com/forms/d/e/1FAIpQLScLwyRApEifTXIxasjY_fVe2DPuPiJdh5mqeMuO9DZ9O5nLQw/viewform?c=0&w=1";
-    $scope.leftMembersLink="https://docs.google.com/forms/d/e/1FAIpQLSeT_Oz2gTdAzE5-BgTwL5EUAUYFAidj12AIjyHs7C_UOAMPeg/viewform?c=0&w=1&usp=send_form";
+    $scope.leavingMembersLink="https://docs.google.com/forms/d/e/1FAIpQLSeT_Oz2gTdAzE5-BgTwL5EUAUYFAidj12AIjyHs7C_UOAMPeg/viewform?c=0&w=1&usp=send_form";
     
     
     $scope.todayDate = moment().format("DD-MM-YYYY");
@@ -62,9 +62,7 @@
     }
     
     function saveShiftReport(shiftReport){
-      console.log(shiftReport.new_members)
-      console.log($scope.report.new_members)
-      shiftService.saveShiftData(shiftReport).then(function(res){
+        shiftService.saveShiftData(shiftReport).then(function(res){
         $window.alert("Shift Report Saved");
       }, function (errRes){console.error(errRes)});
     }
