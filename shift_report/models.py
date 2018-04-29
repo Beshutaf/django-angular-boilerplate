@@ -14,6 +14,8 @@ class Member(models.Model):
 
     @classmethod
     def get_by_name(cls, name):
+        if not name:
+            raise ValueError("Empty member name")
         first_name, _, last_name = name.partition(" ")
         user, _ = User.objects.get_or_create(first_name=first_name, last_name=last_name)
         user.username = name
