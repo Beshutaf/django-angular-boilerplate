@@ -5,7 +5,7 @@
         .module('app.shiftReport')
         .component('members', {
             bindings: {
-                dataTitle : '<',
+                title : '<',
                 membersList : '=',
                 panelColor: '<',
                 link:'<'

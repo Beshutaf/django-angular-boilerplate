@@ -35,9 +35,8 @@
             var total = 0;
             angular.forEach(ctrl.moneyDistribution, function (amount,coin){
                 total += amount*coin;
-                
-            } )
-            ctrl.totalMoney = total;
+            })
+            ctrl.totalMoney = total.toFixed(2);
             ctrl.callback({ value: ctrl.totalMoney });
             
         }

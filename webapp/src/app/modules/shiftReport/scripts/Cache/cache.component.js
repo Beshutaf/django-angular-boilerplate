@@ -31,7 +31,7 @@
         ctrl.totalMoneyAtEnd = 0;
         
         
-        ctrl.totalFromSaleProducts = ctrl.cache ? ctrl.cache.money_from_cash : 0;
+        ctrl.totalFromSaleProducts = ctrl.cache ? Number(ctrl.cache.money_from_cash) : 0;
         
         ctrl.updateMoneyFromSalesWhenMoneyAtStartChange = updateMoneyFromSalesWhenMoneyAtStartChange;
         ctrl.updateMoneyFromSalesWhenMoneyLeftInCacheChange = updateMoneyFromSalesWhenMoneyLeftInCacheChange;
@@ -49,6 +49,7 @@
         
         function updateMoneyFromSales(){
             ctrl.totalFromSaleProducts = ctrl.cache.money_from_cash + ctrl.totalMoneyAtEnd - ctrl.totalMoneyAtStart;
+             ctrl.totalFromSaleProducts =  ctrl.totalFromSaleProducts.toFixed(2);
         }
 
     }

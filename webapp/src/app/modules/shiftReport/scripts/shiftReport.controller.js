@@ -32,8 +32,7 @@
   // }
     
     function updateShiftData(data){
-      
-      $scope.shiftDate = data.date ?  data.date : $scope.todayDate;
+      $scope.shiftDate = data.date ?   moment(data.date, 'YYYY-MM-DD').format('DD-MM-YYYY') : $scope.todayDate; //tood: update the format of data.date after Daniel's fix
       $scope.report = {
         shiftDate: $scope.shiftDate,
         members:data.member_shifts? data.member_shifts :[],
@@ -44,7 +43,7 @@
         missing_products:data.missing_products ? data.missing_products : [],
         cache:{
           money_from_shares:data.money_from_shares,
-          money_from_cash:data.money_from_cash,
+          money_from_cash:data.money_from_cash ? Number(data.money_from_cash): 0,
           money_from_cheques:data.money_from_cheques,
           envelope_number:data.envelope_number,
           money_at_shift_start: data.money_at_shift_start ? data.money_at_shift_start:{},
@@ -70,14 +69,14 @@
     function getShiftReport(shiftDate){
       shiftService.getShiftData(shiftDate).then(function (res){
                         console.log(res);
-                        updateShiftData(res);
+                        updateShiftData(res.data);
                     }, function (err){
-                      updateShiftData({});
+                      console.error(err)
                     })
     }
     
     function getNextDay() {
-          var shiftDate = moment($scope.report.shiftDate).add(1, 'day').format('DD-MM-YYYY');
+          var shiftDate = moment($scope.report.shiftDate, 'DD-MM-YYYY').add(1, 'day').format('DD-MM-YYYY');
           
           $scope.shiftDate = angular.copy(shiftDate);
           getShiftReport(shiftDate);
@@ -91,80 +90,77 @@
     }
 
     function getPrevDay() {
-        var shiftDate  = moment($scope.report.shiftDate).subtract(1, 'day').format('DD-MM-YYYY');
-        $scope.shiftDate = angular.copy(shiftDate);
-        getShiftReport(shiftDate);
-        // shiftService.getShiftData(shiftDate).then(function(res){
+        var shiftDate  = moment($scope.report.shiftDate, 'DD-MM-YYYY').subtract(1, 'day').format('DD-MM-YYYY');
+        // $scope.shiftDate = angular.copy(shiftDate);
+        // getShiftReport(shiftDate);
+        shiftService.getShiftData(shiftDate).then(function(res){
        
-        // res = {
-        //               date: "17-03-18",
-        //               member_shifts: [
-        //                   {
-        //                       member: "גלי פז",
-        //                       role: "leader",
-        //                       shift_number: "1"
-        //                   },
-        //                   {
-        //                       member: "גלי פז",
-        //                       role: "worker",
-        //                       shift_number: "2"
-        //                   },
-        //               ],
-        //               new_members: [
-        //                   "sdfsdf sdfds"
+        res = { 
+                      date: "17-03-18",
+                      member_shifts: [
+                          {
+                              member: "גלי פז",
+                              role: "leader",
+                              shift_number: "1"
+                          },
+                          {
+                              member: "גלי פז",
+                              role: "worker",
+                              shift_number: "2"
+                          },
+                      ],
+                      new_members: [
+                          "sdfsdf sdfds"
 
-        //               ],
-        //               leaving_members: [
-        //                   "sdgg weree"
-        //               ],
-        //               conclusions: [
-        //                   {
-        //                       comment: "sdfdgdsg",
-        //                       assigned_team:                "מחלקת ספקים",
+                      ],
+                      leaving_members: [
+                          "sdgg weree"
+                      ],
+                      conclusions: [
+                          {
+                              comment: "sdfdgdsg",
+                              assigned_team:                "מחלקת ספקים",
 
-        //                       done: true
-        //                   },
-        //                   {
-        //                       comment: "lk;lk ;lko",
-        //                       assigned_team:                 "מחלקת ספקים",
+                              done: true
+                          },
+                          {
+                              comment: "lk;lk ;lko",
+                              assigned_team:                 "מחלקת ספקים",
 
-        //                       done: true
-        //                   }
-        //               ],
-        //               tasks: [
-        //                   {
-        //                       comment: "sdfdgdsg",
-        //                       done: true
-        //                   },
-        //                   {
-        //                       comment: "lk;lk ;lko",
-        //                       done: true
-        //                   }
-        //               ],
-        //               money_at_shift_start: {
-        //                 "5":20,
-        //                 "200":3
-        //               },
-        //               money_at_shift_end: {
-        //                 "10":8,
-        //                 "100":2
-        //               },
-        //               money_from_shares: 600,
-        //               money_from_cheques: 1200,
-        //               money_from_cash: 1000,
-        //               envelope_number: "1234",
-        //               almost_missing_products: [
-        //                   "tomatos", "salt"
-        //               ],
-        //               disposed_products: [
-        //                   "ginger"
-        //               ],
-        //               };
-                      // updateShiftData(res);
+                              done: true
+                          }
+                      ],
+                      tasks: [
+                          {
+                              comment: "sdfdgdsg",
+                              done: true
+                          },
+                          {
+                              comment: "lk;lk ;lko",
+                              done: true
+                          }
+                      ],
+                      money_at_shift_start: {
+                        "5":20,
+                        "200":3
+                      },
+                      money_at_shift_end: {
+                        "10":8,
+                        "100":2
+                      },
+                      money_from_shares: 600,
+                      money_from_cheques: 1200,
+                      money_from_cash: 1000,
+                      envelope_number: "1234",
+                      missing_products: [
+                          "ginger", "tomatos", "salt"
+                      ],
+                      };
+                      updateShiftData(res);
           
-        // }, function (err){
-        //   updateShiftData({});
-        // });
+        }, function (err){
+          // updateShiftData({});
+        });
     }
     
     /////

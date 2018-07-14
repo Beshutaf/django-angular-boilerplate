@@ -21,7 +21,8 @@
         ctrl.$onChanges = function(changes) {
             if (changes.shiftDate) {
                 if (angular.isDefined(ctrl.reportMetadata)) {
-                    ctrl.reportMetadata.day = moment(changes.shiftDate.currentValue).format('dddd');
+                        debugger;
+                    ctrl.reportMetadata.day = moment(changes.shiftDate.currentValue, 'DD-MM-YYYY').format('dddd');
                     ctrl.reportMetadata.date = changes.shiftDate.currentValue;
                 }
             }
@@ -47,14 +48,15 @@
         };
 
         function mapMemebers(){
+            debugger;
             angular.forEach(ctrl.members, function(membersData){
                
                 if (membersData.role === "leader"){
                     
-                    ctrl.reportMetadata.shiftLeaders[membersData.shift_number-1].push(membersData.member)
+                    ctrl.reportMetadata.shiftLeaders[Number(membersData.shift_number)-1].push(membersData.member)
                 }
                 if (membersData.role == "worker"){
-                    ctrl.reportMetadata.shiftWorkers[membersData.shift_number-1].push(membersData.member)
+                    ctrl.reportMetadata.shiftWorkers[Number(membersData.shift_number)-1].push(membersData.member)
                 }
                 
             })
