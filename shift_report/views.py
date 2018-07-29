@@ -77,7 +77,7 @@ def detail(request, year, month, day):
      ],
     }
     """
-    s, _ = Shift.objects.get_or_create(date=datetime(int(year), int(month), int(day)))
+    s, created = Shift.objects.get_or_create(date=datetime(int(year), int(month), int(day)))
     json = is_return_json(request)
     if request.method == "POST":
         try:
@@ -89,8 +89,11 @@ def detail(request, year, month, day):
             raise ParseError(e)
         json = True
     print("Sent %s:" % s.pk)
-    pprint(s.serialize(), indent=4)
-    return Response(s.serialize()) if json else render(request, "shifts/detail.html", dict(shift=s))
+    if json:
+        data = {} if created else s.serialize()
+        pprint(data, indent=4)
+        return Response(data)
+    return render(request, "shifts/detail.html", dict(shift=s))
 
 
 @api_view(["GET", "POST"])

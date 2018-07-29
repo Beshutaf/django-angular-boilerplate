@@ -72,6 +72,12 @@ class ShiftViewTests(TestCase):
             self.assertEqual(response.status_code, status.HTTP_200_OK)
             self.assertJSONEqual(self.get_response_content(response), expected_data)
 
+    def test_get_empty_shift(self):
+        date_args = dict(year="1970", month="01", day="01")
+        response = self.client.get(reverse("detail", kwargs=date_args), data=dict(format="json"))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertJSONEqual(self.get_response_content(response), {})
+
     # def test_update_shift(self):
     #     sent_data = dict(date=self.date.date().strftime("%d-%m-%Y"),
     #                      members=[dict(member=m["text"], role=r, shift_number=1) for m, r in
