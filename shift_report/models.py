@@ -96,7 +96,7 @@ class Shift(models.Model):
     cache = models.ForeignKey(Cache, on_delete=models.CASCADE, default=Cache.empty, null=True)
 
     def serialize(self):
-        return dict(date=self.date.strftime("%Y-%m-%d"),
+        return dict(date=self.date.strftime("%d-%m-%Y"),
                     members=[m.serialize() for m in self.membershift_set.all()],
                     new_members=[m.text for m in self.new_members.all()],
                     leaving_members=[m.text for m in self.leaving_members.all()],

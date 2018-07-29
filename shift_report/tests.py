@@ -58,7 +58,7 @@ class ShiftViewTests(TestCase):
         return self.get_response_content(response)
 
     def test_get_shift(self):
-        expected_data = dict(date=self.date.date().strftime("%Y-%m-%d"),
+        expected_data = dict(date=self.date.date().strftime("%d-%m-%Y"),
                              members=[dict(member=m, role=r, shift_number=1) for m, r in
                                       get_expected_members(with_role=True)],
                              new_members=[], leaving_members=[], tasks=[], conclusions=[],
@@ -73,7 +73,7 @@ class ShiftViewTests(TestCase):
             self.assertJSONEqual(self.get_response_content(response), expected_data)
 
     # def test_update_shift(self):
-    #     sent_data = dict(date=self.date.date().strftime("%Y-%m-%d"),
+    #     sent_data = dict(date=self.date.date().strftime("%d-%m-%Y"),
     #                      members=[dict(member=m["text"], role=r, shift_number=1) for m, r in
     #                               get_expected_members(with_role=True)],
     #                      new_members=[], leaving_members=[], tasks=[], conclusions=[],
