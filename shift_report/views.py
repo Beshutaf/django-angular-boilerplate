@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-import csv
 import sys
-from datetime import datetime
-from io import TextIOWrapper
-from pprint import pprint
 
+import csv
+from datetime import datetime
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
+from io import TextIOWrapper
+from pprint import pprint
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
@@ -77,7 +77,7 @@ def detail(request, year, month, day):
      ],
     }
     """
-    s, _ = Shift.objects.get_or_create(date="-".join((year, month, day)))
+    s, _ = Shift.objects.get_or_create(date=datetime(int(year), int(month), int(day)))
     json = is_return_json(request)
     if request.method == "POST":
         try:
