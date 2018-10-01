@@ -8,5 +8,8 @@ install:
 
 build: off
 
+before_test:
+  - set PYTHONIOENCODING=utf-8
+
 test_script:
   - "%PYTHON% manage.py test shift_report"
